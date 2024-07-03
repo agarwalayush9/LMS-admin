@@ -7,6 +7,9 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		7371703A2C3595F5009A3B05 /* DMSans-Bold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 737170382C3595F5009A3B05 /* DMSans-Bold.ttf */; };
+		7371703B2C3595F5009A3B05 /* DMSans_18pt-Regular.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 737170392C3595F5009A3B05 /* DMSans_18pt-Regular.ttf */; };
+		7371703D2C359668009A3B05 /* Shelves_iPadDocument.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7371703C2C359668009A3B05 /* Shelves_iPadDocument.swift */; };
 		FDD1094A2C356FFD00849916 /* Shelves_AdminApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = FDD109492C356FFD00849916 /* Shelves_AdminApp.swift */; };
 		FDD1094C2C356FFD00849916 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = FDD1094B2C356FFD00849916 /* ContentView.swift */; };
 		FDD1094E2C356FFE00849916 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = FDD1094D2C356FFE00849916 /* Assets.xcassets */; };
@@ -15,6 +18,9 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		737170382C3595F5009A3B05 /* DMSans-Bold.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "DMSans-Bold.ttf"; sourceTree = "<group>"; };
+		737170392C3595F5009A3B05 /* DMSans_18pt-Regular.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "DMSans_18pt-Regular.ttf"; sourceTree = "<group>"; };
+		7371703C2C359668009A3B05 /* Shelves_iPadDocument.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Shelves_iPadDocument.swift; sourceTree = "<group>"; };
 		FDD109462C356FFD00849916 /* Shelves-Admin.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Shelves-Admin.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		FDD109492C356FFD00849916 /* Shelves_AdminApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Shelves_AdminApp.swift; sourceTree = "<group>"; };
 		FDD1094B2C356FFD00849916 /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
@@ -56,6 +62,7 @@
 			children = (
 				FDD109492C356FFD00849916 /* Shelves_AdminApp.swift */,
 				FDD1094B2C356FFD00849916 /* ContentView.swift */,
+				7371703C2C359668009A3B05 /* Shelves_iPadDocument.swift */,
 				FDD1094D2C356FFE00849916 /* Assets.xcassets */,
 				FDD1094F2C356FFE00849916 /* Preview Content */,
 			);
@@ -66,6 +73,8 @@
 			isa = PBXGroup;
 			children = (
 				FDD109502C356FFE00849916 /* Preview Assets.xcassets */,
+				737170392C3595F5009A3B05 /* DMSans_18pt-Regular.ttf */,
+				737170382C3595F5009A3B05 /* DMSans-Bold.ttf */,
 			);
 			path = "Preview Content";
 			sourceTree = "<group>";
@@ -130,7 +139,9 @@
 			files = (
 				FDD109512C356FFE00849916 /* Preview Assets.xcassets in Resources */,
 				FDD109582C35703400849916 /* .gitignore in Resources */,
+				7371703B2C3595F5009A3B05 /* DMSans_18pt-Regular.ttf in Resources */,
 				FDD1094E2C356FFE00849916 /* Assets.xcassets in Resources */,
+				7371703A2C3595F5009A3B05 /* DMSans-Bold.ttf in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -141,6 +152,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				7371703D2C359668009A3B05 /* Shelves_iPadDocument.swift in Sources */,
 				FDD1094C2C356FFD00849916 /* ContentView.swift in Sources */,
 				FDD1094A2C356FFD00849916 /* Shelves_AdminApp.swift in Sources */,
 			);
@@ -278,6 +290,7 @@
 				DEVELOPMENT_ASSET_PATHS = "\"Shelves-Admin/Preview Content\"";
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = "Shelves-Admin/Info.plist";
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
@@ -306,6 +319,7 @@
 				DEVELOPMENT_ASSET_PATHS = "\"Shelves-Admin/Preview Content\"";
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = "Shelves-Admin/Info.plist";
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;

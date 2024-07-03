@@ -10,8 +10,8 @@ import SwiftUI
 @main
 struct Shelves_AdminApp: App {
     var body: some Scene {
-        WindowGroup {
-            ContentView()
+        DocumentGroup(newDocument: Shelves_iPadDocument()) { file in
+            ContentView(document: file.$document)
         }
     }
 }
