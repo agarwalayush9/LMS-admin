@@ -6,6 +6,7 @@
 //
 
 import SwiftUI
+import FirebaseAuth
 
 struct AdminLoginView: View {
     @State private var email: String = ""
@@ -107,6 +108,8 @@ struct AdminLoginView: View {
                 // Sign in Button
                 Button(action: {
                     // Sign in action
+                    login()
+                
                     
                 }) {
                     Text("Sign in")
@@ -133,6 +136,34 @@ struct AdminLoginView: View {
         
         
         
+    }
+    
+    
+    func login()
+    {
+        Auth.auth().signIn(withEmail: email, password: password){
+            firebaseResult, error in
+            if let e = error {
+                print("Invalid Password")
+                print(e)
+               
+            }
+            else {
+                print("Login successfull")
+            }
+        }
+    }
+    
+    func register()
+    {
+        Auth.auth().createUser(withEmail: email, password: password) { (authResult, error) in
+            if let error = error {
+                print("Error signing up: \(error.localizedDescription)")
+            }
+            else {
+                print("User signed up successfully")
+            }
+        }
     }
     
 }
