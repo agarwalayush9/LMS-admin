@@ -154,7 +154,7 @@ struct CheckboxToggleStyle: ToggleStyle {
 }
 
 struct ContentView: View {
-    @Binding var document: Shelves_iPadDocument
+    
 
     var body: some View {
         AdminLoginView()
@@ -162,5 +162,5 @@ struct ContentView: View {
 }
 
 #Preview {
-    ContentView(document: .constant(Shelves_iPadDocument()))
+    ContentView()
 }
