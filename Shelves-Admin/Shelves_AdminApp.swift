@@ -29,8 +29,5 @@ struct Shelves_AdminApp: App {
             AdminLoginView()
         }
        
-//        DocumentGroup(newDocument: Shelves_iPadDocument()) { file in
-//            ContentView(document: file.$document)
-//        }
     }
 }
