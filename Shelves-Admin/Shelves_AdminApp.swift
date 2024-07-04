@@ -11,7 +11,7 @@ import SwiftUI
 struct Shelves_AdminApp: App {
     var body: some Scene {
         WindowGroup {
-            ContentView()
+            BooksCatalogue1()
         }
     }
 }
