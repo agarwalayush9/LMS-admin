@@ -9,8 +9,8 @@
 /* Begin PBXBuildFile section */
 		7371703A2C3595F5009A3B05 /* DMSans-Bold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 737170382C3595F5009A3B05 /* DMSans-Bold.ttf */; };
 		7371703B2C3595F5009A3B05 /* DMSans_18pt-Regular.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 737170392C3595F5009A3B05 /* DMSans_18pt-Regular.ttf */; };
-		D0B9B1122C35C323009521D5 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = D0B9B1112C35C323009521D5 /* GoogleService-Info.plist */; };
 		D0B9B1162C35C42A009521D5 /* FirebaseAuth in Frameworks */ = {isa = PBXBuildFile; productRef = D0B9B1152C35C42A009521D5 /* FirebaseAuth */; };
+		D0EDBE7E2C36C09600EC06AB /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = D0EDBE7D2C36C09600EC06AB /* GoogleService-Info.plist */; };
 		FDD1094A2C356FFD00849916 /* Shelves_AdminApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = FDD109492C356FFD00849916 /* Shelves_AdminApp.swift */; };
 		FDD1094C2C356FFD00849916 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = FDD1094B2C356FFD00849916 /* ContentView.swift */; };
 		FDD1094E2C356FFE00849916 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = FDD1094D2C356FFE00849916 /* Assets.xcassets */; };
@@ -21,7 +21,7 @@
 /* Begin PBXFileReference section */
 		737170382C3595F5009A3B05 /* DMSans-Bold.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "DMSans-Bold.ttf"; sourceTree = "<group>"; };
 		737170392C3595F5009A3B05 /* DMSans_18pt-Regular.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "DMSans_18pt-Regular.ttf"; sourceTree = "<group>"; };
-		D0B9B1112C35C323009521D5 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
+		D0EDBE7D2C36C09600EC06AB /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		FDD109462C356FFD00849916 /* Shelves-Admin.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Shelves-Admin.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		FDD109492C356FFD00849916 /* Shelves_AdminApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Shelves_AdminApp.swift; sourceTree = "<group>"; };
 		FDD1094B2C356FFD00849916 /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
@@ -52,7 +52,7 @@
 		FDD1093D2C356FFD00849916 = {
 			isa = PBXGroup;
 			children = (
-				D0B9B1112C35C323009521D5 /* GoogleService-Info.plist */,
+				D0EDBE7D2C36C09600EC06AB /* GoogleService-Info.plist */,
 				FDD109572C35703400849916 /* .gitignore */,
 				FDD109482C356FFD00849916 /* Shelves-Admin */,
 				FDD109472C356FFD00849916 /* Products */,
@@ -154,10 +154,10 @@
 			buildActionMask = 2147483647;
 			files = (
 				FDD109512C356FFE00849916 /* Preview Assets.xcassets in Resources */,
+				D0EDBE7E2C36C09600EC06AB /* GoogleService-Info.plist in Resources */,
 				FDD109582C35703400849916 /* .gitignore in Resources */,
 				7371703B2C3595F5009A3B05 /* DMSans_18pt-Regular.ttf in Resources */,
 				FDD1094E2C356FFE00849916 /* Assets.xcassets in Resources */,
-				D0B9B1122C35C323009521D5 /* GoogleService-Info.plist in Resources */,
 				7371703A2C3595F5009A3B05 /* DMSans-Bold.ttf in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
