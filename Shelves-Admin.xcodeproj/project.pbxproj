@@ -11,6 +11,9 @@
 		7371703B2C3595F5009A3B05 /* DMSans_18pt-Regular.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 737170392C3595F5009A3B05 /* DMSans_18pt-Regular.ttf */; };
 		7371705C2C366E79009A3B05 /* BooksCatalogue.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7371705B2C366E79009A3B05 /* BooksCatalogue.swift */; };
 		7371705E2C367F29009A3B05 /* BooksCatalogue1.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7371705D2C367F29009A3B05 /* BooksCatalogue1.swift */; };
+		B1691CF82C38022300D0DB7C /* AdminDashboard.swift in Sources */ = {isa = PBXBuildFile; fileRef = B1691CF72C38022300D0DB7C /* AdminDashboard.swift */; };
+		B1691CFA2C3802B900D0DB7C /* AdminDashboardAnalyicsData.swift in Sources */ = {isa = PBXBuildFile; fileRef = B1691CF92C3802B900D0DB7C /* AdminDashboardAnalyicsData.swift */; };
+		B1691CFC2C3802E400D0DB7C /* AdminDashboardStructs.swift in Sources */ = {isa = PBXBuildFile; fileRef = B1691CFB2C3802E400D0DB7C /* AdminDashboardStructs.swift */; };
 		FDD1094A2C356FFD00849916 /* Shelves_AdminApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = FDD109492C356FFD00849916 /* Shelves_AdminApp.swift */; };
 		FDD1094C2C356FFD00849916 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = FDD1094B2C356FFD00849916 /* ContentView.swift */; };
 		FDD1094E2C356FFE00849916 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = FDD1094D2C356FFE00849916 /* Assets.xcassets */; };
@@ -23,6 +26,9 @@
 		737170392C3595F5009A3B05 /* DMSans_18pt-Regular.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "DMSans_18pt-Regular.ttf"; sourceTree = "<group>"; };
 		7371705B2C366E79009A3B05 /* BooksCatalogue.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BooksCatalogue.swift; sourceTree = "<group>"; };
 		7371705D2C367F29009A3B05 /* BooksCatalogue1.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BooksCatalogue1.swift; sourceTree = "<group>"; };
+		B1691CF72C38022300D0DB7C /* AdminDashboard.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AdminDashboard.swift; sourceTree = "<group>"; };
+		B1691CF92C3802B900D0DB7C /* AdminDashboardAnalyicsData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AdminDashboardAnalyicsData.swift; sourceTree = "<group>"; };
+		B1691CFB2C3802E400D0DB7C /* AdminDashboardStructs.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AdminDashboardStructs.swift; sourceTree = "<group>"; };
 		FDD109462C356FFD00849916 /* Shelves-Admin.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Shelves-Admin.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		FDD109492C356FFD00849916 /* Shelves_AdminApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Shelves_AdminApp.swift; sourceTree = "<group>"; };
 		FDD1094B2C356FFD00849916 /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
@@ -42,9 +48,12 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
-		B1691CF52C37FB7800D0DB7C /* Dashboard */ = {
+		B1691CF62C38010000D0DB7C /* Dashboard */ = {
 			isa = PBXGroup;
 			children = (
+				B1691CF72C38022300D0DB7C /* AdminDashboard.swift */,
+				B1691CF92C3802B900D0DB7C /* AdminDashboardAnalyicsData.swift */,
+				B1691CFB2C3802E400D0DB7C /* AdminDashboardStructs.swift */,
 			);
 			path = Dashboard;
 			sourceTree = "<group>";
@@ -69,7 +78,7 @@
 		FDD109482C356FFD00849916 /* Shelves-Admin */ = {
 			isa = PBXGroup;
 			children = (
-				B1691CF52C37FB7800D0DB7C /* Dashboard */,
+				B1691CF62C38010000D0DB7C /* Dashboard */,
 				FDD109492C356FFD00849916 /* Shelves_AdminApp.swift */,
 				FDD1094B2C356FFD00849916 /* ContentView.swift */,
 				7371705B2C366E79009A3B05 /* BooksCatalogue.swift */,
@@ -163,9 +172,12 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				B1691CFA2C3802B900D0DB7C /* AdminDashboardAnalyicsData.swift in Sources */,
 				7371705E2C367F29009A3B05 /* BooksCatalogue1.swift in Sources */,
+				B1691CF82C38022300D0DB7C /* AdminDashboard.swift in Sources */,
 				FDD1094C2C356FFD00849916 /* ContentView.swift in Sources */,
 				FDD1094A2C356FFD00849916 /* Shelves_AdminApp.swift in Sources */,
+				B1691CFC2C3802E400D0DB7C /* AdminDashboardStructs.swift in Sources */,
 				7371705C2C366E79009A3B05 /* BooksCatalogue.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
