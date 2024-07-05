@@ -42,6 +42,13 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		B1691CF52C37FB7800D0DB7C /* Dashboard */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = Dashboard;
+			sourceTree = "<group>";
+		};
 		FDD1093D2C356FFD00849916 = {
 			isa = PBXGroup;
 			children = (
@@ -62,6 +69,7 @@
 		FDD109482C356FFD00849916 /* Shelves-Admin */ = {
 			isa = PBXGroup;
 			children = (
+				B1691CF52C37FB7800D0DB7C /* Dashboard */,
 				FDD109492C356FFD00849916 /* Shelves_AdminApp.swift */,
 				FDD1094B2C356FFD00849916 /* ContentView.swift */,
 				7371705B2C366E79009A3B05 /* BooksCatalogue.swift */,
