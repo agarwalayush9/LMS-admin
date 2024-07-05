@@ -11,7 +11,8 @@ import SwiftUI
 struct Shelves_AdminApp: App {
     var body: some Scene {
         WindowGroup {
-            BooksCatalogue1()
+            //BooksCatalogue1()
+            AdminDashboard()
         }
     }
 }
