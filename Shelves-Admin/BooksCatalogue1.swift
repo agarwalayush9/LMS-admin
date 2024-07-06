@@ -7,7 +7,6 @@
 
 import SwiftUI
 
-
 struct CheckBoxView: View {
     @Binding var isChecked: Bool
     
@@ -33,7 +32,7 @@ struct CheckBoxView: View {
 }
 
 struct BooksCatalogue1: View {
-    @State private var selectedBooks = Set<Int>()
+    @State private var selectedBooks = Set<UUID>()
     
     @State private var books: [Book] = []
 
@@ -129,7 +128,7 @@ struct BooksCatalogue1: View {
                                     .frame(maxWidth: .infinity, alignment: .leading)
                                 Text(book.author)
                                     .frame(maxWidth: .infinity, alignment: .leading)
-                                Text(book.genre)
+                                Text(book.genre.map { $0.rawValue }.joined(separator: ", "))
                                     .frame(maxWidth: .infinity, alignment: .leading)
                                 Text(book.issuedDate)
                                     .frame(maxWidth: .infinity, alignment: .leading)
