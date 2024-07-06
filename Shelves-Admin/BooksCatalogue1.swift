@@ -6,7 +6,10 @@
 //
 
 import SwiftUI
+import Firebase
+import FirebaseDatabase
 
+// Define your CheckBoxView
 struct CheckBoxView: View {
     @Binding var isChecked: Bool
     
@@ -31,9 +34,9 @@ struct CheckBoxView: View {
     }
 }
 
+// Define your BooksCatalogue1 view
 struct BooksCatalogue1: View {
     @State private var selectedBooks = Set<UUID>()
-    
     @State private var books: [Book] = []
 
     var body: some View {
@@ -53,10 +56,8 @@ struct BooksCatalogue1: View {
             .listStyle(SidebarListStyle())
             .navigationTitle("Khvaab Library")
            
-            
-            
             VStack {
-             Spacer()
+                Spacer()
                 
                 ScrollView {
                     LazyVStack(alignment: .leading) {
@@ -73,7 +74,6 @@ struct BooksCatalogue1: View {
                                     }
                                 )
                             )
-
                             .frame(width: 50, alignment: .center)
                             
                             Text("Book Code")
@@ -115,7 +115,6 @@ struct BooksCatalogue1: View {
                                     )
                                 )
                                 .frame(width: 50, alignment: .center)
-                                
                                 
                                 Text(book.bookCode)
                                     .frame(maxWidth: .infinity, alignment: .leading)
@@ -159,8 +158,6 @@ struct BooksCatalogue1: View {
                             .padding(.horizontal)
                             .background(selectedBooks.contains(book.id) ? Color(red: 255/255, green: 246/255, blue: 227/255) : Color.clear)
                             .border(Color(red: 0.32, green: 0.23, blue: 0.06), width: selectedBooks.contains(book.id) ? 2 : 0)
-                            
-                            
                         }
                     }
                     .frame(maxWidth: .infinity, alignment: .center) // Center the table
@@ -171,26 +168,24 @@ struct BooksCatalogue1: View {
                 fetchBooks()
             }
             .navigationTitle("Books Catalogues")
-            
         }
         .navigationViewStyle(DoubleColumnNavigationViewStyle())
         // Use this for better iPad support
     }
 
-
-private func fetchBooks() {
-    // Call DataController to fetch books asynchronously
-    DataController.shared.fetchBooks { result in
-        switch result {
-        case .success(let fetchedBooks):
-            // Update local state with fetched books
-            self.books = fetchedBooks
-        case .failure(let error):
-            print("Failed to fetch books: \(error.localizedDescription)")
-            // Handle error as needed
+    private func fetchBooks() {
+        // Call DataController to fetch books asynchronously
+        DataController.shared.fetchBooks { result in
+            switch result {
+            case .success(let fetchedBooks):
+                // Update local state with fetched books
+                self.books = fetchedBooks
+            case .failure(let error):
+                print("Failed to fetch books: \(error.localizedDescription)")
+                // Handle error as needed
+            }
         }
     }
-}
 }
 
 struct ContentView_Previews: PreviewProvider {
