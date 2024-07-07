@@ -20,32 +20,34 @@ struct menuContent: View {
                     Font.custom("DM Sans", size: 34)
                     .weight(.bold))
                     .padding([.top, .leading], 25)
-                    List{
-                        ForEach(items){ item in
-                            Section(header: Text(item.sectionHeader)
-                                .font(
-                                Font.custom("DM Sans", size: 20)
-                                .weight(.bold)
-                                )){
-                                VStack(alignment: .leading, spacing: 20){
-                                    ForEach(item.menuItem){ idi in
-                                        HStack{
-                                            Image(idi.optionIcon)
-                                                .frame(width: 24, height: 24)
-                                            Text(idi.option)
-                                                .font(Font.custom("DM Sans", size: 17))
+                    NavigationStack {
+                        List{
+                            ForEach(items){ item in
+                                Section(header: Text(item.sectionHeader)
+                                    .font(
+                                    Font.custom("DM Sans", size: 20)
+                                    .weight(.bold)
+                                    )){
+                                    VStack(alignment: .leading, spacing: 20){
+                                        ForEach(item.menuItem){ idi in
+                                            HStack{
+                                                Image(idi.optionIcon)
+                                                    .frame(width: 24, height: 24)
+                                                Text(idi.option)
+                                                    .font(Font.custom("DM Sans", size: 17))
+                                            }
                                         }
+                                        .listRowSeparator(.hidden)
                                     }
-                                    .listRowSeparator(.hidden)
                                 }
                             }
+                            .listRowSeparator(.hidden)
+                            
+                            
+                            //here
                         }
-                        .listRowSeparator(.hidden)
-                        
-                        
-                        //here
+                        .listSectionSeparator(.hidden)
                     }
-                    .listSectionSeparator(.hidden)
                     
                     VStack(alignment: .center){
                         ContactButton(contactTo: "Admin")
