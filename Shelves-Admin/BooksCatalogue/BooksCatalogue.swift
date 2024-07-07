@@ -6,19 +6,10 @@
 //
 
 import SwiftUI
+import Firebase
+import FirebaseDatabase
 
-struct Book: Identifiable {
-    let id: Int
-    let bookCode: String
-    let bookCover: String
-    let bookTitle: String
-    let author: String
-    let genre: String
-    let issuedDate: String
-    let returnDate: String
-    let status: String
-}
-
+// Define your CheckBoxView
 struct CheckBoxView: View {
     @Binding var isChecked: Bool
     
@@ -43,16 +34,10 @@ struct CheckBoxView: View {
     }
 }
 
+// Define your BooksCatalogue1 view
 struct BooksCatalogue1: View {
-    @State private var selectedBooks = Set<Int>()
-    
-    let books = [
-        Book(id: 1, bookCode: "#4235532", bookCover: "book_cover", bookTitle: "Harry Potter And The Cursed Child", author: "J.K. Rowling", genre: "Fantasy Literature", issuedDate: "May 5, 2023", returnDate: "May 5, 2023", status: "Issued"),
-        Book(id: 2, bookCode: "#4235533", bookCover: "book_cover", bookTitle: "Harry Potter And The Philosopher's Stone", author: "J.K. Rowling", genre: "Fantasy Literature", issuedDate: "May 6, 2023", returnDate: "May 6, 2023", status: "Returned"),
-        Book(id: 3, bookCode: "#4235533", bookCover: "book_cover", bookTitle: "Harry Potter And The Philosopher's Stone", author: "J.K. Rowling", genre: "Fantasy Literature", issuedDate: "May 6, 2023", returnDate: "May 6, 2023", status: "Returned"),
-        Book(id: 4, bookCode: "#4235533", bookCover: "book_cover", bookTitle: "Harry Potter And The Philosopher's Stone", author: "J.K. Rowling", genre: "Fantasy Literature", issuedDate: "May 6, 2023", returnDate: "May 6, 2023", status: "Returned"),
-        // Add more books here
-    ]
+    @State private var selectedBooks = Set<UUID>()
+    @State private var books: [Book] = []
 
     var body: some View {
         NavigationView {
@@ -71,10 +56,8 @@ struct BooksCatalogue1: View {
             .listStyle(SidebarListStyle())
             .navigationTitle("Khvaab Library")
            
-            
-            
             VStack {
-             Spacer()
+                Spacer()
                 
                 ScrollView {
                     LazyVStack(alignment: .leading) {
@@ -133,7 +116,6 @@ struct BooksCatalogue1: View {
                                 )
                                 .frame(width: 50, alignment: .center)
                                 
-                                
                                 Text(book.bookCode)
                                     .frame(maxWidth: .infinity, alignment: .leading)
                                 Image(book.bookCover)
@@ -145,7 +127,7 @@ struct BooksCatalogue1: View {
                                     .frame(maxWidth: .infinity, alignment: .leading)
                                 Text(book.author)
                                     .frame(maxWidth: .infinity, alignment: .leading)
-                                Text(book.genre)
+                                Text(book.genre.map { $0.rawValue }.joined(separator: ", "))
                                     .frame(maxWidth: .infinity, alignment: .leading)
                                 Text(book.issuedDate)
                                     .frame(maxWidth: .infinity, alignment: .leading)
@@ -176,18 +158,33 @@ struct BooksCatalogue1: View {
                             .padding(.horizontal)
                             .background(selectedBooks.contains(book.id) ? Color(red: 255/255, green: 246/255, blue: 227/255) : Color.clear)
                             .border(Color(red: 0.32, green: 0.23, blue: 0.06), width: selectedBooks.contains(book.id) ? 2 : 0)
-                            
-                            
                         }
                     }
                     .frame(maxWidth: .infinity, alignment: .center) // Center the table
                 }
             }
+            .onAppear {
+                // Fetch books from DataController
+                fetchBooks()
+            }
             .navigationTitle("Books Catalogues")
-            
         }
         .navigationViewStyle(DoubleColumnNavigationViewStyle())
         // Use this for better iPad support
+    }
+
+    private func fetchBooks() {
+        // Call DataController to fetch books asynchronously
+        DataController.shared.fetchBooks { result in
+            switch result {
+            case .success(let fetchedBooks):
+                // Update local state with fetched books
+                self.books = fetchedBooks
+            case .failure(let error):
+                print("Failed to fetch books: \(error.localizedDescription)")
+                // Handle error as needed
+            }
+        }
     }
 }
 
