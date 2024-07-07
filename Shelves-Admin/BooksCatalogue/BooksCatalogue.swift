@@ -38,138 +38,157 @@ struct CheckBoxView: View {
 struct BooksCatalogue1: View {
     @State private var selectedBooks = Set<UUID>()
     @State private var books: [Book] = []
-
+    @State var menuOpened = false
     var body: some View {
-        NavigationView {
-            List {
-                NavigationLink(destination: BooksCatalogue1()) {
-                    Label("Khvaab Library", systemImage: "books.vertical")
-                        .font(.title)
-                        .foregroundColor(.brown)
-                }
-                NavigationLink(destination: BooksCatalogue1()) {
-                    Label("Book Catalogues", systemImage: "book")
-                        .font(.title2)
-                        .foregroundColor(.brown)
-                }
-            }
-            .listStyle(SidebarListStyle())
-            .navigationTitle("Khvaab Library")
-           
-            VStack {
-                Spacer()
-                
-                ScrollView {
-                    LazyVStack(alignment: .leading) {
-                        HStack {
-                            CheckBoxView(
-                                isChecked: Binding<Bool>(
-                                    get: { selectedBooks.count == books.count },
-                                    set: { isSelected in
-                                        if isSelected {
-                                            selectedBooks = Set(books.map { $0.id })
-                                        } else {
-                                            selectedBooks.removeAll()
-                                        }
-                                    }
-                                )
-                            )
-                            .frame(width: 50, alignment: .center)
-                            
-                            Text("Book Code")
-                                .frame(maxWidth: .infinity, alignment: .leading)
-                            Text("Book Cover")
-                                .frame(maxWidth: .infinity, alignment: .leading)
-                            Text("Book Title")
-                                .frame(maxWidth: .infinity, alignment: .leading)
-                            Text("Author")
-                                .frame(maxWidth: .infinity, alignment: .leading)
-                            Text("Genre/Category")
-                                .frame(maxWidth: .infinity, alignment: .leading)
-                            Text("Issued Date")
-                                .frame(maxWidth: .infinity, alignment: .leading)
-                            Text("Return Date")
-                                .frame(maxWidth: .infinity, alignment: .leading)
-                            Text("Book Status")
-                                .frame(maxWidth: .infinity, alignment: .leading)
-                            Text("Actions")
-                                .frame(maxWidth: 80, alignment: .leading)
-                        }
-                        .font(.headline)
-                        .padding(.horizontal)
-                        
-                        Divider()
-                        
-                        ForEach(books) { book in
+        NavigationStack {
+            ZStack {
+                VStack {
+                    //Spacer()
+                    
+                    ScrollView {
+                        LazyVStack(alignment: .leading) {
                             HStack {
                                 CheckBoxView(
                                     isChecked: Binding<Bool>(
-                                        get: { selectedBooks.contains(book.id) },
+                                        get: { selectedBooks.count == books.count },
                                         set: { isSelected in
                                             if isSelected {
-                                                selectedBooks.insert(book.id)
+                                                selectedBooks = Set(books.map { $0.id })
                                             } else {
-                                                selectedBooks.remove(book.id)
+                                                selectedBooks.removeAll()
                                             }
                                         }
                                     )
                                 )
                                 .frame(width: 50, alignment: .center)
-                                
-                                Text(book.bookCode)
+                                .padding(.top, 16)
+                                Text("Book Code")
                                     .frame(maxWidth: .infinity, alignment: .leading)
-                                Image(book.bookCover)
-                                    .resizable()
-                                    .frame(width: 60, height: 80)
-                                    .cornerRadius(5)
+                                Text("Book Cover")
                                     .frame(maxWidth: .infinity, alignment: .leading)
-                                Text(book.bookTitle)
+                                Text("Book Title")
                                     .frame(maxWidth: .infinity, alignment: .leading)
-                                Text(book.author)
+                                Text("Author")
                                     .frame(maxWidth: .infinity, alignment: .leading)
-                                Text(book.genre.map { $0.rawValue }.joined(separator: ", "))
+                                Text("Genre/Category")
                                     .frame(maxWidth: .infinity, alignment: .leading)
-                                Text(book.issuedDate)
+                                Text("Issued Date")
                                     .frame(maxWidth: .infinity, alignment: .leading)
-                                Text(book.returnDate)
+                                Text("Return Date")
                                     .frame(maxWidth: .infinity, alignment: .leading)
-                                Text(book.status)
+                                Text("Book Status")
                                     .frame(maxWidth: .infinity, alignment: .leading)
-                                    .foregroundColor(book.status == "Issued" ? .red : .green)
-                                
-                                HStack {
-                                    Button(action: {
-                                        // Action for edit button
-                                    }) {
-                                        Image(systemName: "pencil")
-                                            .foregroundColor(.blue)
-                                    }
-                                    
-                                    Button(action: {
-                                        // Action for more options
-                                    }) {
-                                        Image(systemName: "ellipsis")
-                                            .foregroundColor(.blue)
-                                    }
-                                }
-                                .frame(maxWidth: 80, alignment: .leading)
+                                Text("Actions")
+                                    .frame(maxWidth: 80, alignment: .leading)
                             }
-                            .padding(.vertical, 8)
+                            .font(.headline)
                             .padding(.horizontal)
-                            .background(selectedBooks.contains(book.id) ? Color(red: 255/255, green: 246/255, blue: 227/255) : Color.clear)
-                            .border(Color(red: 0.32, green: 0.23, blue: 0.06), width: selectedBooks.contains(book.id) ? 2 : 0)
+                            
+                            Divider()
+                            
+                            ForEach(books) { book in
+                                HStack {
+                                    CheckBoxView(
+                                        isChecked: Binding<Bool>(
+                                            get: { selectedBooks.contains(book.id) },
+                                            set: { isSelected in
+                                                if isSelected {
+                                                    selectedBooks.insert(book.id)
+                                                } else {
+                                                    selectedBooks.remove(book.id)
+                                                }
+                                            }
+                                        )
+                                    )
+                                    .frame(width: 50, alignment: .center)
+                                    
+                                    Text(book.bookCode)
+                                        .frame(maxWidth: .infinity, alignment: .leading)
+                                    Image(book.bookCover)
+                                        .resizable()
+                                        .frame(width: 60, height: 80)
+                                        .cornerRadius(5)
+                                        .frame(maxWidth: .infinity, alignment: .leading)
+                                    Text(book.bookTitle)
+                                        .frame(maxWidth: .infinity, alignment: .leading)
+                                    Text(book.author)
+                                        .frame(maxWidth: .infinity, alignment: .leading)
+                                    Text(book.genre.map { $0.rawValue }.joined(separator: ", "))
+                                        .frame(maxWidth: .infinity, alignment: .leading)
+                                    Text(book.issuedDate)
+                                        .frame(maxWidth: .infinity, alignment: .leading)
+                                    Text(book.returnDate)
+                                        .frame(maxWidth: .infinity, alignment: .leading)
+                                    Text(book.status)
+                                        .frame(maxWidth: .infinity, alignment: .leading)
+                                        .foregroundColor(book.status == "Issued" ? .red : .green)
+                                    
+                                    HStack {
+                                        Button(action: {
+                                            // Action for edit button
+                                        }) {
+                                            Image(systemName: "pencil")
+                                                .foregroundColor(.blue)
+                                        }
+                                        
+                                        Button(action: {
+                                            // Action for more options
+                                        }) {
+                                            Image(systemName: "ellipsis")
+                                                .foregroundColor(.blue)
+                                        }
+                                    }
+                                    .frame(maxWidth: 80, alignment: .leading)
+                                }
+                                .padding(.vertical, 8)
+                                .padding(.horizontal)
+                                .background(selectedBooks.contains(book.id) ? Color(red: 255/255, green: 246/255, blue: 227/255) : Color.clear)
+                                .border(Color(red: 0.32, green: 0.23, blue: 0.06), width: selectedBooks.contains(book.id) ? 2 : 0)
+                            }
                         }
+                        .frame(maxWidth: .infinity, alignment: .center) // Center the table
                     }
-                    .frame(maxWidth: .infinity, alignment: .center) // Center the table
+                    
                 }
+                .onAppear {
+                    // Fetch books from DataController
+                    fetchBooks()
+                }
+                .navigationTitle("lms")
+                .navigationBarTitleDisplayMode(.inline)
+                .toolbarBackground(.visible, for: .navigationBar)
+                .toolbar{
+                    ToolbarItem(placement: .topBarLeading) {
+                        Button(action: {
+                            menuOpened.toggle()
+                        }, label: {
+                            Image(systemName: "sidebar.left")
+                                .foregroundStyle(Color.black)
+                        })
+                        
+                    }
+                    ToolbarItem(placement: .topBarTrailing){
+                        Button(action: {
+                            
+                        }, label: {
+                            Image(systemName: "books.vertical")
+                                .foregroundColor(Color.black)
+                        })
+                    }
             }
-            .onAppear {
-                // Fetch books from DataController
-                fetchBooks()
-            }
-            .navigationTitle("Books Catalogues")
+                if menuOpened {
+                    sideMenu(width: UIScreen.main.bounds.width * 0.30,
+                             menuOpened: menuOpened,
+                             toggleMenu: toggleMenu)
+                    .ignoresSafeArea()
+//                    .toolbar(.hidden, for: .navigationBar)
+                    
+                }
+                    
+            }.toolbar(menuOpened ?.hidden : .visible, for: .navigationBar)
         }
-        .navigationViewStyle(DoubleColumnNavigationViewStyle())
+        
+        //.navigationViewStyle(DoubleColumnNavigationViewStyle())
         // Use this for better iPad support
     }
 
@@ -185,6 +204,9 @@ struct BooksCatalogue1: View {
                 // Handle error as needed
             }
         }
+    }
+    func toggleMenu() {
+        menuOpened.toggle()
     }
 }
 
