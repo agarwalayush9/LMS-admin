@@ -43,19 +43,19 @@ struct Sections : Identifiable{
     static var section : [Sections]{
         [
             Sections(sectionHeader: "OverView", menuItem: [
-                MenuItem(optionIcon:"majesticons_library-line", option: "Library"),
-                MenuItem(optionIcon:"charm_people", option: "Manage Librarian"),
-                MenuItem(optionIcon: "hugeicons_complaint", option: "Complaints"),
-                MenuItem(optionIcon:"ic_round-event-note", option: "Manage Events"),
-                MenuItem(optionIcon: "fluent_payment-16-regular", option: "Make Payouts"),
-                MenuItem(optionIcon: "Traced Image", option: "User Queries"),
+                MenuItem(optionIcon:"Library", option: "Library"),
+                MenuItem(optionIcon:"ManageLibrarian", option: "Manage Librarian"),
+                MenuItem(optionIcon: "Complaints", option: "Complaints"),
+                MenuItem(optionIcon:"ManageEvents", option: "Manage Events"),
+                MenuItem(optionIcon: "MakePayouts", option: "Make Payouts"),
+                MenuItem(optionIcon: "UserQueries", option: "User Queries"),
             ]),
             Sections(sectionHeader: "Books", menuItem:[
-                MenuItem(optionIcon:"hugeicons_books-02", option: "Books Catalogue"),
-                MenuItem(optionIcon:"hugeicons_bookshelf-01", option: "Books Circulation"),
-                MenuItem(optionIcon:"fluent_clock-bill-16-regular", option: "Books Overdues/Fines"),
-                MenuItem(optionIcon:"lucide_ticket", option: "Manage Subscription"),
-                MenuItem(optionIcon:"uil_bill", option: "Fine Management")
+                MenuItem(optionIcon:"BooksCatalogue", option: "Books Catalogue"),
+                MenuItem(optionIcon:"BooksCirculation", option: "Books Circulation"),
+                MenuItem(optionIcon:"BookOverdues", option: "Books Overdues/Fines"),
+                MenuItem(optionIcon:"ManageSubscription", option: "Manage Subscription"),
+                MenuItem(optionIcon:"FineManagement", option: "Fine Management")
                 
             ] )
         ]
