@@ -6,11 +6,13 @@
 //
 
 import SwiftUI
+import FirebaseAuth
 
 struct AdminLoginView: View {
     @State private var email: String = ""
     @State private var password: String = ""
-    
+    @State private var showAlert = false
+    @State private var errorMessage = ""
 
     var body: some View {
         HStack(alignment: .center) {
@@ -107,6 +109,9 @@ struct AdminLoginView: View {
                 // Sign in Button
                 Button(action: {
                     // Sign in action
+                    login()
+//                    register()
+                
                     
                 }) {
                     Text("Sign in")
@@ -117,6 +122,10 @@ struct AdminLoginView: View {
                         .cornerRadius(8)
                         .frame(width: 300)
                 }
+                .alert(isPresented: $showAlert) {
+                            Alert(title: Text("Invalid Credentials"),  dismissButton: .default(Text("OK")))
+                        }
+                
                 Button(action: {
                     // Forgot password action
                 }) {
@@ -133,6 +142,36 @@ struct AdminLoginView: View {
         
         
         
+    }
+    
+    
+    func login()
+    {
+        Auth.auth().signIn(withEmail: email, password: password){
+            firebaseResult, error in
+            if let e = error {
+                errorMessage = e.localizedDescription
+                showAlert = true
+                print(e)
+               
+            }
+            else {
+                
+                print("Login successfull")
+            }
+        }
+    }
+    
+    func register()
+    {
+        Auth.auth().createUser(withEmail: email, password: password) { (authResult, error) in
+            if let error = error {
+                print("Error signing up: \(error.localizedDescription)")
+            }
+            else {
+                print("User signed up successfully")
+            }
+        }
     }
     
 }
