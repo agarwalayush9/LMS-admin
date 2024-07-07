@@ -21,15 +21,16 @@ class AppDelegate: NSObject, UIApplicationDelegate {
 
 @main
 struct Shelves_AdminApp: App {
-    
+    @State private var isLoggedIn: Bool = UserDefaults.standard.bool(forKey: "isLoggedIn")
     @UIApplicationDelegateAdaptor(AppDelegate.self) var delegate
     var body: some Scene {
         
         WindowGroup {
-//            AdminLoginView()
-            AddLibrarian()
-            
-//            BooksCatalogue1()
+            if isLoggedIn {
+                        AdminDashboard(isLoggedIn: $isLoggedIn)
+                    } else {
+                        AdminLoginView(isLoggedIn: $isLoggedIn)
+                    }
         }
        
     }

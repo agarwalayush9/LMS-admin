@@ -6,9 +6,10 @@
 //
 
 import SwiftUI
+import FirebaseAuth
 struct menuContent: View {
+    @Binding var isLoggedIn: Bool
     let items = Sections.section
-    
     var body: some View {
         ZStack {
             Color(.white)
@@ -51,7 +52,7 @@ struct menuContent: View {
                         ContactButton(contactTo: "Admin")
                             .padding([.top,.bottom,],8)
                         Divider()
-                        LibrarianProfile(userName: "User",
+                        LibrarianProfile(isLoggedIn: $isLoggedIn, userName: "User",
                                          post: "Admin",
                                          porfileImage: "person.fill")
                         
@@ -67,6 +68,7 @@ struct menuContent: View {
 
 
 struct sideMenu: View {
+    @Binding var isLoggedIn: Bool
     let width: CGFloat
     let menuOpened: Bool
     let toggleMenu: () -> Void
@@ -82,7 +84,7 @@ struct sideMenu: View {
             }
             
             HStack {
-                menuContent()
+                menuContent(isLoggedIn:  $isLoggedIn)
                     .frame(width: width)
                     .offset(x: menuOpened ? 0 : -width)
                     .animation(.default, value: menuOpened)
@@ -116,6 +118,8 @@ struct ContactButton : View {
 }
 
 struct LogOutButton : View {
+    
+    @Binding var isLoggedIn: Bool
     var body: some View {
         HStack{
             Image(systemName: "rectangle.portrait.and.arrow.right")
@@ -130,12 +134,22 @@ struct LogOutButton : View {
         .frame(width: .infinity, height: 50)
         .background(Color("CustomButtonColor"))
         .clipShape(RoundedRectangle(cornerRadius: 10))
+        .onTapGesture {
+            do {
+                try Auth.auth().signOut()
+                isLoggedIn = false
+                UserDefaults.standard.set(false, forKey: "isLoggedIn")
+            } catch let signOutError as NSError {
+                print("Error signing out: %@", signOutError)
+            }
+        }
     }
 }
 
 
 
 struct LibrarianProfile: View {
+    @Binding var isLoggedIn: Bool
     var userName : String
     var post : String
     var porfileImage : String
@@ -175,7 +189,7 @@ struct LibrarianProfile: View {
                     }
                 }
                 .padding(.trailing,16)
-                LogOutButton()
+                LogOutButton(isLoggedIn: $isLoggedIn)
             }
             
         }
@@ -189,6 +203,6 @@ struct LibrarianProfile: View {
 
 
 
-#Preview {
-    AdminDashboard()
-}
+//#Preview {
+//    AdminDashboard()
+//}

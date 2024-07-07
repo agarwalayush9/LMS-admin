@@ -159,6 +159,6 @@ func currentDateAndTime() -> String {
         return "\(dateString), \(timeString)"
     }
 
-#Preview {
-    AdminDashboard()
-}
+//#Preview {
+//    AdminDashboard(isLoggedIn: $isLoggedIn)
+//}

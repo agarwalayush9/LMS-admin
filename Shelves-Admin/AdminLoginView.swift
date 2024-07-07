@@ -9,6 +9,7 @@ import SwiftUI
 import FirebaseAuth
 
 struct AdminLoginView: View {
+    @Binding var isLoggedIn: Bool
     @State private var email: String = ""
     @State private var password: String = ""
     @State private var showAlert = false
@@ -156,8 +157,9 @@ struct AdminLoginView: View {
                
             }
             else {
-                
                 print("Login successfull")
+                isLoggedIn = true
+                UserDefaults.standard.set(true, forKey: "isLoggedIn")
             }
         }
     }
@@ -192,14 +194,3 @@ struct CheckboxToggleStyle: ToggleStyle {
     
 }
 
-struct ContentView: View {
-    
-
-    var body: some View {
-        AdminLoginView()
-    }
-}
-
-#Preview {
-    ContentView()
-}
