@@ -26,7 +26,10 @@ struct Shelves_AdminApp: App {
     var body: some Scene {
         
         WindowGroup {
-            AdminLoginView()
+//            AdminLoginView()
+            AddLibrarian()
+            
+//            BooksCatalogue1()
         }
        
     }

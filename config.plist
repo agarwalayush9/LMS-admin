@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<!--
+   cofig.plist
+   Shelves-Admin
+
+   Created by Ayush Agarwal on 07/07/24.
+   Copyright (c) 2024 ___ORGANIZATIONNAME___. All rights reserved.
+-->
+
+<plist version="1.0">
+    <dict>
+        <key>SENDGRID_API_KEY</key>
+        <string>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</string>
+    </dict>
+</plist>

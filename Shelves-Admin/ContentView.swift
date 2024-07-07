@@ -11,7 +11,8 @@ import FirebaseAuth
 struct AdminLoginView: View {
     @State private var email: String = ""
     @State private var password: String = ""
-    
+    @State private var showAlert = false
+    @State private var errorMessage = ""
 
     var body: some View {
         HStack(alignment: .center) {
@@ -109,6 +110,7 @@ struct AdminLoginView: View {
                 Button(action: {
                     // Sign in action
                     login()
+//                    register()
                 
                     
                 }) {
@@ -120,6 +122,10 @@ struct AdminLoginView: View {
                         .cornerRadius(8)
                         .frame(width: 300)
                 }
+                .alert(isPresented: $showAlert) {
+                            Alert(title: Text("Invalid Credentials"),  dismissButton: .default(Text("OK")))
+                        }
+                
                 Button(action: {
                     // Forgot password action
                 }) {
@@ -144,11 +150,13 @@ struct AdminLoginView: View {
         Auth.auth().signIn(withEmail: email, password: password){
             firebaseResult, error in
             if let e = error {
-                print("Invalid Password")
+                errorMessage = e.localizedDescription
+                showAlert = true
                 print(e)
                
             }
             else {
+                
                 print("Login successfull")
             }
         }
