@@ -12,12 +12,18 @@ import SwiftUI
 
 struct AdminDashboard: View {
 
+    @State private var menuOpened = false
+
     
     var body: some View {
         NavigationStack{
             ZStack(alignment: .bottom){
             backgroundView()
                     .ignoresSafeArea(.all)
+                backgroundView()
+                    .ignoresSafeArea(.all)
+                    .blur(radius: menuOpened ? 10 : 0)
+                    .animation(.easeInOut(duration: 0.25), value: menuOpened)
             VStack{
                 HStack(spacing : 0){
                     VStack(alignment: .leading, spacing: 16){
@@ -63,7 +69,13 @@ struct AdminDashboard: View {
                 
             }
             
-            
+                if menuOpened {
+                    sideMenu(width: UIScreen.main.bounds.width * 0.30,
+                             menuOpened: menuOpened,
+                             toggleMenu: toggleMenu)
+                    .ignoresSafeArea()
+                    .toolbar(.hidden, for: .navigationBar)
+                }
         }
             .navigationTitle("LMS")
             .navigationBarTitleDisplayMode(.inline)
@@ -71,7 +83,7 @@ struct AdminDashboard: View {
             .toolbar{
                 ToolbarItem(placement: .topBarLeading) {
                     Button(action: {
-                        
+                        menuOpened.toggle()
                     }, label: {
                         Image(systemName: "sidebar.left")
                             .foregroundStyle(Color.black)
@@ -89,6 +101,10 @@ struct AdminDashboard: View {
             }
     }
  }
+    func toggleMenu() {
+        menuOpened.toggle()
+    }
+
 }
 
 struct backgroundView : View {

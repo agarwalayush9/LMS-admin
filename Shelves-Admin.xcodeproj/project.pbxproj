@@ -14,6 +14,7 @@
 		B1691CF82C38022300D0DB7C /* AdminDashboard.swift in Sources */ = {isa = PBXBuildFile; fileRef = B1691CF72C38022300D0DB7C /* AdminDashboard.swift */; };
 		B1691CFA2C3802B900D0DB7C /* AdminDashboardAnalyicsData.swift in Sources */ = {isa = PBXBuildFile; fileRef = B1691CF92C3802B900D0DB7C /* AdminDashboardAnalyicsData.swift */; };
 		B1691CFC2C3802E400D0DB7C /* AdminDashboardStructs.swift in Sources */ = {isa = PBXBuildFile; fileRef = B1691CFB2C3802E400D0DB7C /* AdminDashboardStructs.swift */; };
+		B1CB45B82C3A8E0F00DA7392 /* sideMenuBar.swift in Sources */ = {isa = PBXBuildFile; fileRef = B1CB45B72C3A8E0F00DA7392 /* sideMenuBar.swift */; };
 		FDD1094A2C356FFD00849916 /* Shelves_AdminApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = FDD109492C356FFD00849916 /* Shelves_AdminApp.swift */; };
 		FDD1094C2C356FFD00849916 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = FDD1094B2C356FFD00849916 /* ContentView.swift */; };
 		FDD1094E2C356FFE00849916 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = FDD1094D2C356FFE00849916 /* Assets.xcassets */; };
@@ -29,6 +30,7 @@
 		B1691CF72C38022300D0DB7C /* AdminDashboard.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AdminDashboard.swift; sourceTree = "<group>"; };
 		B1691CF92C3802B900D0DB7C /* AdminDashboardAnalyicsData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AdminDashboardAnalyicsData.swift; sourceTree = "<group>"; };
 		B1691CFB2C3802E400D0DB7C /* AdminDashboardStructs.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AdminDashboardStructs.swift; sourceTree = "<group>"; };
+		B1CB45B72C3A8E0F00DA7392 /* sideMenuBar.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = sideMenuBar.swift; sourceTree = "<group>"; };
 		FDD109462C356FFD00849916 /* Shelves-Admin.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Shelves-Admin.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		FDD109492C356FFD00849916 /* Shelves_AdminApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Shelves_AdminApp.swift; sourceTree = "<group>"; };
 		FDD1094B2C356FFD00849916 /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
@@ -54,6 +56,7 @@
 				B1691CF72C38022300D0DB7C /* AdminDashboard.swift */,
 				B1691CF92C3802B900D0DB7C /* AdminDashboardAnalyicsData.swift */,
 				B1691CFB2C3802E400D0DB7C /* AdminDashboardStructs.swift */,
+				B1CB45B72C3A8E0F00DA7392 /* sideMenuBar.swift */,
 			);
 			path = Dashboard;
 			sourceTree = "<group>";
@@ -175,6 +178,7 @@
 				B1691CFA2C3802B900D0DB7C /* AdminDashboardAnalyicsData.swift in Sources */,
 				7371705E2C367F29009A3B05 /* BooksCatalogue1.swift in Sources */,
 				B1691CF82C38022300D0DB7C /* AdminDashboard.swift in Sources */,
+				B1CB45B82C3A8E0F00DA7392 /* sideMenuBar.swift in Sources */,
 				FDD1094C2C356FFD00849916 /* ContentView.swift in Sources */,
 				FDD1094A2C356FFD00849916 /* Shelves_AdminApp.swift in Sources */,
 				B1691CFC2C3802E400D0DB7C /* AdminDashboardStructs.swift in Sources */,

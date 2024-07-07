@@ -55,7 +55,6 @@ struct DashboardAnalytics : View {
 }
 
 struct cardData : View {
-    
     var title : String
     var value : Double
     var salesDifferencePercentage : Double
