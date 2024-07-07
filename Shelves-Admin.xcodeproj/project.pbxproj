@@ -11,6 +11,11 @@
 		7371703B2C3595F5009A3B05 /* DMSans_18pt-Regular.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 737170392C3595F5009A3B05 /* DMSans_18pt-Regular.ttf */; };
 		7371705C2C366E79009A3B05 /* BooksCatalogue.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7371705B2C366E79009A3B05 /* BooksCatalogue.swift */; };
 		7371705E2C367F29009A3B05 /* BooksCatalogue1.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7371705D2C367F29009A3B05 /* BooksCatalogue1.swift */; };
+		B1F2AC862C3B2EAA0078D41E /* sideMenuBar.swift in Sources */ = {isa = PBXBuildFile; fileRef = B1F2AC812C3B2EAA0078D41E /* sideMenuBar.swift */; };
+		B1F2AC872C3B2EAA0078D41E /* AdminDashboard.swift in Sources */ = {isa = PBXBuildFile; fileRef = B1F2AC822C3B2EAA0078D41E /* AdminDashboard.swift */; };
+		B1F2AC882C3B2EAA0078D41E /* AdminDashboardStructs.swift in Sources */ = {isa = PBXBuildFile; fileRef = B1F2AC832C3B2EAA0078D41E /* AdminDashboardStructs.swift */; };
+		B1F2AC892C3B2EAA0078D41E /* AdminDashboardAnalyicsData.swift in Sources */ = {isa = PBXBuildFile; fileRef = B1F2AC842C3B2EAA0078D41E /* AdminDashboardAnalyicsData.swift */; };
+		B1F2AC8A2C3B2EAA0078D41E /* SearchBar.swift in Sources */ = {isa = PBXBuildFile; fileRef = B1F2AC852C3B2EAA0078D41E /* SearchBar.swift */; };
 		D0B9B1162C35C42A009521D5 /* FirebaseAuth in Frameworks */ = {isa = PBXBuildFile; productRef = D0B9B1152C35C42A009521D5 /* FirebaseAuth */; };
 		FDC996F22C3AB38100723BFE /* config.plist in Resources */ = {isa = PBXBuildFile; fileRef = FDC996F12C3AB38100723BFE /* config.plist */; };
 		FDD1094A2C356FFD00849916 /* Shelves_AdminApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = FDD109492C356FFD00849916 /* Shelves_AdminApp.swift */; };
@@ -30,6 +35,11 @@
 		737170392C3595F5009A3B05 /* DMSans_18pt-Regular.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "DMSans_18pt-Regular.ttf"; sourceTree = "<group>"; };
 		7371705B2C366E79009A3B05 /* BooksCatalogue.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BooksCatalogue.swift; sourceTree = "<group>"; };
 		7371705D2C367F29009A3B05 /* BooksCatalogue1.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BooksCatalogue1.swift; sourceTree = "<group>"; };
+		B1F2AC812C3B2EAA0078D41E /* sideMenuBar.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = sideMenuBar.swift; sourceTree = "<group>"; };
+		B1F2AC822C3B2EAA0078D41E /* AdminDashboard.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AdminDashboard.swift; sourceTree = "<group>"; };
+		B1F2AC832C3B2EAA0078D41E /* AdminDashboardStructs.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AdminDashboardStructs.swift; sourceTree = "<group>"; };
+		B1F2AC842C3B2EAA0078D41E /* AdminDashboardAnalyicsData.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AdminDashboardAnalyicsData.swift; sourceTree = "<group>"; };
+		B1F2AC852C3B2EAA0078D41E /* SearchBar.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SearchBar.swift; sourceTree = "<group>"; };
 		FDC996F12C3AB38100723BFE /* config.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = config.plist; sourceTree = "<group>"; };
 		FDD109462C356FFD00849916 /* Shelves-Admin.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Shelves-Admin.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		FDD109492C356FFD00849916 /* Shelves_AdminApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Shelves_AdminApp.swift; sourceTree = "<group>"; };
@@ -56,6 +66,18 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		B1F2AC802C3B2E910078D41E /* Dashboard */ = {
+			isa = PBXGroup;
+			children = (
+				B1F2AC822C3B2EAA0078D41E /* AdminDashboard.swift */,
+				B1F2AC842C3B2EAA0078D41E /* AdminDashboardAnalyicsData.swift */,
+				B1F2AC832C3B2EAA0078D41E /* AdminDashboardStructs.swift */,
+				B1F2AC852C3B2EAA0078D41E /* SearchBar.swift */,
+				B1F2AC812C3B2EAA0078D41E /* sideMenuBar.swift */,
+			);
+			path = Dashboard;
+			sourceTree = "<group>";
+		};
 		D0B9B1142C35C42A009521D5 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
@@ -66,6 +88,7 @@
 		FDD1093D2C356FFD00849916 = {
 			isa = PBXGroup;
 			children = (
+				B1F2AC802C3B2E910078D41E /* Dashboard */,
 				FDEA9CA32C3746B30042367B /* GoogleService-Info.plist */,
 				FDD109572C35703400849916 /* .gitignore */,
 				FDC996F12C3AB38100723BFE /* config.plist */,
@@ -191,12 +214,17 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				B1F2AC872C3B2EAA0078D41E /* AdminDashboard.swift in Sources */,
+				B1F2AC862C3B2EAA0078D41E /* sideMenuBar.swift in Sources */,
+				B1F2AC892C3B2EAA0078D41E /* AdminDashboardAnalyicsData.swift in Sources */,
 				FDEA9CA82C3924240042367B /* LibrarianData.swift in Sources */,
 				7371705E2C367F29009A3B05 /* BooksCatalogue1.swift in Sources */,
 				FDD1094C2C356FFD00849916 /* ContentView.swift in Sources */,
 				FDD1094A2C356FFD00849916 /* Shelves_AdminApp.swift in Sources */,
 				7371705C2C366E79009A3B05 /* BooksCatalogue.swift in Sources */,
 				FDEA9CA62C37C3FC0042367B /* AddLibrarian.swift in Sources */,
+				B1F2AC8A2C3B2EAA0078D41E /* SearchBar.swift in Sources */,
+				B1F2AC882C3B2EAA0078D41E /* AdminDashboardStructs.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
