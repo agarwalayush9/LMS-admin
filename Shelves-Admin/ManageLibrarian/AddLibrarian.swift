@@ -95,21 +95,28 @@ struct AddLibrarian: View {
     @StateObject private var viewModel = LibrarianViewModel()
     @State private var selectedLibrarian: Librarian?
     @State private var showSheet = false
-    
+    @State var menuOpened = false
+
     let columns = [
         GridItem(.flexible(), spacing: 10),
         GridItem(.flexible(), spacing: 10),
         GridItem(.flexible(), spacing: 10),
         GridItem(.flexible(), spacing: 10),
     ]
-    
+    func toggleMenu() {
+        menuOpened.toggle()
+    }
     var body: some View {
         VStack(spacing: 0) {
             HStack(alignment: .center, spacing: 19) {
-                Image("Traced Image")
-                    .resizable()
-                    .frame(width: 31, height: 22)
-                    .padding(.trailing, 10)
+                Button(action: {
+                    menuOpened.toggle()
+                }){
+                    Image("Traced Image")
+                        .resizable()
+                        .frame(width: 31, height: 22)
+                        .padding(.trailing, 10)
+                }
                 
                 Text("Shelves Library")
                     .font(Font.custom("DM Sans", size: 20).weight(.bold))
@@ -117,6 +124,14 @@ struct AddLibrarian: View {
                     .foregroundColor(Constants.LabelsPrimary)
                 
                 Spacer()
+                if menuOpened {
+                    sideMenu(isLoggedIn: .constant(true), width: UIScreen.main.bounds.width * 0.30,
+                             menuOpened: menuOpened,
+                             toggleMenu: toggleMenu)
+                    .ignoresSafeArea()
+        //                    .toolbar(.hidden, for: .navigationBar)
+                    
+                }
             }
             .padding(EdgeInsets(top: 0, leading: 19, bottom: 0, trailing: 19))
             .frame(maxWidth: .infinity)
@@ -160,6 +175,7 @@ struct AddLibrarian: View {
                 LibrarianDetailView(librarian: selectedLibrarian, showSheet: $showSheet)
             }
         }
+       
     }
 }
 
@@ -181,151 +197,152 @@ struct LibrarianDetailView: View {
     }
 
     var body: some View {
-        VStack {
-            HStack {
-                Spacer()
-                Button(action: {
-                    showSheet = false
-                }) {
-                    Text("Cancel")
-                        .font(Font.custom("DM Sans", size: 17))
-                        .foregroundColor(Constants.ColorsBlue)
+        NavigationStack{
+            VStack {
+                HStack {
+                    Spacer()
+                    Button(action: {
+                        showSheet = false
+                    }) {
+                        Text("Cancel")
+                            .font(Font.custom("DM Sans", size: 17))
+                            .foregroundColor(Constants.ColorsBlue)
+                    }
                 }
-            }
-            .padding(.top, 16)
-            .padding(.trailing, 16)
-            
-            VStack(alignment: .leading, spacing: 40) {
-                Text("Librarian Details")
-                    .font(Font.custom("DM Sans", size: 32).weight(.bold))
-                    .foregroundColor(.black)
-                    .frame(maxWidth: .infinity, alignment: .topLeading)
+                .padding(.top, 16)
+                .padding(.trailing, 16)
                 
-                HStack(alignment: .center, spacing: 59) {
-                    Rectangle()
-                        .foregroundColor(.clear)
-                        .frame(width: 200, height: 200)
-                        .background(
-                            Image(systemName: "person.crop.circle")
-                                .resizable()
-                                .aspectRatio(contentMode: .fill)
-                                .frame(width: 200, height: 200)
-                                .clipped()
-                        )
-                        .cornerRadius(200)
+                VStack(alignment: .leading, spacing: 40) {
+                    Text("Librarian Details")
+                        .font(Font.custom("DM Sans", size: 32).weight(.bold))
+                        .foregroundColor(.black)
+                        .frame(maxWidth: .infinity, alignment: .topLeading)
                     
-                    VStack(alignment: .leading, spacing: 13) {
-                        Text("Name")
-                            .font(Font.custom("DM Sans", size: 12).weight(.bold))
-                            .foregroundColor(.black)
-                            .frame(maxWidth: .infinity, alignment: .topLeading)
-                        Text(librarian.name)
-                            .font(Font.custom("DM Sans", size: 24).weight(.bold))
-                            .multilineTextAlignment(.center)
-                            .foregroundColor(.black)
-                            .frame(maxWidth: .infinity, alignment: .topLeading)
-                        Text("Email")
-                            .font(Font.custom("DM Sans", size: 12).weight(.bold))
-                            .foregroundColor(.black)
-                            .frame(maxWidth: .infinity, alignment: .topLeading)
-                        Text(librarian.email)
-                            .foregroundColor(.black)
-                            .font(Font.custom("DM Sans", size: 24).weight(.bold))
-                            .multilineTextAlignment(.center)
-                            .frame(maxWidth: .infinity, alignment: .topLeading)
-                        Text("Phone Number")
-                            .font(Font.custom("DM Sans", size: 12).weight(.bold))
-                            .foregroundColor(.black)
-                            .frame(maxWidth: .infinity, alignment: .topLeading)
-                        Text(librarian.phoneNumber)
-                            .font(Font.custom("DM Sans", size: 24).weight(.bold))
-                            .multilineTextAlignment(.center)
-                            .foregroundColor(.black)
-                            .frame(maxWidth: .infinity, alignment: .topLeading)
+                    HStack(alignment: .center, spacing: 59) {
+                        Rectangle()
+                            .foregroundColor(.clear)
+                            .frame(width: 200, height: 200)
+                            .background(
+                                Image(systemName: "person.crop.circle")
+                                    .resizable()
+                                    .aspectRatio(contentMode: .fill)
+                                    .frame(width: 200, height: 200)
+                                    .clipped()
+                            )
+                            .cornerRadius(200)
+                        
+                        VStack(alignment: .leading, spacing: 13) {
+                            Text("Name")
+                                .font(Font.custom("DM Sans", size: 12).weight(.bold))
+                                .foregroundColor(.black)
+                                .frame(maxWidth: .infinity, alignment: .topLeading)
+                            Text(librarian.name)
+                                .font(Font.custom("DM Sans", size: 24).weight(.bold))
+                                .multilineTextAlignment(.center)
+                                .foregroundColor(.black)
+                                .frame(maxWidth: .infinity, alignment: .topLeading)
+                            Text("Email")
+                                .font(Font.custom("DM Sans", size: 12).weight(.bold))
+                                .foregroundColor(.black)
+                                .frame(maxWidth: .infinity, alignment: .topLeading)
+                            Text(librarian.email)
+                                .foregroundColor(.black)
+                                .font(Font.custom("DM Sans", size: 24).weight(.bold))
+                                .multilineTextAlignment(.center)
+                                .frame(maxWidth: .infinity, alignment: .topLeading)
+                            Text("Phone Number")
+                                .font(Font.custom("DM Sans", size: 12).weight(.bold))
+                                .foregroundColor(.black)
+                                .frame(maxWidth: .infinity, alignment: .topLeading)
+                            Text(librarian.phoneNumber)
+                                .font(Font.custom("DM Sans", size: 24).weight(.bold))
+                                .multilineTextAlignment(.center)
+                                .foregroundColor(.black)
+                                .frame(maxWidth: .infinity, alignment: .topLeading)
+                        }
+                        .padding(0)
+                        .frame(width: 315, alignment: .topLeading)
                     }
                     .padding(0)
-                    .frame(width: 315, alignment: .topLeading)
-                }
-                .padding(0)
-                .frame(maxWidth: .infinity, alignment: .center)
-                
-                if !inviteSent {
-                    VStack {
-                        HStack(alignment: .center, spacing: 125) {
-                            Text("Credentials")
-                                .font(Font.custom("DM Sans", size: 32).weight(.bold))
-                                .foregroundColor(.black)
-                            if librarian.status != "Approved"{
-                                HStack(alignment: .center, spacing: 9.89926) {
-                                    Image("Traced Image 1")
-                                        .frame(width: Constants.xl, height: 23.625)
-                                    Text("Generate Credentials")
-                                        .font(Font.custom("DM Sans", size: 16).weight(.bold))
-                                        .foregroundColor(.white)
-                                }
-                                .padding(.horizontal, Constants.lg)
-                                .padding(.vertical, Constants.sm)
-                                .background(Color(red: 0.32, green: 0.23, blue: 0.06))
-                                .cornerRadius(Constants.xxs)
-                                .frame(alignment: .bottomTrailing)
-                                .onTapGesture {
-                                    generateCredentials()
-                                }
-                            }
-                        }
-                        .padding(0)
-                        .frame(maxWidth: .infinity, alignment: .topLeading)
+                    .frame(maxWidth: .infinity, alignment: .center)
                     
-                        VStack(alignment: .leading, spacing: Constants.sm) {
-                            VStack(alignment: .leading, spacing: Constants.xxs) {
-                                Text("User ID")
-                                    .font(Font.custom("DM Sans", size: 12).weight(.bold))
+                    if !inviteSent {
+                        VStack {
+                            HStack(alignment: .center, spacing: 125) {
+                                Text("Credentials")
+                                    .font(Font.custom("DM Sans", size: 32).weight(.bold))
                                     .foregroundColor(.black)
-                                    .frame(maxWidth: .infinity, alignment: .topLeading)
-                                HStack(alignment: .center, spacing: Constants.xs) {
-                                    Text(userId)
-                                        .font(Font.custom("DM Sans", size: 24).weight(.bold))
-                                        .foregroundColor(.black)
+                                if librarian.status != "Approved"{
+                                    HStack(alignment: .center, spacing: 9.89926) {
+                                        Image("Traced Image 1")
+                                            .frame(width: Constants.xl, height: 23.625)
+                                        Text("Generate Credentials")
+                                            .font(Font.custom("DM Sans", size: 16).weight(.bold))
+                                            .foregroundColor(.white)
+                                    }
+                                    .padding(.horizontal, Constants.lg)
+                                    .padding(.vertical, Constants.sm)
+                                    .background(Color(red: 0.32, green: 0.23, blue: 0.06))
+                                    .cornerRadius(Constants.xxs)
+                                    .frame(alignment: .bottomTrailing)
+                                    .onTapGesture {
+                                        generateCredentials()
+                                    }
                                 }
-                                .padding(.horizontal, 44)
-                                .padding(.vertical, Constants.lg)
-                                .frame(width: 396, alignment: .center)
-                                .cornerRadius(9)
-                                .overlay(
-                                    RoundedRectangle(cornerRadius: 9)
-                                        .inset(by: 1)
-                                        .stroke(Color(red: 0.32, green: 0.23, blue: 0.06), lineWidth: 2)
-                                )
                             }
                             .padding(0)
-                            .padding(.top, 5)
                             .frame(maxWidth: .infinity, alignment: .topLeading)
                             
-                            VStack(alignment: .leading, spacing: Constants.xxs) {
-                                Text("Password")
-                                    .font(Font.custom("DM Sans", size: 12).weight(.bold))
-                                    .foregroundColor(.black)
-                                    .frame(maxWidth: .infinity, alignment: .topLeading)
-                                HStack(alignment: .center, spacing: Constants.xs) {
-                                    Text(password)
-                                        .font(Font.custom("DM Sans", size: 24).weight(.bold))
+                            VStack(alignment: .leading, spacing: Constants.sm) {
+                                VStack(alignment: .leading, spacing: Constants.xxs) {
+                                    Text("User ID")
+                                        .font(Font.custom("DM Sans", size: 12).weight(.bold))
                                         .foregroundColor(.black)
+                                        .frame(maxWidth: .infinity, alignment: .topLeading)
+                                    HStack(alignment: .center, spacing: Constants.xs) {
+                                        Text(userId)
+                                            .font(Font.custom("DM Sans", size: 24).weight(.bold))
+                                            .foregroundColor(.black)
+                                    }
+                                    .padding(.horizontal, 44)
+                                    .padding(.vertical, Constants.lg)
+                                    .frame(width: 396, alignment: .center)
+                                    .cornerRadius(9)
+                                    .overlay(
+                                        RoundedRectangle(cornerRadius: 9)
+                                            .inset(by: 1)
+                                            .stroke(Color(red: 0.32, green: 0.23, blue: 0.06), lineWidth: 2)
+                                    )
                                 }
-                                .padding(.horizontal, 44)
-                                .padding(.vertical, Constants.lg)
-                                .frame(width: 396, alignment: .center)
-                                .cornerRadius(9)
-                                .overlay(
-                                    RoundedRectangle(cornerRadius: 9)
-                                        .inset(by: 1)
-                                        .stroke(Color(red: 0.32, green: 0.23, blue: 0.06), lineWidth: 2)
-                                )
+                                .padding(0)
+                                .padding(.top, 5)
+                                .frame(maxWidth: .infinity, alignment: .topLeading)
+                                
+                                VStack(alignment: .leading, spacing: Constants.xxs) {
+                                    Text("Password")
+                                        .font(Font.custom("DM Sans", size: 12).weight(.bold))
+                                        .foregroundColor(.black)
+                                        .frame(maxWidth: .infinity, alignment: .topLeading)
+                                    HStack(alignment: .center, spacing: Constants.xs) {
+                                        Text(password)
+                                            .font(Font.custom("DM Sans", size: 24).weight(.bold))
+                                            .foregroundColor(.black)
+                                    }
+                                    .padding(.horizontal, 44)
+                                    .padding(.vertical, Constants.lg)
+                                    .frame(width: 396, alignment: .center)
+                                    .cornerRadius(9)
+                                    .overlay(
+                                        RoundedRectangle(cornerRadius: 9)
+                                            .inset(by: 1)
+                                            .stroke(Color(red: 0.32, green: 0.23, blue: 0.06), lineWidth: 2)
+                                    )
+                                }
+                                .padding(0)
+                                .frame(maxWidth: .infinity, alignment: .topLeading)
                             }
                             .padding(0)
                             .frame(maxWidth: .infinity, alignment: .topLeading)
-                        }
-                        .padding(0)
-                        .frame(maxWidth: .infinity, alignment: .topLeading)
                             HStack(alignment: .center, spacing: 9.89926) {
                                 if librarian.status != "Approved"{
                                     Image("mdi_invite")
@@ -356,31 +373,32 @@ struct LibrarianDetailView: View {
                                     inviteMail()
                                 }
                             }
-                    }
-                } else {
-                    HStack {
-                        Spacer()
-                        Image("mingcute_mail-line")
-                            .frame(width: 92, height: 92, alignment: .center)
-                        Spacer()
-                    }
-                    .padding(.top, 45)
-                    HStack {
-                        Spacer()
-                        Text("Invitation sent to the librarian's email")
-                            .font(
-                                Font.custom("DM Sans", size: 32)
-                                    .weight(.bold)
-                            )
-                            .multilineTextAlignment(.center)
-                            .foregroundColor(.black)
-                            .frame(width: 398, alignment: .top)
-                        Spacer()
+                        }
+                    } else {
+                        HStack {
+                            Spacer()
+                            Image("mingcute_mail-line")
+                                .frame(width: 92, height: 92, alignment: .center)
+                            Spacer()
+                        }
+                        .padding(.top, 45)
+                        HStack {
+                            Spacer()
+                            Text("Invitation sent to the librarian's email")
+                                .font(
+                                    Font.custom("DM Sans", size: 32)
+                                        .weight(.bold)
+                                )
+                                .multilineTextAlignment(.center)
+                                .foregroundColor(.black)
+                                .frame(width: 398, alignment: .top)
+                            Spacer()
+                        }
                     }
                 }
+                .frame(width: 614.89929, alignment: .topLeading)
+                Spacer()
             }
-            .frame(width: 614.89929, alignment: .topLeading)
-            Spacer()
         }
     }
     

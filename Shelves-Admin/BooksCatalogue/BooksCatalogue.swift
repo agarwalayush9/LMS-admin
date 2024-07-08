@@ -35,8 +35,9 @@ struct CheckBoxView: View {
 }
 
 // Define your BooksCatalogue1 view
-struct BooksCatalogue1: View {
+struct BooksCatalogue: View {
     @State private var selectedBooks = Set<UUID>()
+    @Binding var isLoggedIn: Bool
     @State private var books: [Book] = []
     @State var menuOpened = false
     var body: some View {
@@ -177,7 +178,7 @@ struct BooksCatalogue1: View {
                     }
             }
                 if menuOpened {
-                    sideMenu(width: UIScreen.main.bounds.width * 0.30,
+                    sideMenu(isLoggedIn: $isLoggedIn, width: UIScreen.main.bounds.width * 0.30,
                              menuOpened: menuOpened,
                              toggleMenu: toggleMenu)
                     .ignoresSafeArea()
@@ -210,8 +211,3 @@ struct BooksCatalogue1: View {
     }
 }
 
-struct ContentView_Previews: PreviewProvider {
-    static var previews: some View {
-        BooksCatalogue1()
-    }
-}
