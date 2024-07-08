@@ -129,7 +129,7 @@ struct AddLibrarian: View {
                              menuOpened: menuOpened,
                              toggleMenu: toggleMenu)
                     .ignoresSafeArea()
-        //                    .toolbar(.hidden, for: .navigationBar)
+                    //                    .toolbar(.hidden, for: .navigationBar)
                     
                 }
             }
@@ -154,11 +154,14 @@ struct AddLibrarian: View {
                 }
             }
             
-            LazyVGrid(columns: columns, spacing: 10) {
+            ScrollView
+            {
+                LazyVGrid(columns: columns, spacing: 10) {
                 ForEach(viewModel.librarians, id: \.email) { librarian in
                     LibrarianCard(librarian: librarian, selectedLibrarian: $selectedLibrarian, showSheet: $showSheet)
                 }
             }
+        }
             .padding(.horizontal, 18)
             .padding(.top, 25)
             
