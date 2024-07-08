@@ -26,7 +26,7 @@ struct MenuContent: View {
                             VStack(alignment: .leading, spacing: 20) {
                                 ForEach(item.menuItem) { idi in
                                     if idi.isClickable {
-                                        NavigationLink(destination: idi.destination.navigationBarBackButtonHidden(true)) {
+                                        NavigationLink(destination: idi.destination) {
                                             HStack {
                                                 Image(idi.optionIcon)
                                                     .frame(width: 24, height: 24)
@@ -52,7 +52,7 @@ struct MenuContent: View {
                                     }
                                 }
                             }
-                            .background(Color(.systemGray6))
+//                            .background(Color(.systemGray6))
                             .cornerRadius(8)
                             .padding(.horizontal, 16)
 //                            .padding(.bottom, 10)

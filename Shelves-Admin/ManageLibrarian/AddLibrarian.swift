@@ -406,7 +406,8 @@ struct LibrarianDetailView: View {
         if let emailPrefix = librarian.email.split(separator: "@").first {
             userId = String(emailPrefix)
         }
-        password = String((0..<8).map { _ in "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789".randomElement()! })
+        let passwordString = String((0..<5).map { _ in "0123456789".randomElement()! })
+        password = (librarian.name).replacingOccurrences(of: " ", with: ".") + "@" + passwordString
         credentialsGenerated = true
     }
     
@@ -455,7 +456,7 @@ struct LibrarianDetailView: View {
                         
                         Welcome to Shelves Library! Your account has been created successfully. Here are your login credentials:
 
-                        User ID: \(userId)
+                        Email: \(librarian.email)
                         Password: \(password)
 
                         Please log in and update your profile information at your earliest convenience.
@@ -496,7 +497,6 @@ struct LibrarianDetailView: View {
                             } else {
                                 print("User created successfully: \(authResult?.user.uid ?? "Unknown UID")")
                                 print("Password -\(password)")
-                                
                             }
                         }
                     }
