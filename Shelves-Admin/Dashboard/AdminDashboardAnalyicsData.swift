@@ -44,7 +44,7 @@ struct Sections : Identifiable{
         [
                     Sections(sectionHeader: "OverView", menuItem: [
                         MenuItem(optionIcon: "Library", option: "Dashboard", destination: AnyView(AdminDashboard(isLoggedIn: .constant(true))), isClickable: true),
-                        MenuItem(optionIcon: "ManageLibrarian", option: "Manage Librarian", destination: AnyView(AddLibrarian()), isClickable: true),
+                        MenuItem(optionIcon: "ManageLibrarian", option: "Manage Librarian", destination: AnyView(AddLibrarian(isLoggedIn: .constant(true))), isClickable: true),
                         MenuItem(optionIcon: "Complaints", option: "Complaints", destination: AnyView(EmptyView()), isClickable: false),
                         MenuItem(optionIcon: "ManageEvents", option: "Manage Events", destination: AnyView(EmptyView()), isClickable: false),
                         MenuItem(optionIcon: "MakePayouts", option: "Make Payouts", destination: AnyView(EmptyView()), isClickable: false),

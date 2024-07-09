@@ -34,7 +34,7 @@ struct CheckBoxView: View {
     }
 }
 
-// Define your BooksCatalogue1 view
+
 struct BooksCatalogue: View {
     @State private var selectedBooks = Set<UUID>()
     @Binding var isLoggedIn: Bool
@@ -155,42 +155,39 @@ struct BooksCatalogue: View {
                     // Fetch books from DataController
                     fetchBooks()
                 }
-                .navigationTitle("lms")
-                .navigationBarTitleDisplayMode(.inline)
-                .toolbarBackground(.visible, for: .navigationBar)
-                .toolbar{
-                    ToolbarItem(placement: .topBarLeading) {
-                        Button(action: {
-                            menuOpened.toggle()
-                        }, label: {
-                            Image(systemName: "sidebar.left")
-                                .foregroundStyle(Color.black)
-                        })
-                        
-                    }
-                    ToolbarItem(placement: .topBarTrailing){
-                        Button(action: {
-                            
-                        }, label: {
-                            Image(systemName: "books.vertical")
-                                .foregroundColor(Color.black)
-                        })
-                    }
-            }
+
                 if menuOpened {
                     sideMenu(isLoggedIn: $isLoggedIn, width: UIScreen.main.bounds.width * 0.30,
                              menuOpened: menuOpened,
                              toggleMenu: toggleMenu)
                     .ignoresSafeArea()
-//                    .toolbar(.hidden, for: .navigationBar)
+                    .toolbar(.hidden, for: .navigationBar)
+                }
+            }
+            .navigationTitle("LMS")
+            .navigationBarTitleDisplayMode(.inline)
+            .toolbarBackground(.visible, for: .navigationBar)
+            .toolbar{
+                ToolbarItem(placement: .topBarLeading) {
+                    Button(action: {
+                        menuOpened.toggle()
+                    }, label: {
+                        Image(systemName: "sidebar.left")
+                            .foregroundStyle(Color.black)
+                    })
                     
                 }
-                    
-            }.toolbar(menuOpened ?.hidden : .visible, for: .navigationBar)
-        }
+                ToolbarItem(placement: .topBarTrailing){
+                    Button(action: {
+                        
+                    }, label: {
+                        Image(systemName: "books.vertical")
+                            .foregroundColor(Color.black)
+                    })
+                }
+            }
+        }.navigationBarBackButtonHidden(true)
         
-        //.navigationViewStyle(DoubleColumnNavigationViewStyle())
-        // Use this for better iPad support
     }
 
     private func fetchBooks() {
@@ -211,3 +208,6 @@ struct BooksCatalogue: View {
     }
 }
 
+#Preview(){
+    BooksCatalogue(isLoggedIn: .constant(true))
+}

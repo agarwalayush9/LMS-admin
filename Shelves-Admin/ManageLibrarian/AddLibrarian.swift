@@ -96,6 +96,7 @@ struct AddLibrarian: View {
     @State private var selectedLibrarian: Librarian?
     @State private var showSheet = false
     @State var menuOpened = false
+    @Binding var isLoggedIn: Bool
 
     let columns = [
         GridItem(.flexible(), spacing: 10),
@@ -103,79 +104,89 @@ struct AddLibrarian: View {
         GridItem(.flexible(), spacing: 10),
         GridItem(.flexible(), spacing: 10),
     ]
-    func toggleMenu() {
-        menuOpened.toggle()
-    }
+   
     var body: some View {
-        VStack(spacing: 0) {
-            HStack(alignment: .center, spacing: 19) {
-                Button(action: {
-                    menuOpened.toggle()
-                }){
-                    Image("Traced Image")
-                        .resizable()
-                        .frame(width: 31, height: 22)
-                        .padding(.trailing, 10)
+        //MARK: Adding Navigation view here
+        NavigationStack{
+            //MARK: Adding Zstack here
+            ZStack {
+                backgroundView()
+                        .ignoresSafeArea(.all)
+                    backgroundView()
+                        .ignoresSafeArea(.all)
+                        .blur(radius: menuOpened ? 10 : 0)
+                        .animation(.easeInOut(duration: 0.25), value: menuOpened)
+                VStack(spacing: 0) {
+                    VStack(alignment: .leading) {
+                        HStack(alignment: .center) {
+                            Text("Manage Librarians")
+                                .font(Font.custom("DM Sans", size: 48).weight(.medium))
+                                .foregroundColor(.black)
+                                .padding(.top, 15)
+                                .padding(.leading, 64)
+                                .padding(.bottom, 20)
+                            Spacer()
+                        }
+                    }
+                    
+                    LazyVGrid(columns: columns, spacing: 10) {
+                        ForEach(viewModel.librarians, id: \.email) { librarian in
+                            LibrarianCard(librarian: librarian, selectedLibrarian: $selectedLibrarian, showSheet: $showSheet)
+                        }
+                    }
+                    .padding(.horizontal, 18)
+                    .padding(.top, 25)
+                    
+                    Spacer()
                 }
-                
-                Text("Shelves Library")
-                    .font(Font.custom("DM Sans", size: 20).weight(.bold))
-                    .multilineTextAlignment(.center)
-                    .foregroundColor(Constants.LabelsPrimary)
-                
-                Spacer()
+                .padding(EdgeInsets(top: 0, leading: 19, bottom: 0, trailing: 19))
+                .frame(maxWidth: .infinity, maxHeight: .infinity)
+                .background(Constants.BackgroundsGroupedPrimary)
+                .sheet(isPresented: Binding(
+                    get: { showSheet },
+                    set: { showSheet = $0 }
+                )) {
+                    if let selectedLibrarian = selectedLibrarian {
+                        LibrarianDetailView(librarian: selectedLibrarian, showSheet: $showSheet)
+                    }
+            }
                 if menuOpened {
-                    sideMenu(isLoggedIn: .constant(true), width: UIScreen.main.bounds.width * 0.30,
+                    sideMenu(isLoggedIn: $isLoggedIn, width: UIScreen.main.bounds.width * 0.30,
                              menuOpened: menuOpened,
                              toggleMenu: toggleMenu)
                     .ignoresSafeArea()
-        //                    .toolbar(.hidden, for: .navigationBar)
+                    .toolbar(.hidden, for: .navigationBar)
+                }
+
+            }//MARK: End of ZStack
+            .navigationTitle("LMS")
+            .navigationBarTitleDisplayMode(.inline)
+            .toolbarBackground(.visible, for: .navigationBar)
+            .toolbar{
+                ToolbarItem(placement: .topBarLeading) {
+                    Button(action: {
+                        menuOpened.toggle()
+                    }, label: {
+                        Image(systemName: "sidebar.left")
+                            .foregroundStyle(Color.black)
+                    })
                     
                 }
-            }
-            .padding(EdgeInsets(top: 0, leading: 19, bottom: 0, trailing: 19))
-            .frame(maxWidth: .infinity)
-            .frame(height: 71)
-            .overlay(
-                Rectangle()
-                    .inset(by: 0.17)
-                    .stroke(Constants.MiscellaneousBarBorder, lineWidth: 0.3333)
-            )
-            
-            VStack(alignment: .leading) {
-                HStack(alignment: .center) {
-                    Text("Manage Librarians")
-                        .font(Font.custom("DM Sans", size: 48).weight(.medium))
-                        .foregroundColor(.black)
-                        .padding(.top, 15)
-                        .padding(.leading, 64)
-                        .padding(.bottom, 20)
-                    Spacer()
+                ToolbarItem(placement: .topBarTrailing){
+                    Button(action: {
+                        
+                    }, label: {
+                        Image(systemName: "books.vertical")
+                            .foregroundColor(Color.black)
+                    })
                 }
             }
-            
-            LazyVGrid(columns: columns, spacing: 10) {
-                ForEach(viewModel.librarians, id: \.email) { librarian in
-                    LibrarianCard(librarian: librarian, selectedLibrarian: $selectedLibrarian, showSheet: $showSheet)
-                }
-            }
-            .padding(.horizontal, 18)
-            .padding(.top, 25)
-            
-            Spacer()
-        }
-        .padding(EdgeInsets(top: 0, leading: 19, bottom: 0, trailing: 19))
-        .frame(maxWidth: .infinity, maxHeight: .infinity)
-        .background(Constants.BackgroundsGroupedPrimary)
-        .sheet(isPresented: Binding(
-            get: { showSheet },
-            set: { showSheet = $0 }
-        )) {
-            if let selectedLibrarian = selectedLibrarian {
-                LibrarianDetailView(librarian: selectedLibrarian, showSheet: $showSheet)
-            }
-        }
-       
+        }//MARK: End of Navigation bar here
+        .navigationBarBackButtonHidden(true)
+    }
+   
+    func toggleMenu() {
+        menuOpened.toggle()
     }
 }
 
@@ -197,7 +208,9 @@ struct LibrarianDetailView: View {
     }
 
     var body: some View {
-        NavigationStack{
+        
+        // not sure why Navigation Stack has to be here
+      //  NavigationStack{
             VStack {
                 HStack {
                     Spacer()
@@ -293,17 +306,18 @@ struct LibrarianDetailView: View {
                             .padding(0)
                             .frame(maxWidth: .infinity, alignment: .topLeading)
                             
-                            VStack(alignment: .leading, spacing: Constants.sm) {
-                                VStack(alignment: .leading, spacing: Constants.xxs) {
+                            VStack(alignment: .center, spacing: Constants.sm) {
+                                VStack(alignment: .center, spacing: Constants.xxs) {
                                     Text("User ID")
                                         .font(Font.custom("DM Sans", size: 12).weight(.bold))
                                         .foregroundColor(.black)
                                         .frame(maxWidth: .infinity, alignment: .topLeading)
-                                    HStack(alignment: .center, spacing: Constants.xs) {
-                                        Text(userId)
-                                            .font(Font.custom("DM Sans", size: 24).weight(.bold))
-                                            .foregroundColor(.black)
-                                    }
+                                    // HStack(alignment: .center, spacing: Constants.xs) {
+                                    Text(userId)
+                                        .font(Font.custom("DM Sans", size: 24).weight(.bold))
+                                        .foregroundColor(.black)
+                                        .frame(alignment: .center)
+                                //}
                                     .padding(.horizontal, 44)
                                     .padding(.vertical, Constants.lg)
                                     .frame(width: 396, alignment: .center)
@@ -314,11 +328,12 @@ struct LibrarianDetailView: View {
                                             .stroke(Color(red: 0.32, green: 0.23, blue: 0.06), lineWidth: 2)
                                     )
                                 }
-                                .padding(0)
+                                .background(.blue)
+                                //.padding(0)
                                 .padding(.top, 5)
-                                .frame(maxWidth: .infinity, alignment: .topLeading)
+                                .frame(maxWidth: .infinity, alignment: .center)
                                 
-                                VStack(alignment: .leading, spacing: Constants.xxs) {
+                                VStack(alignment: .center, spacing: Constants.xxs) {
                                     Text("Password")
                                         .font(Font.custom("DM Sans", size: 12).weight(.bold))
                                         .foregroundColor(.black)
@@ -399,7 +414,7 @@ struct LibrarianDetailView: View {
                 .frame(width: 614.89929, alignment: .topLeading)
                 Spacer()
             }
-        }
+       // }
     }
     
     private func generateCredentials() {
@@ -513,17 +528,7 @@ struct LibrarianDetailView: View {
 
 }
 
-
-struct AddLibrarian_Previews: PreviewProvider {
-    static var previews: some View {
-        Group {
-            AddLibrarian()
-                .previewLayout(.sizeThatFits)
-                .previewDisplayName("Portrait Preview")
-            
-            AddLibrarian()
-                .previewLayout(.fixed(width: 1024, height: 768))
-                .previewDisplayName("Landscape Preview")
-        }
-    }
+#Preview(){
+    AddLibrarian(isLoggedIn: .constant(true))
 }
+

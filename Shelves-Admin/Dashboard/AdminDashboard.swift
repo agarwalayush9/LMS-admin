@@ -72,7 +72,7 @@ struct AdminDashboard: View {
                     .ignoresSafeArea()
                     .toolbar(.hidden, for: .navigationBar)
                 }
-        }
+        }//MARK: End of ZStack
             .navigationTitle("LMS")
             .navigationBarTitleDisplayMode(.inline)
             .toolbarBackground(.visible, for: .navigationBar)
@@ -95,7 +95,8 @@ struct AdminDashboard: View {
                     })
                 }
             }
-    }
+        }//MARK: End of Nav bae
+        .navigationBarBackButtonHidden(true)
  }
     func toggleMenu() {
         menuOpened.toggle()
