@@ -311,13 +311,12 @@ struct LibrarianDetailView: View {
                                     Text("User ID")
                                         .font(Font.custom("DM Sans", size: 12).weight(.bold))
                                         .foregroundColor(.black)
-                                        .frame(maxWidth: .infinity, alignment: .topLeading)
-                                    // HStack(alignment: .center, spacing: Constants.xs) {
+                                        .frame(maxWidth: 396, alignment: .topLeading)
+                                   
                                     Text(userId)
                                         .font(Font.custom("DM Sans", size: 24).weight(.bold))
                                         .foregroundColor(.black)
                                         .frame(alignment: .center)
-                                //}
                                     .padding(.horizontal, 44)
                                     .padding(.vertical, Constants.lg)
                                     .frame(width: 396, alignment: .center)
@@ -328,8 +327,6 @@ struct LibrarianDetailView: View {
                                             .stroke(Color(red: 0.32, green: 0.23, blue: 0.06), lineWidth: 2)
                                     )
                                 }
-                                .background(.blue)
-                                //.padding(0)
                                 .padding(.top, 5)
                                 .frame(maxWidth: .infinity, alignment: .center)
                                 
@@ -337,12 +334,11 @@ struct LibrarianDetailView: View {
                                     Text("Password")
                                         .font(Font.custom("DM Sans", size: 12).weight(.bold))
                                         .foregroundColor(.black)
-                                        .frame(maxWidth: .infinity, alignment: .topLeading)
-                                    HStack(alignment: .center, spacing: Constants.xs) {
+                                        .frame(maxWidth: 396, alignment: .topLeading)
+
                                         Text(password)
                                             .font(Font.custom("DM Sans", size: 24).weight(.bold))
                                             .foregroundColor(.black)
-                                    }
                                     .padding(.horizontal, 44)
                                     .padding(.vertical, Constants.lg)
                                     .frame(width: 396, alignment: .center)
@@ -354,7 +350,7 @@ struct LibrarianDetailView: View {
                                     )
                                 }
                                 .padding(0)
-                                .frame(maxWidth: .infinity, alignment: .topLeading)
+                                .frame(maxWidth: .infinity, alignment: .center)
                             }
                             .padding(0)
                             .frame(maxWidth: .infinity, alignment: .topLeading)
