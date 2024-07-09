@@ -354,7 +354,7 @@ struct LibrarianDetailView: View {
                             }
                             .padding(0)
                             .frame(maxWidth: .infinity, alignment: .topLeading)
-                            HStack(alignment: .center, spacing: 9.89926) {
+                            HStack(alignment: .center, spacing: 10) {
                                 if librarian.status != "Approved"{
                                     Image("mdi_invite")
                                         .frame(width: Constants.xl, height: Constants.xl)
