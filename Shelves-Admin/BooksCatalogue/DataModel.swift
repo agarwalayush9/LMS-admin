@@ -17,6 +17,7 @@ struct Book: Identifiable, Codable {
     let issuedDate: String
     let returnDate: String
     let status: String
+    var quantity: Int?
     
     func toDictionary() -> [String: Any] {
             return [
@@ -29,6 +30,7 @@ struct Book: Identifiable, Codable {
                 "issuedDate": issuedDate,
                 "returnDate": returnDate,
                 "status": status
+                
             ]
         }
 }

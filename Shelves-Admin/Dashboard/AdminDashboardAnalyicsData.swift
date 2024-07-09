@@ -51,7 +51,7 @@ struct Sections : Identifiable{
                         MenuItem(optionIcon: "UserQueries", option: "User Queries", destination: AnyView(EmptyView()), isClickable: false),
                     ]),
                     Sections(sectionHeader: "Books", menuItem: [
-                        MenuItem(optionIcon: "BooksCatalogue", option: "Books Catalogue", destination: AnyView(BooksCatalogue(isLoggedIn: .constant(true))), isClickable: true),
+                        MenuItem(optionIcon: "BooksCatalogue", option: "Books Catalogue", destination: AnyView(BooksCatalogue()), isClickable: true),
                         MenuItem(optionIcon: "BooksCirculation", option: "Books Circulation", destination: AnyView(EmptyView()), isClickable: false),
                         MenuItem(optionIcon: "BookOverdues", option: "Books Overdues/Fines", destination: AnyView(EmptyView()), isClickable: false),
                         MenuItem(optionIcon: "ManageSubscription", option: "Manage Subscription", destination: AnyView(EmptyView()), isClickable: true),

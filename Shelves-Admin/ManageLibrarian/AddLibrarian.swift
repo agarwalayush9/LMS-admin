@@ -108,39 +108,7 @@ struct AddLibrarian: View {
     }
     var body: some View {
         VStack(spacing: 0) {
-            HStack(alignment: .center, spacing: 19) {
-                Button(action: {
-                    menuOpened.toggle()
-                }){
-                    Image("Traced Image")
-                        .resizable()
-                        .frame(width: 31, height: 22)
-                        .padding(.trailing, 10)
-                }
-                
-                Text("Shelves Library")
-                    .font(Font.custom("DM Sans", size: 20).weight(.bold))
-                    .multilineTextAlignment(.center)
-                    .foregroundColor(Constants.LabelsPrimary)
-                
-                Spacer()
-                if menuOpened {
-                    sideMenu(isLoggedIn: .constant(true), width: UIScreen.main.bounds.width * 0.30,
-                             menuOpened: menuOpened,
-                             toggleMenu: toggleMenu)
-                    .ignoresSafeArea()
-                    //                    .toolbar(.hidden, for: .navigationBar)
-                    
-                }
-            }
-            .padding(EdgeInsets(top: 0, leading: 19, bottom: 0, trailing: 19))
-            .frame(maxWidth: .infinity)
-            .frame(height: 71)
-            .overlay(
-                Rectangle()
-                    .inset(by: 0.17)
-                    .stroke(Constants.MiscellaneousBarBorder, lineWidth: 0.3333)
-            )
+           
             
             VStack(alignment: .leading) {
                 HStack(alignment: .center) {
@@ -154,8 +122,7 @@ struct AddLibrarian: View {
                 }
             }
             
-            ScrollView
-            {
+            ScrollView{
                 LazyVGrid(columns: columns, spacing: 10) {
                 ForEach(viewModel.librarians, id: \.email) { librarian in
                     LibrarianCard(librarian: librarian, selectedLibrarian: $selectedLibrarian, showSheet: $showSheet)
@@ -409,7 +376,7 @@ struct LibrarianDetailView: View {
         if let emailPrefix = librarian.email.split(separator: "@").first {
             userId = String(emailPrefix)
         }
-        let passwordString = String((0..<5).map { _ in "0123456789".randomElement()! })
+        let passwordString = String((0..<6).map { _ in "0123456789".randomElement()! })
         password = (librarian.name).replacingOccurrences(of: " ", with: ".") + "@" + passwordString
         credentialsGenerated = true
     }

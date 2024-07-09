@@ -60,10 +60,7 @@ struct MenuContent: View {
                     }
                 }
                 
-                VStack(alignment: .center) {
-                    ContactButton(contactTo: "Admin")
-                        .padding([.top, .bottom], 8)
-                    Divider()
+                
                     LibrarianProfile(isLoggedIn: $isLoggedIn, userName: "User",
                                      post: "Admin",
                                      profileImage: "person.fill")
@@ -72,7 +69,7 @@ struct MenuContent: View {
             }
         }// Ensure navigation bar is hidden
     }
-}
+
 
 struct sideMenu: View {
     @Binding var isLoggedIn: Bool
@@ -101,27 +98,27 @@ struct sideMenu: View {
     }
 }
 
-struct ContactButton: View {
-    var contactTo: String
-    
-    var body: some View {
-        HStack {
-            Image(systemName: "headphones")
-                .padding(.leading, 8)
-            Text("Contact \(contactTo)")
-                .font(.system(size: 17, weight: .regular, design: .default))
-                .padding(.all, 4)
-        }
-        .padding(.all, 11)
-        .frame(width: 232, alignment: .leading)
-        .clipShape(RoundedRectangle(cornerRadius: 16))
-        .overlay(
-            RoundedRectangle(cornerRadius: 16)
-                .inset(by: 0.5)
-                .stroke(Color("CustomButtonColor"), lineWidth: 1)
-        )
-    }
-}
+//struct ContactButton: View {
+//    var contactTo: String
+//    
+//    var body: some View {
+//        HStack {
+//            Image(systemName: "headphones")
+//                .padding(.leading, 8)
+//            Text("Contact \(contactTo)")
+//                .font(.system(size: 17, weight: .regular, design: .default))
+//                .padding(.all, 4)
+//        }
+//        .padding(.all, 11)
+//        .frame(width: 232, alignment: .leading)
+//        .clipShape(RoundedRectangle(cornerRadius: 16))
+//        .overlay(
+//            RoundedRectangle(cornerRadius: 16)
+//                .inset(by: 0.5)
+//                .stroke(Color("CustomButtonColor"), lineWidth: 1)
+//        )
+//    }
+//}
 
 struct LogOutButton: View {
     @Binding var isLoggedIn: Bool
