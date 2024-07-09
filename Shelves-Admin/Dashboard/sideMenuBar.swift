@@ -15,7 +15,7 @@ struct MenuContent: View {
                     .font(Font.custom("DM Sans", size: 34).weight(.bold))
                     .padding([.top, .leading], 25)
                 
-                ScrollView {
+                ScrollView(showsIndicators:false) {
                     VStack(alignment: .leading, spacing: 20) {
                         ForEach(items) { item in
                             Text(item.sectionHeader)
