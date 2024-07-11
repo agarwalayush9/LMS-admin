@@ -51,3 +51,12 @@ enum Genre: String, Codable {
     case ScienceFiction
     case Literature
 }
+
+struct Librarian {
+    let name: String
+    let phoneNumber: String
+    var status: String
+    let email: String
+    let userId: String
+    let password: String
+}

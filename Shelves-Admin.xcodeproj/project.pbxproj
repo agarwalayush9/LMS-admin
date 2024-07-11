@@ -15,6 +15,13 @@
 		B1F2AC892C3B2EAA0078D41E /* AdminDashboardAnalyicsData.swift in Sources */ = {isa = PBXBuildFile; fileRef = B1F2AC842C3B2EAA0078D41E /* AdminDashboardAnalyicsData.swift */; };
 		B1F2AC8A2C3B2EAA0078D41E /* SearchBar.swift in Sources */ = {isa = PBXBuildFile; fileRef = B1F2AC852C3B2EAA0078D41E /* SearchBar.swift */; };
 		D0B9B1162C35C42A009521D5 /* FirebaseAuth in Frameworks */ = {isa = PBXBuildFile; productRef = D0B9B1152C35C42A009521D5 /* FirebaseAuth */; };
+		D0BEFEAB2C3FA108001F92EC /* LibrarianCard.swift in Sources */ = {isa = PBXBuildFile; fileRef = D0BEFEAA2C3FA108001F92EC /* LibrarianCard.swift */; };
+		D0BEFEAD2C3FA1C2001F92EC /* LibrarianDetailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D0BEFEAC2C3FA1C2001F92EC /* LibrarianDetailView.swift */; };
+		D0BEFEAF2C3FA21A001F92EC /* LibrarainUIConstants.swift in Sources */ = {isa = PBXBuildFile; fileRef = D0BEFEAE2C3FA21A001F92EC /* LibrarainUIConstants.swift */; };
+		D0BEFEB12C3FA256001F92EC /* LibrarianConfiguration.swift in Sources */ = {isa = PBXBuildFile; fileRef = D0BEFEB02C3FA255001F92EC /* LibrarianConfiguration.swift */; };
+		D0BEFEB32C3FA572001F92EC /* AddBookDetailsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D0BEFEB22C3FA572001F92EC /* AddBookDetailsView.swift */; };
+		D0BEFEB52C3FA5FD001F92EC /* AddBookOptionsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D0BEFEB42C3FA5FD001F92EC /* AddBookOptionsView.swift */; };
+		D0BEFEB72C3FA64C001F92EC /* CheckBoxView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D0BEFEB62C3FA64C001F92EC /* CheckBoxView.swift */; };
 		FD53DCAB2C3B32F3005D28DB /* BooksCatalogue.swift in Sources */ = {isa = PBXBuildFile; fileRef = FD53DCAA2C3B32F3005D28DB /* BooksCatalogue.swift */; };
 		FD53DCAE2C3B3354005D28DB /* DataModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = FD53DCAD2C3B3354005D28DB /* DataModel.swift */; };
 		FD53DCB02C3B335C005D28DB /* DataController.swift in Sources */ = {isa = PBXBuildFile; fileRef = FD53DCAF2C3B335C005D28DB /* DataController.swift */; };
@@ -39,6 +46,13 @@
 		B1F2AC832C3B2EAA0078D41E /* AdminDashboardStructs.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AdminDashboardStructs.swift; sourceTree = "<group>"; };
 		B1F2AC842C3B2EAA0078D41E /* AdminDashboardAnalyicsData.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AdminDashboardAnalyicsData.swift; sourceTree = "<group>"; };
 		B1F2AC852C3B2EAA0078D41E /* SearchBar.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SearchBar.swift; sourceTree = "<group>"; };
+		D0BEFEAA2C3FA108001F92EC /* LibrarianCard.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LibrarianCard.swift; sourceTree = "<group>"; };
+		D0BEFEAC2C3FA1C2001F92EC /* LibrarianDetailView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LibrarianDetailView.swift; sourceTree = "<group>"; };
+		D0BEFEAE2C3FA21A001F92EC /* LibrarainUIConstants.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LibrarainUIConstants.swift; sourceTree = "<group>"; };
+		D0BEFEB02C3FA255001F92EC /* LibrarianConfiguration.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LibrarianConfiguration.swift; sourceTree = "<group>"; };
+		D0BEFEB22C3FA572001F92EC /* AddBookDetailsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddBookDetailsView.swift; sourceTree = "<group>"; };
+		D0BEFEB42C3FA5FD001F92EC /* AddBookOptionsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddBookOptionsView.swift; sourceTree = "<group>"; };
+		D0BEFEB62C3FA64C001F92EC /* CheckBoxView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CheckBoxView.swift; sourceTree = "<group>"; };
 		FD53DCAA2C3B32F3005D28DB /* BooksCatalogue.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BooksCatalogue.swift; sourceTree = "<group>"; };
 		FD53DCAD2C3B3354005D28DB /* DataModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DataModel.swift; sourceTree = "<group>"; };
 		FD53DCAF2C3B335C005D28DB /* DataController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DataController.swift; sourceTree = "<group>"; };
@@ -90,9 +104,10 @@
 		FD53DCAC2C3B333D005D28DB /* BooksCatalogue */ = {
 			isa = PBXGroup;
 			children = (
-				FD53DCAF2C3B335C005D28DB /* DataController.swift */,
-				FD53DCAD2C3B3354005D28DB /* DataModel.swift */,
 				FD53DCAA2C3B32F3005D28DB /* BooksCatalogue.swift */,
+				D0BEFEB22C3FA572001F92EC /* AddBookDetailsView.swift */,
+				D0BEFEB42C3FA5FD001F92EC /* AddBookOptionsView.swift */,
+				D0BEFEB62C3FA64C001F92EC /* CheckBoxView.swift */,
 			);
 			path = BooksCatalogue;
 			sourceTree = "<group>";
@@ -102,6 +117,10 @@
 			children = (
 				FDEA9CA72C3924240042367B /* LibrarianData.swift */,
 				FDEA9CA52C37C3FC0042367B /* AddLibrarian.swift */,
+				D0BEFEAA2C3FA108001F92EC /* LibrarianCard.swift */,
+				D0BEFEAC2C3FA1C2001F92EC /* LibrarianDetailView.swift */,
+				D0BEFEAE2C3FA21A001F92EC /* LibrarainUIConstants.swift */,
+				D0BEFEB02C3FA255001F92EC /* LibrarianConfiguration.swift */,
 			);
 			path = ManageLibrarian;
 			sourceTree = "<group>";
@@ -112,6 +131,8 @@
 				FDEA9CA32C3746B30042367B /* GoogleService-Info.plist */,
 				FDD109572C35703400849916 /* .gitignore */,
 				FDC996F12C3AB38100723BFE /* config.plist */,
+				FD53DCAD2C3B3354005D28DB /* DataModel.swift */,
+				FD53DCAF2C3B335C005D28DB /* DataController.swift */,
 				FDD109482C356FFD00849916 /* Shelves-Admin */,
 				FDD109472C356FFD00849916 /* Products */,
 				D0B9B1142C35C42A009521D5 /* Frameworks */,
@@ -129,11 +150,11 @@
 		FDD109482C356FFD00849916 /* Shelves-Admin */ = {
 			isa = PBXGroup;
 			children = (
+				FDD109492C356FFD00849916 /* Shelves_AdminApp.swift */,
+				FDD1094B2C356FFD00849916 /* AdminLoginView.swift */,
 				B1F2AC802C3B2E910078D41E /* Dashboard */,
 				FD53DCB12C3B336A005D28DB /* ManageLibrarian */,
 				FD53DCAC2C3B333D005D28DB /* BooksCatalogue */,
-				FDD109492C356FFD00849916 /* Shelves_AdminApp.swift */,
-				FDD1094B2C356FFD00849916 /* AdminLoginView.swift */,
 				FDD1094D2C356FFE00849916 /* Assets.xcassets */,
 				FDD1094F2C356FFE00849916 /* Preview Content */,
 			);
@@ -235,6 +256,9 @@
 			files = (
 				B1F2AC872C3B2EAA0078D41E /* AdminDashboard.swift in Sources */,
 				FD53DCB02C3B335C005D28DB /* DataController.swift in Sources */,
+				D0BEFEB32C3FA572001F92EC /* AddBookDetailsView.swift in Sources */,
+				D0BEFEAD2C3FA1C2001F92EC /* LibrarianDetailView.swift in Sources */,
+				D0BEFEB12C3FA256001F92EC /* LibrarianConfiguration.swift in Sources */,
 				B1F2AC862C3B2EAA0078D41E /* sideMenuBar.swift in Sources */,
 				FD53DCAE2C3B3354005D28DB /* DataModel.swift in Sources */,
 				B1F2AC892C3B2EAA0078D41E /* AdminDashboardAnalyicsData.swift in Sources */,
@@ -242,8 +266,12 @@
 				FDD1094C2C356FFD00849916 /* AdminLoginView.swift in Sources */,
 				FDD1094A2C356FFD00849916 /* Shelves_AdminApp.swift in Sources */,
 				FD53DCAB2C3B32F3005D28DB /* BooksCatalogue.swift in Sources */,
+				D0BEFEAB2C3FA108001F92EC /* LibrarianCard.swift in Sources */,
 				FDEA9CA62C37C3FC0042367B /* AddLibrarian.swift in Sources */,
+				D0BEFEAF2C3FA21A001F92EC /* LibrarainUIConstants.swift in Sources */,
 				B1F2AC8A2C3B2EAA0078D41E /* SearchBar.swift in Sources */,
+				D0BEFEB72C3FA64C001F92EC /* CheckBoxView.swift in Sources */,
+				D0BEFEB52C3FA5FD001F92EC /* AddBookOptionsView.swift in Sources */,
 				B1F2AC882C3B2EAA0078D41E /* AdminDashboardStructs.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
