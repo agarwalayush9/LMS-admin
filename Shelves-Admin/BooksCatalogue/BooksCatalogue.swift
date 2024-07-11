@@ -202,7 +202,6 @@ struct BooksCatalogue: View {
     @State private var showingAddBookOptions = false
     @State private var books: [Book] = [] // Use @State to hold fetched books
     @State var menuOpened = false
-    @Binding var isLoggedIn: Bool
     
     var body: some View {
         NavigationStack {
@@ -302,7 +301,7 @@ struct BooksCatalogue: View {
                     fetchBooks()
                 }
                 if menuOpened {
-                    sideMenu(isLoggedIn: $isLoggedIn, width: UIScreen.main.bounds.width * 0.30,
+                    sideMenu( width: UIScreen.main.bounds.width * 0.30,
                              menuOpened: menuOpened,
                              toggleMenu: toggleMenu)
                     .ignoresSafeArea()
@@ -357,6 +356,6 @@ struct BooksCatalogue: View {
 
 struct ContentView_Previews: PreviewProvider {
     static var previews: some View {
-        BooksCatalogue(isLoggedIn: .constant(true))
+        BooksCatalogue()
     }
 }

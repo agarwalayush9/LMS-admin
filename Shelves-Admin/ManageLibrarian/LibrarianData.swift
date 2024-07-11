@@ -4,6 +4,7 @@ import Combine
 
 class LibrarianViewModel: ObservableObject {
     @Published var librarians: [Librarian] = []
+    @Published var isLoading: Bool = false // Add this line
 
     private var databaseRef: DatabaseReference!
 
@@ -13,6 +14,7 @@ class LibrarianViewModel: ObservableObject {
     }
 
     func fetchLibrarians() {
+        isLoading = true // Start loading
         databaseRef.observe(.value, with: { snapshot in
             var newLibrarians: [Librarian] = []
 
@@ -33,9 +35,10 @@ class LibrarianViewModel: ObservableObject {
             }
 
             self.librarians = newLibrarians
-//            print("Fetched librarians: \(self.librarians)")
+            self.isLoading = false // End loading
         }) { error in
             print("Failed to fetch data from Firebase: \(error.localizedDescription)")
+            self.isLoading = false // End loading even if there is an error
         }
     }
 }

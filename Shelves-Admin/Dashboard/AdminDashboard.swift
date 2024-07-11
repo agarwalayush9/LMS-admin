@@ -8,7 +8,6 @@
 import SwiftUI
 
 struct AdminDashboard: View {
-    @Binding var isLoggedIn: Bool
     @State private var menuOpened = false
     
     var body: some View {
@@ -66,7 +65,7 @@ struct AdminDashboard: View {
             }
             
                 if menuOpened {
-                    sideMenu(isLoggedIn: $isLoggedIn, width: UIScreen.main.bounds.width * 0.30,
+                    sideMenu( width: UIScreen.main.bounds.width * 0.30,
                              menuOpened: menuOpened,
                              toggleMenu: toggleMenu)
                     .ignoresSafeArea()

@@ -24,6 +24,7 @@
 		FDD1094E2C356FFE00849916 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = FDD1094D2C356FFE00849916 /* Assets.xcassets */; };
 		FDD109512C356FFE00849916 /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = FDD109502C356FFE00849916 /* Preview Assets.xcassets */; };
 		FDD109582C35703400849916 /* .gitignore in Resources */ = {isa = PBXBuildFile; fileRef = FDD109572C35703400849916 /* .gitignore */; };
+		FDE291D42C3FD19400D65AE0 /* AuthManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = FDE291D32C3FD19400D65AE0 /* AuthManager.swift */; };
 		FDEA9CA42C3746B30042367B /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = FDEA9CA32C3746B30042367B /* GoogleService-Info.plist */; };
 		FDEA9CA62C37C3FC0042367B /* AddLibrarian.swift in Sources */ = {isa = PBXBuildFile; fileRef = FDEA9CA52C37C3FC0042367B /* AddLibrarian.swift */; };
 		FDEA9CA82C3924240042367B /* LibrarianData.swift in Sources */ = {isa = PBXBuildFile; fileRef = FDEA9CA72C3924240042367B /* LibrarianData.swift */; };
@@ -49,6 +50,7 @@
 		FDD1094D2C356FFE00849916 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		FDD109502C356FFE00849916 /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
 		FDD109572C35703400849916 /* .gitignore */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = .gitignore; sourceTree = "<group>"; };
+		FDE291D32C3FD19400D65AE0 /* AuthManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthManager.swift; sourceTree = "<group>"; };
 		FDEA9CA32C3746B30042367B /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		FDEA9CA52C37C3FC0042367B /* AddLibrarian.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddLibrarian.swift; sourceTree = "<group>"; };
 		FDEA9CA72C3924240042367B /* LibrarianData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LibrarianData.swift; sourceTree = "<group>"; };
@@ -133,6 +135,7 @@
 				FD53DCB12C3B336A005D28DB /* ManageLibrarian */,
 				FD53DCAC2C3B333D005D28DB /* BooksCatalogue */,
 				FDD109492C356FFD00849916 /* Shelves_AdminApp.swift */,
+				FDE291D32C3FD19400D65AE0 /* AuthManager.swift */,
 				FDD1094B2C356FFD00849916 /* AdminLoginView.swift */,
 				FDD1094D2C356FFE00849916 /* Assets.xcassets */,
 				FDD1094F2C356FFE00849916 /* Preview Content */,
@@ -236,6 +239,7 @@
 				B1F2AC872C3B2EAA0078D41E /* AdminDashboard.swift in Sources */,
 				FD53DCB02C3B335C005D28DB /* DataController.swift in Sources */,
 				B1F2AC862C3B2EAA0078D41E /* sideMenuBar.swift in Sources */,
+				FDE291D42C3FD19400D65AE0 /* AuthManager.swift in Sources */,
 				FD53DCAE2C3B3354005D28DB /* DataModel.swift in Sources */,
 				B1F2AC892C3B2EAA0078D41E /* AdminDashboardAnalyicsData.swift in Sources */,
 				FDEA9CA82C3924240042367B /* LibrarianData.swift in Sources */,

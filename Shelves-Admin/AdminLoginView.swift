@@ -2,7 +2,8 @@ import SwiftUI
 import FirebaseAuth
 
 struct AdminLoginView: View {
-    @Binding var isLoggedIn: Bool
+    @EnvironmentObject var authManager: AuthManager // Inject AuthManager
+    
     @State private var email: String = ""
     @State private var password: String = ""
     @State private var showAlert = false
@@ -18,7 +19,7 @@ struct AdminLoginView: View {
     @State private var passwordSpecialCharValid: Bool = false
     @State private var resetpassword = false
     @State private var resetAlert: String = ""
-    @State private var isLoading: Bool = false
+    @State private var isLoading = false
     
     var body: some View {
         HStack(alignment: .center) {
@@ -162,7 +163,7 @@ struct AdminLoginView: View {
                                 .frame(width: 300)
                         }
                     }
-                    .disabled(!isEmailValid || !isPasswordValid || isLoading)
+                    .disabled(!isEmailValid || !isPasswordValid)
                     .alert(isPresented: $showAlert) {
                         Alert(title: Text("Invalid Credentials"), message: Text(errorMessage), dismissButton: .default(Text("OK")))
                     }
@@ -211,27 +212,35 @@ struct AdminLoginView: View {
                             .font(Font.custom("DMSans_18pt-Regular", size: 12))
                     }
                     
-                   
-                    
-                    
                     // Sign in Button
                     Button(action: {
-                        // Sign in action
+                        // Reset password action
                         resetMail()
                     }) {
-                        Text("Reset Password")
-                            .foregroundColor(.white)
-                            .frame(maxWidth: .infinity)
-                            .padding()
-                            .background(Color(red: 0.32, green: 0.23, blue: 0.06))
-                            .cornerRadius(8)
-                            .frame(width: 300)
+                        if isLoading {
+                            ProgressView()
+                                .progressViewStyle(CircularProgressViewStyle(tint: .white))
+                                .frame(maxWidth: .infinity)
+                                .padding()
+                                .background(Color(red: 0.32, green: 0.23, blue: 0.06))
+                                .cornerRadius(8)
+                                .frame(width: 300)
+                        } else {
+                            Text("Reset Password")
+                                .foregroundColor(.white)
+                                .frame(maxWidth: .infinity)
+                                .padding()
+                                .background(Color(red: 0.32, green: 0.23, blue: 0.06))
+                                .cornerRadius(8)
+                                .frame(width: 300)
+                        }
                     }
                     .alert(isPresented: $showAlert) {
                         Alert(title: Text(resetAlert), dismissButton: .default(Text("OK")))
                     }
+                    
                     Button(action: {
-                        // Sign in action
+                        // Back to sign in action
                         resetpassword.toggle()
                     }) {
                         Text("Back to sign in")
@@ -242,6 +251,7 @@ struct AdminLoginView: View {
                             .cornerRadius(8)
                             .frame(width: 300)
                     }
+                    
                     Spacer()
                 }
             }
@@ -293,7 +303,7 @@ struct AdminLoginView: View {
         if email.count > 100 {
             return false
         }
-        let emailFormat = "(?:[\\p{L}0-9!$%&'*+/=?^`{|}~-]+(?:\\.[\\p{L}0-9!$%&'*+/=?^`{|}~-]+)*|\"(?:[\\x01-\\x08\\x0b\\x0c\\x0e-\\x1f\\x21\\x23-\\x5b\\x5d-\\x7f]|\\\\[\\x01-\\x09\\x0b\\x0c\\x0e-\\x7f])*\")@(?:(?:[\\p{L}0-9](?:[a-z0-9-]*[\\p{L}0-9])?\\.)+[\\p{L}]{2,}|\\[(?:(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\\.){3}(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?|[\\p{L}0-9-]*[\\p{L}0-9]:(?:[\\x01-\\x08\\x0b\\x0c\\x0e-\\x1f\\x21-\\x5a\\x53-\\x7f]|\\\\[\\x01-\\x09\\x0b\\x0c\\x0e-\\x7f])+)\\])"
+        let emailFormat = "(?:[\\p{L}0-9!$%&'*+/=?^`{|}~-]+(?:\\.[\\p{L}0-9!$%&'*+/=?^`{|}~-]+)*|\"(?:[\\x01-\\x08\\x0b\\x0c\\x0e-\\x1f\\x21\\x23-\\x5b\\x5d-\\x7f]|\\\\[\\x01-\\x09\\x0b\\x0c\\x0e-\\x7f])*\")@(?:(?:[\\p{L}0-9](?:[a-z0-9-]*[\\p{L}0-9])?\\.)+[\\p{L}]{2,}|\\[(?:(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\\.){3}(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?|[\\p{L}0-9-]*[\\p{L}0-9]:(?:[\\x01-\\x08\\x0b\\x0c\\x0e-\\x7f])+)\\])"
         let emailPredicate = NSPredicate(format:"SELF MATCHES %@", emailFormat)
         return emailPredicate.evaluate(with: email)
     }
@@ -318,34 +328,34 @@ struct AdminLoginView: View {
 
     func login() {
         isLoading = true
-        Auth.auth().signIn(withEmail: email, password: password) { firebaseResult, error in
+        authManager.signIn(email: email, password: password) { result in
             isLoading = false
-            if let e = error {
-                errorMessage = e.localizedDescription
-                showAlert = true
-                print(e)
-            } else {
+            switch result {
+            case .success:
                 print("Login successful")
-                isLoggedIn = true
-                UserDefaults.standard.set(true, forKey: "isLoggedIn")
+                // Do any additional UI updates or navigation here
+            case .failure(let error):
+                errorMessage = error.localizedDescription
+                showAlert = true
+                print(error.localizedDescription)
             }
         }
     }
     
     func resetMail() {
-        Auth.auth().sendPasswordReset(withEmail: email) { error in
-            if let e = error {
-                resetAlert = e.localizedDescription
+        isLoading = true
+        authManager.resetPassword(email: email) { result in
+            isLoading = false
+            switch result {
+            case .success(let message):
+                resetAlert = message
                 showAlert = true
-                print(e)
-            } else {
-                resetAlert = "Reset link sent to email"
+                print(message)
+            case .failure(let error):
+                resetAlert = error.localizedDescription
                 showAlert = true
+                print(error.localizedDescription)
             }
         }
     }
-}
-
-#Preview{
-    AdminLoginView(isLoggedIn: .constant(false))
 }

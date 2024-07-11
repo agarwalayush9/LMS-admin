@@ -2,7 +2,7 @@ import SwiftUI
 import FirebaseAuth
 
 struct MenuContent: View {
-    @Binding var isLoggedIn: Bool
+  
     let items = Sections.section
     
     var body: some View {
@@ -55,7 +55,7 @@ struct MenuContent: View {
                     }
                 }
                 
-                LibrarianProfile(isLoggedIn: $isLoggedIn, userName: "User",
+                LibrarianProfile(userName: "User",
                                  post: "Admin",
                                  profileImage: "person.fill")
             }
@@ -65,7 +65,6 @@ struct MenuContent: View {
 }
 
 struct sideMenu: View {
-    @Binding var isLoggedIn: Bool
     let width: CGFloat
     let menuOpened: Bool
     let toggleMenu: () -> Void
@@ -81,7 +80,7 @@ struct sideMenu: View {
             }
             
             HStack {
-                MenuContent(isLoggedIn: $isLoggedIn)
+                MenuContent()
                     .frame(width: width)
                     .offset(x: menuOpened ? 0 : -width)
                     .animation(.default, value: menuOpened)
@@ -92,8 +91,7 @@ struct sideMenu: View {
 }
 
 struct LogOutButton: View {
-    @Binding var isLoggedIn: Bool
-    
+    @EnvironmentObject var authManager: AuthManager
     var body: some View {
         HStack {
             Image(systemName: "rectangle.portrait.and.arrow.right")
@@ -107,19 +105,12 @@ struct LogOutButton: View {
         .background(Color("CustomButtonColor"))
         .clipShape(RoundedRectangle(cornerRadius: 10))
         .onTapGesture {
-            do {
-                try Auth.auth().signOut()
-                isLoggedIn = false
-                UserDefaults.standard.set(false, forKey: "isLoggedIn")
-            } catch let signOutError as NSError {
-                print("Error signing out: %@", signOutError)
-            }
+            authManager.signOut()
         }
     }
 }
 
 struct LibrarianProfile: View {
-    @Binding var isLoggedIn: Bool
     var userName: String
     var post: String
     var profileImage: String
@@ -156,12 +147,13 @@ struct LibrarianProfile: View {
                     }
                 }
                 .padding(.trailing, 16)
-                LogOutButton(isLoggedIn: $isLoggedIn)
+                LogOutButton()
             }
         }
     }
 }
 
+
 #Preview {
-    MenuContent(isLoggedIn: .constant(true))
+    MenuContent()
 }

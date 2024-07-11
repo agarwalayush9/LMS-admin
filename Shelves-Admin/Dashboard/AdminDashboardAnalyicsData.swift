@@ -43,15 +43,15 @@ struct Sections : Identifiable{
     static var section : [Sections]{
         [
                     Sections(sectionHeader: "OverView", menuItem: [
-                        MenuItem(optionIcon: "Library", option: "Dashboard", destination: AnyView(AdminDashboard(isLoggedIn: .constant(true))), isClickable: true),
-                        MenuItem(optionIcon: "ManageLibrarian", option: "Manage Librarian", destination: AnyView(AddLibrarian(isLoggedIn: .constant(true))), isClickable: true),
+                        MenuItem(optionIcon: "Library", option: "Dashboard", destination: AnyView(AdminDashboard()), isClickable: true),
+                        MenuItem(optionIcon: "ManageLibrarian", option: "Manage Librarian", destination: AnyView(AddLibrarian()), isClickable: true),
                         MenuItem(optionIcon: "Complaints", option: "Complaints", destination: AnyView(EmptyView()), isClickable: false),
                         MenuItem(optionIcon: "ManageEvents", option: "Manage Events", destination: AnyView(EmptyView()), isClickable: false),
                         MenuItem(optionIcon: "MakePayouts", option: "Make Payouts", destination: AnyView(EmptyView()), isClickable: false),
                         MenuItem(optionIcon: "UserQueries", option: "User Queries", destination: AnyView(EmptyView()), isClickable: false),
                     ]),
                     Sections(sectionHeader: "Books", menuItem: [
-                        MenuItem(optionIcon: "BooksCatalogue", option: "Books Catalogue", destination: AnyView(BooksCatalogue( isLoggedIn: .constant(true))), isClickable: true),
+                        MenuItem(optionIcon: "BooksCatalogue", option: "Books Catalogue", destination: AnyView(BooksCatalogue( )), isClickable: true),
                         MenuItem(optionIcon: "BooksCirculation", option: "Books Circulation", destination: AnyView(EmptyView()), isClickable: false),
                         MenuItem(optionIcon: "BookOverdues", option: "Books Overdues/Fines", destination: AnyView(EmptyView()), isClickable: false),
                         MenuItem(optionIcon: "ManageSubscription", option: "Manage Subscription", destination: AnyView(EmptyView()), isClickable: true),
