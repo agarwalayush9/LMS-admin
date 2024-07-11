@@ -15,7 +15,7 @@ struct MenuContent: View {
                     .font(Font.custom("DM Sans", size: 34).weight(.bold))
                     .padding([.top, .leading], 25)
                 
-                ScrollView(showsIndicators:false) {
+                ScrollView(showsIndicators: false) {
                     VStack(alignment: .leading, spacing: 20) {
                         ForEach(items) { item in
                             Text(item.sectionHeader)
@@ -26,7 +26,7 @@ struct MenuContent: View {
                             VStack(alignment: .leading, spacing: 20) {
                                 ForEach(item.menuItem) { idi in
                                     if idi.isClickable {
-                                        NavigationLink(destination: idi.destination) {
+                                        NavigationLink(destination: idi.destination.navigationBarBackButtonHidden(true)) {
                                             HStack {
                                                 Image(idi.optionIcon)
                                                     .frame(width: 24, height: 24)
@@ -34,8 +34,6 @@ struct MenuContent: View {
                                                     .font(Font.custom("DM Sans", size: 17))
                                             }
                                             .padding(.horizontal, 16)
-                                            
-//                                            .background(Color.white)
                                             .cornerRadius(8)
                                         }
                                         .buttonStyle(PlainButtonStyle()) // Prevent default button styling
@@ -47,29 +45,24 @@ struct MenuContent: View {
                                                 .font(Font.custom("DM Sans", size: 17))
                                         }
                                         .padding(.horizontal, 16)
-//                                        .background(Color.white)
                                         .cornerRadius(8)
                                     }
                                 }
                             }
-//                            .background(Color(.systemGray6))
                             .cornerRadius(8)
                             .padding(.horizontal, 16)
-//                            .padding(.bottom, 10)
                         }
                     }
                 }
                 
-                
-                    LibrarianProfile(isLoggedIn: $isLoggedIn, userName: "User",
-                                     post: "Admin",
-                                     profileImage: "person.fill")
-                }
-                .padding(.all, 30)
+                LibrarianProfile(isLoggedIn: $isLoggedIn, userName: "User",
+                                 post: "Admin",
+                                 profileImage: "person.fill")
             }
-        }// Ensure navigation bar is hidden
+            .padding(.all, 30)
+        }
     }
-
+}
 
 struct sideMenu: View {
     @Binding var isLoggedIn: Bool
@@ -97,28 +90,6 @@ struct sideMenu: View {
         }
     }
 }
-
-//struct ContactButton: View {
-//    var contactTo: String
-//    
-//    var body: some View {
-//        HStack {
-//            Image(systemName: "headphones")
-//                .padding(.leading, 8)
-//            Text("Contact \(contactTo)")
-//                .font(.system(size: 17, weight: .regular, design: .default))
-//                .padding(.all, 4)
-//        }
-//        .padding(.all, 11)
-//        .frame(width: 232, alignment: .leading)
-//        .clipShape(RoundedRectangle(cornerRadius: 16))
-//        .overlay(
-//            RoundedRectangle(cornerRadius: 16)
-//                .inset(by: 0.5)
-//                .stroke(Color("CustomButtonColor"), lineWidth: 1)
-//        )
-//    }
-//}
 
 struct LogOutButton: View {
     @Binding var isLoggedIn: Bool
@@ -191,6 +162,6 @@ struct LibrarianProfile: View {
     }
 }
 
-#Preview{
+#Preview {
     MenuContent(isLoggedIn: .constant(true))
 }

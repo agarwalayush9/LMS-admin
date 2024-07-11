@@ -201,24 +201,11 @@ struct BooksCatalogue: View {
     @State private var selectedBooks = Set<UUID>()
     @State private var showingAddBookOptions = false
     @State private var books: [Book] = [] // Use @State to hold fetched books
+    @State var menuOpened = false
+    @Binding var isLoggedIn: Bool
     
     var body: some View {
-        NavigationView {
-            List {
-                NavigationLink(destination: BooksCatalogue()) {
-                    Label("Shelves Library", systemImage: "books.vertical")
-                        .font(.title)
-                        .foregroundColor(.brown)
-                }
-                NavigationLink(destination: BooksCatalogue()) {
-                    Label("Book Catalogues", systemImage: "book")
-                        .font(.title2)
-                        .foregroundColor(.brown)
-                }
-            }
-            .listStyle(SidebarListStyle())
-            .navigationTitle("Shelves Library")
-            
+        NavigationStack {
             ZStack {
                 VStack {
                     ScrollView {
@@ -297,7 +284,7 @@ struct BooksCatalogue: View {
                                         .frame(maxWidth: .infinity, alignment: .leading)
                                         .foregroundColor(book.status == "Issued" ? .red : .green)
                                     
-                                 
+                                    
                                 }
                                 .padding(.vertical, 8)
                                 .padding(.horizontal)
@@ -306,49 +293,48 @@ struct BooksCatalogue: View {
                             }
                         }
                         .frame(maxWidth: .infinity, alignment: .center) // Center the table
+                        .padding(.top, 10)
                     }
+                    .padding(.top, 10)
                 }
+                .onAppear {
+                    // Fetch books from DataController
+                    fetchBooks()
+                }
+                if menuOpened {
+                    sideMenu(isLoggedIn: $isLoggedIn, width: UIScreen.main.bounds.width * 0.30,
+                             menuOpened: menuOpened,
+                             toggleMenu: toggleMenu)
+                    .ignoresSafeArea()
+                    .toolbar(.hidden, for: .navigationBar)
+                }
+            }
+            
+        .navigationTitle("LMS")
+        .navigationBarTitleDisplayMode(.inline)
+        .toolbarBackground(.visible, for: .navigationBar)
+        .toolbar{
+            ToolbarItem(placement: .topBarLeading) {
+                Button(action: {
+                    menuOpened.toggle()
+                }, label: {
+                    Image(systemName: "sidebar.left")
+                        .foregroundStyle(Color.black)
+                })
                 
-                // Floating Button
-//                VStack {
-//                    Spacer()
-//                    HStack {
-//                        Spacer()
-//                        Button(action: {
-//                            showingAddBookOptions.toggle()
-//                        }) {
-//                            HStack {
-//                                Image(systemName: "book.fill")
-//                                    .foregroundColor(.white)
-//                                Text("Add a Book")
-//                                    .foregroundColor(.white)
-//                            }
-//                            .padding()
-//                            .background(
-//                                RoundedRectangle(cornerRadius: 14)
-//                                    .fill(Color(red: 0.32, green: 0.23, blue: 0.06))
-//                                    .stroke(Color(red: 1, green: 0.74, blue: 0.28), lineWidth: 4)
-//                                    .shadow(color: .gray, radius: 5, x: 0, y: 2)
-//                            )
-//                        }
-//                        .padding(.trailing, 20)
-//                        .padding(.bottom, 20)
-//                        .sheet(isPresented: $showingAddBookOptions) {
-//                            AddBookOptionsView(addBook: { newBook in
-//                                // Append new book locally and update UI
-//                                books.append(newBook)
-//                            }, books: books)
-//                        }
-//                    }
-//                }
             }
-            .onAppear {
-                // Fetch books from DataController
-                fetchBooks()
+            ToolbarItem(placement: .topBarTrailing){
+                Button(action: {
+                    
+                }, label: {
+                    Image(systemName: "books.vertical")
+                        .foregroundColor(Color.black)
+                })
             }
-            .navigationTitle("Books Catalogues")
         }
-        .navigationViewStyle(DoubleColumnNavigationViewStyle())
+            
+        }
+        .navigationBarBackButtonHidden(true)
     }
     
     private func fetchBooks() {
@@ -364,10 +350,13 @@ struct BooksCatalogue: View {
             }
         }
     }
+    func toggleMenu() {
+        menuOpened.toggle()
+    }
 }
 
 struct ContentView_Previews: PreviewProvider {
     static var previews: some View {
-        BooksCatalogue()
+        BooksCatalogue(isLoggedIn: .constant(true))
     }
 }

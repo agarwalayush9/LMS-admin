@@ -16,7 +16,10 @@ struct AdminLoginView: View {
     @State private var passwordLowercaseValid: Bool = false
     @State private var passwordNumberValid: Bool = false
     @State private var passwordSpecialCharValid: Bool = false
-
+    @State private var resetpassword = false
+    @State private var resetAlert: String = ""
+    @State private var isLoading: Bool = false
+    
     var body: some View {
         HStack(alignment: .center) {
             
@@ -45,123 +48,202 @@ struct AdminLoginView: View {
                         .foregroundColor(Color(red: 0.32, green: 0.23, blue: 0.06))
                 }
                 
-                Text("Admin Log in")
-                    .font(Font.custom("DM Sans", size: 36).weight(.bold))
-                    .foregroundColor(Color(red: 0.32, green: 0.23, blue: 0.06))
-                    .frame(maxWidth: 400, alignment: .topLeading)
-                
-                Text("Welcome back Admin! Please enter your details.")
-                    .font(Font.custom("DMSans_18pt-Regular", size: 19))
-                    .foregroundColor(Color(red: 0.32, green: 0.23, blue: 0.06))
-                    .frame(maxWidth: 410, alignment: .topLeading)
-                
-                VStack(alignment: .leading, spacing: 4) {
-                    Text("Email")
-                        .font(Font.custom("DMSans_18pt-Regular", size: 15))
+                if(!resetpassword){
+                    Text("Admin Log in")
+                        .font(Font.custom("DM Sans", size: 36).weight(.bold))
+                        .foregroundColor(Color(red: 0.32, green: 0.23, blue: 0.06))
+                        .frame(maxWidth: 400, alignment: .topLeading)
                     
-                    TextField("Enter your email", text: $email)
-                        .padding()
-                        .background(Color.white)
-                        .cornerRadius(8) // Adds rounded corners to the background
-                        .overlay(
-                            RoundedRectangle(cornerRadius: 8)
-                                .stroke(Color.gray, lineWidth: 1)
-                        )
-                        .frame(width: 300)
-                        .onChange(of: email) { _ in
-                            validateEmail()
-                        }
+                    Text("Welcome back Admin! Please enter your details.")
+                        .font(Font.custom("DMSans_18pt-Regular", size: 19))
+                        .foregroundColor(Color(red: 0.32, green: 0.23, blue: 0.06))
+                        .frame(maxWidth: 410, alignment: .topLeading)
                     
-                    Text(emailValidationMessage)
-                        .foregroundColor(isEmailValid ? .green : .red)
-                        .font(Font.custom("DMSans_18pt-Regular", size: 12))
-                }
-                
-                VStack(alignment: .leading, spacing: 4) {
-                    Text("Password")
-                        .font(Font.custom("DMSans_18pt-Regular", size: 15))
+                    VStack(alignment: .leading, spacing: 4) {
+                        Text("Email")
+                            .font(Font.custom("DMSans_18pt-Regular", size: 15))
+                        
+                        TextField("Enter your email", text: $email)
+                            .padding()
+                            .background(Color.white)
+                            .cornerRadius(8) // Adds rounded corners to the background
+                            .overlay(
+                                RoundedRectangle(cornerRadius: 8)
+                                    .stroke(Color.gray, lineWidth: 1)
+                            )
+                            .frame(width: 300)
+                            .onChange(of: email) { _ in
+                                validateEmail()
+                            }
+                        
+                        Text(emailValidationMessage)
+                            .foregroundColor(isEmailValid ? .green : .red)
+                            .font(Font.custom("DMSans_18pt-Regular", size: 12))
+                    }
                     
-                    SecureField("Password", text: $password)
-                        .padding()
-                        .background(Color.white)
-                        .cornerRadius(8) // Adds rounded corners to the background
-                        .overlay(
-                            RoundedRectangle(cornerRadius: 8)
-                                .stroke(Color.gray, lineWidth: 1)
-                        )
-                        .frame(width: 300)
-                        .onChange(of: password) { _ in
-                            validatePassword()
-                        }
-                    
-                    VStack(alignment: .leading, spacing: 2) {
-                        HStack {
-                            Image(systemName: passwordLengthValid ? "checkmark.circle.fill" : "circle")
-                                .foregroundColor(passwordLengthValid ? .green : .red)
-                            Text("Your password must be at least 8 characters long")
-                                .foregroundColor(passwordLengthValid ? .green : .red)
-                                .font(Font.custom("DMSans_18pt-Regular", size: 12))
-                        }
-                        HStack {
-                            Image(systemName: passwordUppercaseValid ? "checkmark.circle.fill" : "circle")
-                                .foregroundColor(passwordUppercaseValid ? .green : .red)
-                            Text("1 uppercase letter")
-                                .foregroundColor(passwordUppercaseValid ? .green : .red)
-                                .font(Font.custom("DMSans_18pt-Regular", size: 12))
-                        }
-                        HStack {
-                            Image(systemName: passwordLowercaseValid ? "checkmark.circle.fill" : "circle")
-                                .foregroundColor(passwordLowercaseValid ? .green : .red)
-                            Text("1 lowercase letter")
-                                .foregroundColor(passwordLowercaseValid ? .green : .red)
-                                .font(Font.custom("DMSans_18pt-Regular", size: 12))
-                        }
-                        HStack {
-                            Image(systemName: passwordNumberValid ? "checkmark.circle.fill" : "circle")
-                                .foregroundColor(passwordNumberValid ? .green : .red)
-                            Text("1 number")
-                                .foregroundColor(passwordNumberValid ? .green : .red)
-                                .font(Font.custom("DMSans_18pt-Regular", size: 12))
-                        }
-                        HStack {
-                            Image(systemName: passwordSpecialCharValid ? "checkmark.circle.fill" : "circle")
-                                .foregroundColor(passwordSpecialCharValid ? .green : .red)
-                            Text("1 special character")
-                                .foregroundColor(passwordSpecialCharValid ? .green : .red)
-                                .font(Font.custom("DMSans_18pt-Regular", size: 12))
+                    VStack(alignment: .leading, spacing: 4) {
+                        Text("Password")
+                            .font(Font.custom("DMSans_18pt-Regular", size: 15))
+                        
+                        SecureField("Password", text: $password)
+                            .padding()
+                            .background(Color.white)
+                            .cornerRadius(8) // Adds rounded corners to the background
+                            .overlay(
+                                RoundedRectangle(cornerRadius: 8)
+                                    .stroke(Color.gray, lineWidth: 1)
+                            )
+                            .frame(width: 300)
+                            .onChange(of: password) { _ in
+                                validatePassword()
+                            }
+                        
+                        VStack(alignment: .leading, spacing: 2) {
+                            HStack {
+                                Image(systemName: passwordLengthValid ? "checkmark.circle.fill" : "circle")
+                                    .foregroundColor(passwordLengthValid ? .green : .red)
+                                Text("Your password must be at least 8 characters long")
+                                    .foregroundColor(passwordLengthValid ? .green : .red)
+                                    .font(Font.custom("DMSans_18pt-Regular", size: 12))
+                            }
+                            HStack {
+                                Image(systemName: passwordUppercaseValid ? "checkmark.circle.fill" : "circle")
+                                    .foregroundColor(passwordUppercaseValid ? .green : .red)
+                                Text("1 uppercase letter")
+                                    .foregroundColor(passwordUppercaseValid ? .green : .red)
+                                    .font(Font.custom("DMSans_18pt-Regular", size: 12))
+                            }
+                            HStack {
+                                Image(systemName: passwordLowercaseValid ? "checkmark.circle.fill" : "circle")
+                                    .foregroundColor(passwordLowercaseValid ? .green : .red)
+                                Text("1 lowercase letter")
+                                    .foregroundColor(passwordLowercaseValid ? .green : .red)
+                                    .font(Font.custom("DMSans_18pt-Regular", size: 12))
+                            }
+                            HStack {
+                                Image(systemName: passwordNumberValid ? "checkmark.circle.fill" : "circle")
+                                    .foregroundColor(passwordNumberValid ? .green : .red)
+                                Text("1 number")
+                                    .foregroundColor(passwordNumberValid ? .green : .red)
+                                    .font(Font.custom("DMSans_18pt-Regular", size: 12))
+                            }
+                            HStack {
+                                Image(systemName: passwordSpecialCharValid ? "checkmark.circle.fill" : "circle")
+                                    .foregroundColor(passwordSpecialCharValid ? .green : .red)
+                                Text("1 special character")
+                                    .foregroundColor(passwordSpecialCharValid ? .green : .red)
+                                    .font(Font.custom("DMSans_18pt-Regular", size: 12))
+                            }
                         }
                     }
-                }
-
-                Spacer().frame(height: 8)
                     
-                // Sign in Button
-                Button(action: {
-                    // Sign in action
-                    login()
-                }) {
-                    Text("Sign in")
-                        .foregroundColor(.white)
-                        .frame(maxWidth: .infinity)
-                        .padding()
-                        .background(Color(red: 0.32, green: 0.23, blue: 0.06))
-                        .cornerRadius(8)
-                        .frame(width: 300)
+                    Spacer().frame(height: 8)
+                    
+                    // Sign in Button
+                    Button(action: {
+                        // Sign in action
+                        login()
+                    }) {
+                        if isLoading {
+                            ProgressView()
+                                .progressViewStyle(CircularProgressViewStyle(tint: .white))
+                                .frame(maxWidth: .infinity)
+                                .padding()
+                                .background(Color(red: 0.32, green: 0.23, blue: 0.06))
+                                .cornerRadius(8)
+                                .frame(width: 300)
+                        } else {
+                            Text("Sign in")
+                                .foregroundColor(.white)
+                                .frame(maxWidth: .infinity)
+                                .padding()
+                                .background(Color(red: 0.32, green: 0.23, blue: 0.06))
+                                .cornerRadius(8)
+                                .frame(width: 300)
+                        }
+                    }
+                    .disabled(!isEmailValid || !isPasswordValid || isLoading)
+                    .alert(isPresented: $showAlert) {
+                        Alert(title: Text("Invalid Credentials"), message: Text(errorMessage), dismissButton: .default(Text("OK")))
+                    }
+                    
+                    Button(action: {
+                        // Forgot password action
+                        resetpassword.toggle()
+                    }) {
+                        Text("Forgot password?")
+                            .foregroundColor(Color(red: 0.32, green: 0.23, blue: 0.06))
+                            .frame(maxWidth: 300, alignment: .center)
+                    }
+                    
+                    Spacer()
                 }
-                .disabled(!isEmailValid || !isPasswordValid)
-                .alert(isPresented: $showAlert) {
-                    Alert(title: Text("Invalid Credentials"), dismissButton: .default(Text("OK")))
-                }
-                
-                Button(action: {
-                    // Forgot password action
-                }) {
-                    Text("Forgot password")
+                else{
+                    Text("Password Reset")
+                        .font(Font.custom("DM Sans", size: 36).weight(.bold))
                         .foregroundColor(Color(red: 0.32, green: 0.23, blue: 0.06))
-                        .frame(maxWidth: 300, alignment: .center)
+                        .frame(maxWidth: 400, alignment: .topLeading)
+                    
+                    Text("Enter your existing Email Id")
+                        .font(Font.custom("DMSans_18pt-Regular", size: 19))
+                        .foregroundColor(Color(red: 0.32, green: 0.23, blue: 0.06))
+                        .frame(maxWidth: 410, alignment: .topLeading)
+                    
+                    VStack(alignment: .leading, spacing: 4) {
+                        Text("Email")
+                            .font(Font.custom("DMSans_18pt-Regular", size: 15))
+                        
+                        TextField("Enter your email", text: $email)
+                            .padding()
+                            .background(Color.white)
+                            .cornerRadius(8) // Adds rounded corners to the background
+                            .overlay(
+                                RoundedRectangle(cornerRadius: 8)
+                                    .stroke(Color.gray, lineWidth: 1)
+                            )
+                            .frame(width: 300)
+                            .onChange(of: email) { _ in
+                                validateEmail()
+                            }
+                        
+                        Text(emailValidationMessage)
+                            .foregroundColor(isEmailValid ? .green : .red)
+                            .font(Font.custom("DMSans_18pt-Regular", size: 12))
+                    }
+                    
+                   
+                    
+                    
+                    // Sign in Button
+                    Button(action: {
+                        // Sign in action
+                        resetMail()
+                    }) {
+                        Text("Reset Password")
+                            .foregroundColor(.white)
+                            .frame(maxWidth: .infinity)
+                            .padding()
+                            .background(Color(red: 0.32, green: 0.23, blue: 0.06))
+                            .cornerRadius(8)
+                            .frame(width: 300)
+                    }
+                    .alert(isPresented: $showAlert) {
+                        Alert(title: Text(resetAlert), dismissButton: .default(Text("OK")))
+                    }
+                    Button(action: {
+                        // Sign in action
+                        resetpassword.toggle()
+                    }) {
+                        Text("Back to sign in")
+                            .foregroundColor(.white)
+                            .frame(maxWidth: .infinity)
+                            .padding()
+                            .background(.gray)
+                            .cornerRadius(8)
+                            .frame(width: 300)
+                    }
+                    Spacer()
                 }
-                
-                Spacer()
             }
             .frame(maxWidth: .infinity)
             .padding()
@@ -173,7 +255,7 @@ struct AdminLoginView: View {
             emailValidationMessage = "Email cannot be empty"
             isEmailValid = false
         } else if !isValidEmailFormat(email) {
-            emailValidationMessage = "Invalid email format. Email must be in the format 'user@example.com'."
+            emailValidationMessage = "Invalid email format."
             isEmailValid = false
         } else if hasConsecutiveDots(email) {
             emailValidationMessage = "Email contains consecutive dots."
@@ -235,7 +317,9 @@ struct AdminLoginView: View {
     }
 
     func login() {
+        isLoading = true
         Auth.auth().signIn(withEmail: email, password: password) { firebaseResult, error in
+            isLoading = false
             if let e = error {
                 errorMessage = e.localizedDescription
                 showAlert = true
@@ -247,5 +331,21 @@ struct AdminLoginView: View {
             }
         }
     }
+    
+    func resetMail() {
+        Auth.auth().sendPasswordReset(withEmail: email) { error in
+            if let e = error {
+                resetAlert = e.localizedDescription
+                showAlert = true
+                print(e)
+            } else {
+                resetAlert = "Reset link sent to email"
+                showAlert = true
+            }
+        }
+    }
 }
 
+#Preview{
+    AdminLoginView(isLoggedIn: .constant(false))
+}

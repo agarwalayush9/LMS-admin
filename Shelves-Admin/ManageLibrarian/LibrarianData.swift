@@ -12,7 +12,7 @@ class LibrarianViewModel: ObservableObject {
         fetchLibrarians()
     }
 
-    private func fetchLibrarians() {
+    func fetchLibrarians() {
         databaseRef.observe(.value, with: { snapshot in
             var newLibrarians: [Librarian] = []
 
