@@ -4,6 +4,7 @@ import FirebaseDatabase
 import Combine
 import FirebaseAuth
 
+
 struct Constants {
     static let BackgroundsGroupedPrimary: Color = Color(red: 0.95, green: 0.95, blue: 0.97)
     static let MiscellaneousBarBorder: Color = .black.opacity(0.0)
@@ -203,6 +204,7 @@ struct LibrarianDetailView: View {
     @State private var userId: String
     @State private var password: String
     @State private var updatedLibrarian: Librarian
+    @State private var showAlert = false
     
     init(librarian: Librarian, showSheet: Binding<Bool>) {
         self.librarian = librarian
@@ -359,34 +361,90 @@ struct LibrarianDetailView: View {
                             }
                             .padding(0)
                             .frame(maxWidth: .infinity, alignment: .topLeading)
-                            HStack(alignment: .center, spacing: 9.89926) {
-                                if librarian.status != "Approved"{
-                                    Image("mdi_invite")
-                                        .frame(width: Constants.xl, height: Constants.xl)
-                                    Text("Invite Librarian")
-                                        .font(Font.custom("DM Sans", size: 16).weight(.bold))
-                                        .foregroundColor(.white)
+                            HStack(spacing: 20) {
+                                HStack(alignment: .center, spacing: 9.89926) {
+                                    if librarian.status != "Approved" {
+                                        Image("mdi_invite")
+                                            .frame(width: Constants.xl, height: Constants.xl)
+                                        Text("Invite Librarian")
+                                            .font(Font.custom("DM Sans", size: 16).weight(.bold))
+                                            .foregroundColor(.white)
+                                    } else {
+                                        Image(systemName: "arrow.circlepath")
+                                            .frame(width: Constants.xl, height: Constants.xl)
+                                            .foregroundColor(.white)
+                                        Text("Resend Invite")
+                                            .font(Font.custom("DM Sans", size: 16).weight(.bold))
+                                            .foregroundColor(.white)
+                                    }
                                 }
-                                else{
-                                    Image(systemName: "arrow.circlepath")
-                                        .frame(width: Constants.xl, height: Constants.xl)
-                                        .foregroundColor(.white)
-                                    Text("Resend Invite")
-                                        .font(Font.custom("DM Sans", size: 16).weight(.bold))
-                                        .foregroundColor(.white)
+                                .padding(.horizontal, Constants.lg)
+                                .padding(.vertical, Constants.sm)
+                                .background(credentialsGenerated || librarian.status == "Approved" ? Color(red: 0.32, green: 0.23, blue: 0.06) : Color.gray)
+                                .cornerRadius(Constants.xxs)
+                                .padding(.top, 15)
+                                .onTapGesture {
+                                    if (credentialsGenerated) && (librarian.status != "Approved") {
+                                        inviteLibrarian()
+                                    } else {
+                                        inviteMail()
+                                    }
                                 }
-                            }
-                            .padding(.horizontal, Constants.lg)
-                            .padding(.vertical, Constants.sm)
-                            .background(credentialsGenerated || librarian.status == "Approved" ? Color(red: 0.32, green: 0.23, blue: 0.06) : Color.gray)
-                            .cornerRadius(Constants.xxs)
-                            .padding(.top, 10)
-                            .onTapGesture {
-                                if (credentialsGenerated)  && (librarian.status != "Approved"){
-                                    inviteLibrarian()
-                                }
-                                else{
-                                    inviteMail()
+                                
+                                if librarian.status != "Approved" {
+                                    Button(action: {
+                                        showAlert = true
+                                    }) {
+                                        Image(systemName: "person.fill.badge.minus")
+                                            .frame(width: Constants.xl, height: Constants.xl)
+                                            .foregroundColor(.white)
+                                        Text("Reject")
+                                            .font(Font.custom("DM Sans", size: 16).weight(.bold))
+                                            .foregroundColor(.white)
+                                    }
+                                    .alert(isPresented: $showAlert, content: {
+                                        Alert(
+                                                title: Text("Are you sure?"),
+                                                message: Text("The details will be deletd"),
+                                                primaryButton: .default(Text("No")),
+                                                secondaryButton: .destructive(Text("Delete"), action: {
+                                                 rejectLibrarian()
+                                                 showSheet = false
+                                                })
+                                              )
+                                    })
+                                    .padding(.horizontal, Constants.lg)
+                                    .padding(.vertical, Constants.sm)
+                                    .background(Color(red: 0.32, green: 0.23, blue: 0.06))
+                                    .cornerRadius(Constants.xxs)
+                                    .padding(.top, 15)
+                                } else {
+                                    Button(action: {
+                                        showAlert = true
+                                    }) {
+                                        Image(systemName: "person.crop.circle.fill.badge.minus")
+                                            .frame(width: Constants.xl, height: Constants.xl)
+                                            .foregroundColor(.white)
+                                        Text("Suspend")
+                                            .font(Font.custom("DM Sans", size: 16).weight(.bold))
+                                            .foregroundColor(.white)
+                                    }
+                                    .alert(isPresented: $showAlert, content: {
+                                        Alert(
+                                                title: Text("Are you sure?"),
+                                                message: Text("Restrict librarian access to the portal"),
+                                                primaryButton: .default(Text("No")),
+                                                secondaryButton: .destructive(Text("Suspend"), action: {
+                                                suspendLibrarian()
+                                                 showSheet = false
+                                                })
+                                              )
+                                    })
+                                    .padding(.horizontal, Constants.lg)
+                                    .padding(.vertical, Constants.sm)
+                                    .background(Color(red: 0.32, green: 0.23, blue: 0.06))
+                                    .cornerRadius(Constants.xxs)
+                                    .padding(.top, 15)
                                 }
                             }
                         }
@@ -394,7 +452,9 @@ struct LibrarianDetailView: View {
                         HStack {
                             Spacer()
                             Image("mingcute_mail-line")
-                                .frame(width: 92, height: 92, alignment: .center)
+                                .frame(width: 92, height: 92)
+                                .cornerRadius(50)
+                                .foregroundColor(.black)
                             Spacer()
                         }
                         .padding(.top, 45)
@@ -417,7 +477,7 @@ struct LibrarianDetailView: View {
             }
         }
     }
-    
+
     private func generateCredentials() {
         if let emailPrefix = librarian.email.split(separator: "@").first {
             userId = String(emailPrefix)
@@ -457,77 +517,157 @@ struct LibrarianDetailView: View {
         inviteMail()
     }
 
-    private func inviteMail(){
-        let email = "ayushag.cse@gmail.com"
+    private func inviteMail() {
+        let email = "shelves@outlook.in"
         let json: [String: Any] = [
-            
-                "personalizations": [
-                    ["to": [["email": librarian.email]]]
-                ],
-                "from": ["email": email],
-                "subject": "Welcome to Shelves Library",
-                "content": [
-                    ["type": "text/plain", "value": """
-                        Dear \(librarian.name),
-                        
-                        Welcome to Shelves Library! Your account has been created successfully. Here are your login credentials:
+            "personalizations": [
+                ["to": [["email": librarian.email]]]
+            ],
+            "from": ["email": email],
+            "subject": "Welcome to Shelves Library",
+            "content": [
+                ["type": "text/plain", "value": """
+                    Dear \(librarian.name),
+                    
+                    Welcome to Shelves Library! Your account has been created successfully. Here are your login credentials:
 
-                        Email: \(librarian.email)
-                        Password: \(password)
+                    Email: \(librarian.email)
+                    Password: \(password)
 
-                        Please log in and update your profile information at your earliest convenience.
+                    Please log in and update your profile information at your earliest convenience.
 
-                        Best regards,
-                        Admin
-                        Shelves Library Team
-                        """]
-                ]
+                    Best regards,
+                    Admin
+                    Shelves Library Team
+                    """]
             ]
+        ]
+        
+        let data = try! JSONSerialization.data(withJSONObject: json, options: [])
+        
+        let request: URLRequest = {
+            let apiKey = Config.sendGridAPIKey
+            let url = URL(string: "https://api.sendgrid.com/v3/mail/send")!
+            var request = URLRequest(url: url)
+            request.httpMethod = "POST"
+            request.addValue("Bearer \(apiKey)", forHTTPHeaderField: "Authorization")
+            request.addValue("application/json", forHTTPHeaderField: "Content-Type")
+            request.httpBody = data
+            return request
+        }()
+        
+        URLSession.shared.dataTask(with: request) { data, response, error in
+            if let error = error {
+                print("Error sending email: \(error.localizedDescription)")
+                return
+            }
             
-            let data = try! JSONSerialization.data(withJSONObject: json, options: [])
-            
-            let request: URLRequest = {
-                let apiKey = Config.sendGridAPIKey
-                let url = URL(string: "https://api.sendgrid.com/v3/mail/send")!
-                var request = URLRequest(url: url)
-                request.httpMethod = "POST"
-                request.addValue("Bearer \(apiKey)", forHTTPHeaderField: "Authorization")
-                request.addValue("application/json", forHTTPHeaderField: "Content-Type")
-                request.httpBody = data
-                return request
-            }()
-            
-            URLSession.shared.dataTask(with: request) { data, response, error in
-                if let error = error {
-                    print("Error sending email: \(error.localizedDescription)")
-                    return
-                }
-                
-                if let response = response as? HTTPURLResponse, (200...299).contains(response.statusCode) {
-                    inviteSent = true
-                    print("Email sent successfully")
-                    if librarian.status != "Approved"{
-                        Auth.auth().createUser(withEmail: librarian.email, password: password) { authResult, error in
-                            if let error = error {
-                                print("Error creating user: \(error.localizedDescription)")
-                            } else {
-                                print("User created successfully: \(authResult?.user.uid ?? "Unknown UID")")
-                                print("Password -\(password)")
-                            }
+            if let response = response as? HTTPURLResponse, (200...299).contains(response.statusCode) {
+                inviteSent = true
+                print("Email sent successfully")
+                if librarian.status != "Approved"{
+                    Auth.auth().createUser(withEmail: librarian.email, password: password) { authResult, error in
+                        if let error = error {
+                            print("Error creating user: \(error.localizedDescription)")
+                        } else {
+                            print("User created successfully: \(authResult?.user.uid ?? "Unknown UID")")
+                            print("Password -\(password)")
                         }
                     }
-                } else {
-                    print("Failed to send email")
                 }
-            }.resume()
+            } else {
+                print("Failed to send email")
+            }
+        }.resume()
     }
-    
+    private func suspendMail(){
+        let email = "shelves@outlook.in"
+        let json: [String: Any] = [
+            "personalizations": [
+                ["to": [["email": librarian.email]]]
+            ],
+            "from": ["email": email],
+            "subject": "Shelves Library Account Update",
+            "content": [
+                ["type": "text/plain", "value": """
+                    Dear \(librarian.name),
+
+                    This email informs you that your account has been suspended by the administrative team.We understand this may be inconvenient, and we apologize for any disruption this may cause.
+                    
+                    For further clarification regarding the suspension and potential reinstatement, please contact us at shelves@outlook.in.
+
+                    Sincerely,
+                    Admin
+                    Shelves Library Team
+                    """]
+            ]
+        ]
+        
+        let data = try! JSONSerialization.data(withJSONObject: json, options: [])
+        
+        let request: URLRequest = {
+            let apiKey = Config.sendGridAPIKey
+            let url = URL(string: "https://api.sendgrid.com/v3/mail/send")!
+            var request = URLRequest(url: url)
+            request.httpMethod = "POST"
+            request.addValue("Bearer \(apiKey)", forHTTPHeaderField: "Authorization")
+            request.addValue("application/json", forHTTPHeaderField: "Content-Type")
+            request.httpBody = data
+            return request
+        }()
+        
+        URLSession.shared.dataTask(with: request) { data, response, error in
+            if let error = error {
+                print("Error sending email: \(error.localizedDescription)")
+                return
+            }
+            
+            if let response = response as? HTTPURLResponse, (200...299).contains(response.statusCode) {
+               
+                print("Email sent successfully")
+               
+            } else {
+                print("Failed to send email")
+            }
+        }.resume()
+    }
+
     private func formatFirebaseKey(_ email: String) -> String {
         // Replace @ with empty string and . with hyphen
         return email.replacingOccurrences(of: "@", with: "-").replacingOccurrences(of: ".", with: "-")
     }
 
+    private func rejectLibrarian() {
+        let sanitizedEmail = formatFirebaseKey(librarian.email)
+        let ref = Database.database().reference().child("users").child(sanitizedEmail)
+        ref.removeValue()
+    }
+
+    private func suspendLibrarian() {
+        updatedLibrarian.status = "Suspended"
+        updateLibrarianStatusInFirebase()
+        suspendMail()
+    }
+
+    private func updateLibrarianStatusInFirebase() {
+        let sanitizedEmail = formatFirebaseKey(librarian.email)
+        let ref = Database.database().reference().child("users").child(sanitizedEmail)
+        let librarianData: [String: Any] = [
+            "status": updatedLibrarian.status,
+        ]
+        
+        ref.updateChildValues(librarianData) { error, _ in
+            if let error = error {
+                print("Error updating status: \(error.localizedDescription)")
+            } else {
+                print("Status updated successfully")
+            }
+        }
+    }
 }
+
+
+
 
 
     #Preview(){
