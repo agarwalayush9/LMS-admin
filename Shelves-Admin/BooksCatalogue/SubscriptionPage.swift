@@ -10,6 +10,7 @@ import SwiftUI
 struct SubscriptionView: View {
     @State private var showEditSheet = false
     @State private var selectedTier: SubscriptionTier?
+    @State var menuOpened = false
     
     @State private var tiers = [
         SubscriptionTier(tierNumber: 1, tierName: "Bronze", price: "₹0/-"),
@@ -17,8 +18,13 @@ struct SubscriptionView: View {
         SubscriptionTier(tierNumber: 3, tierName: "Gold", price: "₹699/-")
     ]
     
+    
+    
     var body: some View {
-        VStack(alignment: .leading, spacing: 20) {
+        ZStack{
+            
+            
+            VStack(alignment: .leading, spacing: 20) {
             Text("Manage Subscription Prices")
                 .font(.largeTitle)
                 .fontWeight(.bold)
@@ -28,9 +34,12 @@ struct SubscriptionView: View {
             }
             
             Spacer()
+            
+            
         }
         .padding()
         .background(Color(.systemGray6))
+        
         .sheet(isPresented: $showEditSheet) {
             if let tier = selectedTier {
                 EditSubscriptionView(tier: tier, showEditSheet: $showEditSheet) { updatedTier in
@@ -39,7 +48,39 @@ struct SubscriptionView: View {
                     }
                 }
             }
+            
+            
+            
+            
         }
+        
+        
+            if menuOpened {
+                sideMenu(width: UIScreen.main.bounds.width * 0.30, menuOpened: menuOpened, toggleMenu: toggleMenu)
+                    .ignoresSafeArea()
+                    .toolbar(.hidden, for: .navigationBar)
+            }
+    }
+        .navigationTitle("LMS")
+        .navigationBarTitleDisplayMode(.inline)
+        .toolbarBackground(.visible, for: .navigationBar)
+        .toolbar {
+            ToolbarItem(placement: .topBarLeading) {
+                Button(action: {
+                    menuOpened.toggle()
+                }, label: {
+                    Image(systemName: "sidebar.left")
+                        .foregroundStyle(Color.black)
+                })
+            }
+        }
+        
+    }
+    
+    
+    
+    func toggleMenu() {
+        menuOpened.toggle()
     }
 }
 
