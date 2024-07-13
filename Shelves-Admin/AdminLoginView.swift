@@ -334,30 +334,54 @@ struct AdminLoginView: View {
             case .success:
                 print("Login successful")
                 
-//                // Do any additional UI updates or navigation here
-//                let bronzeSubscription = BronzeSubscription(monthly: 0, yearly: 0)
-//                let silverSubscription = SilverSubscription(monthly: 399, yearly: 3000)
-//                let goldSubscription = GoldSubscription(monthly: 699, yearly: 6000)
-//                            
-//                            // Create the Admin object
-//                let admin = Admin(
-//                    email: email,
-//                    bronzeSubscription: bronzeSubscription,
-//                    silverSubscription: silverSubscription,
-//                    goldSubscription: goldSubscription
-//                )
-//                            
-//                            
-//                DataController.shared.addAdmin(admin) { result in
-//                switch result {
+//                let bronzeSub = BronzeSubscription(monthly: 0, yearly: 0, activeUsers: 0)
+//                let silverSub = SilverSubscription(monthly: 699, yearly: 6999, activeUser: 0)
+//                let goldSub = GoldSubscription(monthly: 799, yearly: 7999, activeUsers: 0)
+//
+//                let dataController = DataController.shared
+//                let dispatchGroup = DispatchGroup()
+//
+//                // Add Bronze Subscription
+//                dispatchGroup.enter()
+//                dataController.addBronzeSubscription(bronzeSub) { result in
+//                    switch result {
 //                    case .success:
-//                        print("Admin information saved successfully")
-//                                    // Do any additional UI updates or navigation here
+//                        print("Bronze subscription added.")
 //                    case .failure(let error):
-//                        print("Failed to save admin information: \(error.localizedDescription)")
-//                                }
-//                            }
-//                
+//                        print("Failed to add bronze subscription: \(error.localizedDescription)")
+//                    }
+//                    dispatchGroup.leave()
+//                }
+//
+//                // Add Silver Subscription
+//                dispatchGroup.enter()
+//                dataController.addSilverSubscription(silverSub) { result in
+//                    switch result {
+//                    case .success:
+//                        print("Silver subscription added.")
+//                    case .failure(let error):
+//                        print("Failed to add silver subscription: \(error.localizedDescription)")
+//                    }
+//                    dispatchGroup.leave()
+//                }
+//
+//                // Add Gold Subscription
+//                dispatchGroup.enter()
+//                dataController.addGoldSubscription(goldSub) { result in
+//                    switch result {
+//                    case .success:
+//                        print("Gold subscription added.")
+//                    case .failure(let error):
+//                        print("Failed to add gold subscription: \(error.localizedDescription)")
+//                    }
+//                    dispatchGroup.leave()
+//                }
+//
+//                // Notify when all subscriptions have been added
+//                dispatchGroup.notify(queue: .main) {
+//                    print("All subscriptions added successfully.")
+//                    // Handle any further logic after adding subscriptions
+//                }
                 
             case .failure(let error):
                 errorMessage = error.localizedDescription
@@ -366,6 +390,7 @@ struct AdminLoginView: View {
             }
         }
     }
+
     
     func resetMail() {
         isLoading = true

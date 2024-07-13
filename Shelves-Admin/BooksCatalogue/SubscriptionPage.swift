@@ -10,57 +10,48 @@ import SwiftUI
 struct SubscriptionView: View {
     @State private var showEditSheet = false
     @State private var selectedTier: SubscriptionTier?
-    @State var menuOpened = false
+    @State private var menuOpened = false
     
     @State private var tiers = [
-        SubscriptionTier(tierNumber: 1, tierName: "Bronze", price: "₹0/-"),
-        SubscriptionTier(tierNumber: 2, tierName: "Silver", price: "₹399/-"),
-        SubscriptionTier(tierNumber: 3, tierName: "Gold", price: "₹699/-")
+        SubscriptionTier(tierNumber: 1, tierName: "Bronze", monthly: 0, yearly: 0, activeMembers: 0),
+        SubscriptionTier(tierNumber: 2, tierName: "Silver", monthly: 399, yearly: 699, activeMembers: 0),
+        SubscriptionTier(tierNumber: 3, tierName: "Gold", monthly: 699, yearly: 999, activeMembers: 0)
     ]
     
     
     
     var body: some View {
-        ZStack{
-            
-            
+        ZStack {
             VStack(alignment: .leading, spacing: 20) {
-            Text("Manage Subscription Prices")
-                .font(.largeTitle)
-                .fontWeight(.bold)
-            
-            ForEach(tiers.indices, id: \.self) { index in
-                SubscriptionTierView(tier: $tiers[index], showEditSheet: $showEditSheet, selectedTier: $selectedTier)
+                Text("Manage Subscription Prices")
+                    .font(.largeTitle)
+                    .fontWeight(.bold)
+                
+                ForEach(tiers.indices, id: \.self) { index in
+                    SubscriptionTierView(tier: $tiers[index], showEditSheet: $showEditSheet, selectedTier: $selectedTier)
+                }
+                
+                Spacer()
             }
+            .padding()
+            .background(Color(.systemGray6))
             
-            Spacer()
-            
-            
-        }
-        .padding()
-        .background(Color(.systemGray6))
-        
-        .sheet(isPresented: $showEditSheet) {
-            if let tier = selectedTier {
-                EditSubscriptionView(tier: tier, showEditSheet: $showEditSheet) { updatedTier in
-                    if let index = tiers.firstIndex(where: { $0.id == updatedTier.id }) {
-                        tiers[index] = updatedTier
+            .sheet(isPresented: $showEditSheet) {
+                if let tier = selectedTier {
+                    EditSubscriptionView(tier: tier, showEditSheet: $showEditSheet) { updatedTier in
+                        if let index = tiers.firstIndex(where: { $0.id == updatedTier.id }) {
+                            tiers[index] = updatedTier
+                        }
                     }
                 }
             }
             
-            
-            
-            
-        }
-        
-        
             if menuOpened {
                 sideMenu(width: UIScreen.main.bounds.width * 0.30, menuOpened: menuOpened, toggleMenu: toggleMenu)
                     .ignoresSafeArea()
                     .toolbar(.hidden, for: .navigationBar)
             }
-    }
+        }
         .navigationTitle("LMS")
         .navigationBarTitleDisplayMode(.inline)
         .toolbarBackground(.visible, for: .navigationBar)
@@ -74,15 +65,46 @@ struct SubscriptionView: View {
                 })
             }
         }
-        
+        .onAppear {
+            fetchData()
+        }
     }
-    
-    
     
     func toggleMenu() {
         menuOpened.toggle()
     }
+    
+    func fetchData() {
+        DataController.shared.fetchBronzeSubscription { result in
+            switch result {
+            case .success(let bronzeSubscription):
+                tiers[0] = SubscriptionTier(tierNumber: 1, tierName: "Bronze", monthly: bronzeSubscription.monthly, yearly: bronzeSubscription.yearly, activeMembers: bronzeSubscription.activeUsers)
+            case .failure(let error):
+                print("Failed to fetch Bronze subscription: \(error.localizedDescription)")
+            }
+        }
+        
+        DataController.shared.fetchSilverSubscription { result in
+            switch result {
+            case .success(let silverSubscription):
+                tiers[1] = SubscriptionTier(tierNumber: 2, tierName: "Silver", monthly: silverSubscription.monthly, yearly: silverSubscription.yearly, activeMembers: silverSubscription.activeUser)
+            case .failure(let error):
+                print("Failed to fetch Silver subscription: \(error.localizedDescription)")
+            }
+        }
+        
+        DataController.shared.fetchGoldSubscription { result in
+            switch result {
+            case .success(let goldSubscription):
+                tiers[2] = SubscriptionTier(tierNumber: 3, tierName: "Gold", monthly: goldSubscription.monthly, yearly: goldSubscription.yearly, activeMembers: goldSubscription.activeUsers)
+            case .failure(let error):
+                print("Failed to fetch Gold subscription: \(error.localizedDescription)")
+            }
+        }
+    }
 }
+
+
 
 struct SubscriptionTierView: View {
     @Binding var tier: SubscriptionTier
@@ -110,7 +132,7 @@ struct SubscriptionTierView: View {
                     .padding(.trailing)
                     .foregroundColor(Color(red: 0.32, green: 0.23, blue: 0.06))
                 
-                Text(tier.price)
+                Text("₹\(tier.monthly)/-")
                     .font(.title2)
                     .fontWeight(.semibold)
                     .foregroundColor(Color(red: 0.32, green: 0.23, blue: 0.06))
@@ -168,12 +190,14 @@ struct EditSubscriptionView: View {
                             Text("Monthly")
                             TextField("Monthly Price", text: $monthlyPrice)
                                 .textFieldStyle(RoundedBorderTextFieldStyle())
+                                .keyboardType(.numberPad)
                         }
                         
                         VStack(alignment: .leading) {
                             Text("Yearly")
                             TextField("Yearly Price", text: $yearlyPrice)
                                 .textFieldStyle(RoundedBorderTextFieldStyle())
+                                .keyboardType(.numberPad)
                         }
                     }
                 }
@@ -181,35 +205,32 @@ struct EditSubscriptionView: View {
                 Spacer()
                 
                 Button(action: {
-                    // Update the price and dismiss the sheet
-                    tier.price = "₹\(monthlyPrice)/-"
-                    onUpdate(tier)
-                    showEditSheet = false
-                    
-                    // Get the admin's email from UserDefaults
-                    if let email = UserDefaults.standard.string(forKey: "adminEmail") {
-                        // Update the subscription price in Firebase
-                        let dataController = DataController()
-                        dataController.updateSubscriptionPrice(
-                            email: email,
-                            tierNumber: tier.tierNumber,
-                            monthlyPrice: monthlyPrice,
-                            yearlyPrice: yearlyPrice
-                        ) { result in
-                            switch result {
-                            case .success:
-                                                            DispatchQueue.main.async {
-                                                                showAlert = true
-                                                                alertMessage = "Subscription price updated successfully."
-                                                            }
-                                                        case .failure(let error):
-                                                            DispatchQueue.main.async {
-                                                                showAlert = true
-                                                                alertMessage = "Failed to update subscription price: \(error.localizedDescription)"
-                                                            }
-                            }
-                        }
+                    // Validate prices
+                    guard let monthly = Int(monthlyPrice), let yearly = Int(yearlyPrice) else {
+                        showAlert = true
+                        alertMessage = "Please enter valid prices."
+                        return
                     }
+                    
+                    // Update subscription prices based on tier
+                    switch tier.tierNumber {
+                    case 1:
+                        DataController.shared.updateBronzeSubscription(monthly: monthly, yearly: yearly, activeUsers: tier.activeMembers) { result in
+                            handleUpdateResult(result)
+                        }
+                    case 2:
+                        DataController.shared.updateSilverSubscription(monthly: monthly, yearly: yearly, activeUser: tier.activeMembers) { result in
+                            handleUpdateResult(result)
+                        }
+                    case 3:
+                        DataController.shared.updateGoldSubscription(monthly: monthly, yearly: yearly, activeUsers: tier.activeMembers) { result in
+                            handleUpdateResult(result)
+                        }
+                    default:
+                        showAlert = true
+                        alertMessage = "Invalid subscription tier."
+                    }
+                    
                 }) {
                     Text("Done")
                         .fontWeight(.bold)
@@ -234,21 +255,29 @@ struct EditSubscriptionView: View {
         }
         .onAppear {
             // Set the initial values for the text fields
-            let prices = tier.price.split(separator: "₹")
-            if prices.count > 1 {
-                monthlyPrice = String(prices[1].dropLast(2)) // removing "/-"
+            monthlyPrice = "\(tier.monthly)"
+            yearlyPrice = "\(tier.yearly)"
+        }
+        .onChange(of: showAlert) { _ in
+            if !showAlert {
+                showEditSheet = false // Dismiss the edit sheet when alert is dismissed
+                onUpdate(tier) // Update the parent view's data
             }
+        }
+    }
+    
+    private func handleUpdateResult(_ result: Result<Void, Error>) {
+        switch result {
+        case .success:
+            showAlert = true
+            alertMessage = "Subscription updated successfully."
+        case .failure(let error):
+            showAlert = true
+            alertMessage = "Failed to update subscription: \(error.localizedDescription)"
         }
     }
 }
 
-
-struct SubscriptionTier: Identifiable {
-    var id = UUID()
-    var tierNumber: Int
-    var tierName: String
-    var price: String
-}
 
 struct ContentView: View {
     var body: some View {

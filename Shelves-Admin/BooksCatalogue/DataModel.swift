@@ -52,26 +52,42 @@ enum Genre: String, Codable {
     case Literature
 }
 
-struct BronzeSubscription {
+struct SubscriptionTier: Identifiable {
+    var id = UUID()
+    var tierNumber: Int
+    var tierName: String
     var monthly: Int
     var yearly: Int
+    var activeMembers: Int
+}
+
+
+struct BronzeSubscription {
+    
+    var monthly: Int
+    var yearly: Int
+    var activeUsers: Int
     
     func toDictionary() -> [String: Any] {
         return [
             "monthly": monthly,
-            "yearly": yearly
+            "yearly": yearly,
+            "activeUsers": activeUsers
         ]
     }
 }
 
 struct SilverSubscription {
+    
     var monthly: Int
     var yearly: Int
+    var activeUser: Int
     
     func toDictionary() -> [String: Any] {
         return [
             "monthly": monthly,
-            "yearly": yearly
+            "yearly": yearly,
+            "activeUsers": activeUser
         ]
     }
 }
@@ -79,11 +95,13 @@ struct SilverSubscription {
 struct GoldSubscription {
     var monthly: Int
     var yearly: Int
+    var activeUsers: Int
     
     func toDictionary() -> [String: Any] {
         return [
             "monthly": monthly,
-            "yearly": yearly
+            "yearly": yearly,
+            "activeUsers": activeUsers
         ]
     }
 }
