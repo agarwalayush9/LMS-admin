@@ -51,3 +51,55 @@ enum Genre: String, Codable {
     case ScienceFiction
     case Literature
 }
+
+struct BronzeSubscription {
+    var monthly: Int
+    var yearly: Int
+    
+    func toDictionary() -> [String: Any] {
+        return [
+            "monthly": monthly,
+            "yearly": yearly
+        ]
+    }
+}
+
+struct SilverSubscription {
+    var monthly: Int
+    var yearly: Int
+    
+    func toDictionary() -> [String: Any] {
+        return [
+            "monthly": monthly,
+            "yearly": yearly
+        ]
+    }
+}
+
+struct GoldSubscription {
+    var monthly: Int
+    var yearly: Int
+    
+    func toDictionary() -> [String: Any] {
+        return [
+            "monthly": monthly,
+            "yearly": yearly
+        ]
+    }
+}
+
+struct Admin {
+    var email: String
+    var bronzeSubscription: BronzeSubscription
+    var silverSubscription: SilverSubscription
+    var goldSubscription: GoldSubscription
+    
+    func toDictionary() -> [String: Any] {
+        return [
+            "email": email,
+            "bronzeSubscription": bronzeSubscription.toDictionary(),
+            "silverSubscription": silverSubscription.toDictionary(),
+            "goldSubscription": goldSubscription.toDictionary()
+        ]
+    }
+}

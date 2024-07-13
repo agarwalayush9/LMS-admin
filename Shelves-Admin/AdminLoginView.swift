@@ -333,7 +333,32 @@ struct AdminLoginView: View {
             switch result {
             case .success:
                 print("Login successful")
-                // Do any additional UI updates or navigation here
+                
+//                // Do any additional UI updates or navigation here
+//                let bronzeSubscription = BronzeSubscription(monthly: 0, yearly: 0)
+//                let silverSubscription = SilverSubscription(monthly: 399, yearly: 3000)
+//                let goldSubscription = GoldSubscription(monthly: 699, yearly: 6000)
+//                            
+//                            // Create the Admin object
+//                let admin = Admin(
+//                    email: email,
+//                    bronzeSubscription: bronzeSubscription,
+//                    silverSubscription: silverSubscription,
+//                    goldSubscription: goldSubscription
+//                )
+//                            
+//                            
+//                DataController.shared.addAdmin(admin) { result in
+//                switch result {
+//                    case .success:
+//                        print("Admin information saved successfully")
+//                                    // Do any additional UI updates or navigation here
+//                    case .failure(let error):
+//                        print("Failed to save admin information: \(error.localizedDescription)")
+//                                }
+//                            }
+//                
+                
             case .failure(let error):
                 errorMessage = error.localizedDescription
                 showAlert = true

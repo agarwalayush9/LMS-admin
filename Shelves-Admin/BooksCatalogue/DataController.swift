@@ -15,6 +15,78 @@ class DataController
     static let shared = DataController() // singleton
     private let database = Database.database().reference()
     
+    static func safeEmail(email: String) -> String {
+            var safeEmail = email.replacingOccurrences(of: ".", with: "-")
+            safeEmail = safeEmail.replacingOccurrences(of: "@", with: "-")
+            return safeEmail
+    }
+    
+    func addAdmin(_ admin: Admin, completion: @escaping (Result<Void, Error>) -> Void) {
+            let safeEmail = DataController.safeEmail(email: admin.email)
+            
+            // Check if the admin email already exists
+            database.child("admins").child(safeEmail).observeSingleEvent(of: .value) { snapshot in
+                if snapshot.exists() {
+                    // Admin email already exists
+                    completion(.failure(NSError(domain: "", code: 1, userInfo: [NSLocalizedDescriptionKey: "Email is already in use."])))
+                } else {
+                    // Add the admin to the database
+                    self.saveAdminToDatabase(admin) { result in
+                        completion(result)
+                    }
+                }
+            }
+        }
+        
+        private func saveAdminToDatabase(_ admin: Admin, completion: @escaping (Result<Void, Error>) -> Void) {
+            let safeEmail = DataController.safeEmail(email: admin.email)
+            let adminDictionary = admin.toDictionary()
+            database.child("admins").child(safeEmail).setValue(adminDictionary) { error, _ in
+                if let error = error {
+                    print("Failed to save admin: \(error.localizedDescription)")
+                    completion(.failure(error))
+                } else {
+                    print("Admin saved successfully.")
+                    completion(.success(()))
+                }
+            }
+        }
+    
+    
+    
+    func updateSubscriptionPrice(email: String, tierNumber: Int, monthlyPrice: String, yearlyPrice: String, completion: @escaping (Result<Void, Error>) -> Void) {
+            let safeEmail = DataController.safeEmail(email: email)
+            
+            // Build the nested structure properly
+            let subscriptionPath: String
+            switch tierNumber {
+            case 1:
+                subscriptionPath = "bronzeSubscription"
+            case 2:
+                subscriptionPath = "silverSubscription"
+            case 3:
+                subscriptionPath = "goldSubscription"
+            default:
+                completion(.failure(NSError(domain: "", code: 1, userInfo: [NSLocalizedDescriptionKey: "Invalid tier number"])))
+                return
+            }
+            
+            let updatedProperties = [
+                "\(subscriptionPath)/monthly": monthlyPrice,
+                "\(subscriptionPath)/yearly": yearlyPrice
+            ]
+            
+            database.child("admins").child(safeEmail).updateChildValues(updatedProperties) { error, _ in
+                if let error = error {
+                    print("Failed to update subscription price: \(error.localizedDescription)")
+                    completion(.failure(error))
+                } else {
+                    print("Subscription price updated successfully.")
+                    completion(.success(()))
+                }
+            }
+        }
+    
     func fetchBooks(completion: @escaping (Result<[Book], Error>) -> Void) {
             database.child("books").observe(.value) { snapshot in
                 guard let booksDict = snapshot.value as? [String: [String: Any]] else {

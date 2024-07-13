@@ -20,6 +20,7 @@ class AuthManager: ObservableObject {
                 completion(.failure(error))
             } else {
                 print("Sign in successful")
+                UserDefaults.standard.set(email, forKey: "adminEmail")
                 self?.isLoggedIn = true
                 completion(.success(()))
             }
