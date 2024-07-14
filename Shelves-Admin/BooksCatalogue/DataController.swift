@@ -60,4 +60,25 @@ class DataController
                 completion(.success(books))
             }
         }
+    
+    
+    func fetchNumberOfBooks(completion: @escaping (Result<Int, Error>) -> Void) {
+        database.child("books").observeSingleEvent(of: .value) { snapshot, error in
+            if let error = error {
+                completion(.failure(error as! Error))
+                return
+            }
+            
+            guard let snapshotDict = snapshot.value as? [String: Any] else {
+                // If there are no books or the snapshot cannot be casted to [String: Any]
+                completion(.success(0))
+                return
+            }
+            
+            // Get the count of children under "books" node
+            let numberOfBooks = snapshotDict.count
+            completion(.success(numberOfBooks))
+        }
+    }
+
     }

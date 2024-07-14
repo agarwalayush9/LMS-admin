@@ -8,22 +8,29 @@
 import Foundation
 import SwiftUI
 
-struct Analytics : Identifiable, Equatable{
+struct Analytics: Identifiable, Equatable {
+    var id: String { title }
+    var title: String
+    var value: Double
+    var salesDifferencePercentage: Double
     
-    var id : String{title}
-    var title : String
-    var value : Double
-    var salesDifferencePercentage : Double
+    static var analytics: [Analytics] = [
+        Analytics(title: "New Members", value: 221, salesDifferencePercentage: 2.5),
+        Analytics(title: "Books Issued", value: 221, salesDifferencePercentage: 2.5),
+        Analytics(title: "Lost or Damaged Books", value: 221, salesDifferencePercentage: 2.5)
+    ]
     
-    static var analytics : [Analytics]{
-        [
-            Analytics(title: "Today's Revenue", value: 221, salesDifferencePercentage: 2.5),
-            Analytics(title: "New Members", value: 221, salesDifferencePercentage: 2.5),
-            Analytics(title: "Books Issued", value: 221, salesDifferencePercentage: 2.5),
-            Analytics(title: "Lost or Damaged Books", value: 221, salesDifferencePercentage: 2.5),
-        ]
+    static func updateTotalBooks(count: Int) {
+        if let index = analytics.firstIndex(where: { $0.title == "Total Books" }) {
+            analytics[index].value = Double(count)
+        } else {
+            let totalBooksAnalytics = Analytics(title: "Total Books", value: Double(count), salesDifferencePercentage: 0)
+            analytics.append(totalBooksAnalytics)
+        }
     }
 }
+
+
 
 //struct for menu Items
 struct MenuItem: Identifiable {

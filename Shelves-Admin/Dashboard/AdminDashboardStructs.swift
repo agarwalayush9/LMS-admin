@@ -43,16 +43,39 @@ struct card : View {
 }
 
 
-struct DashboardAnalytics : View {
-    let data = Analytics.analytics
+struct DashboardAnalytics: View {
+    @State private var analytics = Analytics.analytics
+    
     var body: some View {
-        ForEach(data){ datunm in
-            card(title: datunm.title,
-                 value: datunm.value,
-                 salesDifferencePercentage: datunm.salesDifferencePercentage)
+        ScrollView {
+            HStack {
+                ForEach(analytics) { data in
+                    card(title: data.title,
+                         value: data.value,
+                         salesDifferencePercentage: data.salesDifferencePercentage)
+                        .padding()
+                }
+            }
+        }
+        .onAppear {
+            fetchAndUpdateAnalytics()
+        }
+    }
+    
+    func fetchAndUpdateAnalytics() {
+        DataController.shared.fetchNumberOfBooks { result in
+            switch result {
+            case .success(let count):
+                Analytics.updateTotalBooks(count: count)
+                self.analytics = Analytics.analytics // Update the local state with the latest data
+            case .failure(let error):
+                print("Failed to fetch number of books: \(error.localizedDescription)")
+                // Handle error if needed
+            }
         }
     }
 }
+
 
 struct cardData : View {
     var title : String
