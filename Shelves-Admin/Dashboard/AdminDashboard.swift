@@ -9,6 +9,10 @@ import SwiftUI
 
 struct AdminDashboard: View {
     @State private var menuOpened = false
+    @State private var isManageLibrarians = false
+    @State private var isManageEvents = false
+    @State private var isBookCatalogue = false
+    
     
     var body: some View {
         NavigationStack{
@@ -63,6 +67,27 @@ struct AdminDashboard: View {
                 }
                 
             }
+                
+                // Rectangle bar here
+                // Tab bar
+                               Rectangle()
+                                   .ignoresSafeArea()
+                                   .frame(maxWidth: .infinity, maxHeight: UIScreen.main.bounds.height * 0.07)
+                                   .foregroundColor(Color("librarianDashboardTabBar"))
+                                   .overlay(
+                                       HStack(alignment: .center) {
+                                        
+                                           Spacer()
+                                           showTabBarButtons(isManageLibrarians: $isManageLibrarians,
+                                                             isManageEvents: $isManageEvents,
+                                                             isBookCatalogue : $isBookCatalogue
+                                           )
+                                       }
+                                       .padding([.top, .leading])
+                                      // .padding(.leading, 50)
+                                       
+                                   )
+                                   .ignoresSafeArea()
             
                 if menuOpened {
                     sideMenu( width: UIScreen.main.bounds.width * 0.30,
@@ -134,6 +159,104 @@ struct BookCirculationCard: View {
     }
 }
 
+
+
+
+//MARK: Tab bar buttons
+struct showTabBarButtons : View {
+    
+    @Binding var isManageLibrarians : Bool
+    @Binding var isManageEvents : Bool
+    @Binding var isBookCatalogue : Bool
+    
+    
+    var body: some View {
+        //Manage event buttons
+        HStack{
+            Spacer()
+        Button(action: {
+            print("Manage Events Pressed")
+            isManageEvents.toggle()
+            
+        }, label: {
+            CustomButton(width: 170,
+                         height: 140,
+                         title: "Manage Events",
+                         colorName: "CustomButtonColor",
+                         fontColor: "white")
+        })
+        .padding()
+        
+        if isManageEvents{
+            //put Event management page here
+        NavigationLink("", destination: EmptyView())
+        }
+        
+            //manage librarians
+        Button(action: {
+            print("Manage Librarian Pressed")
+            isManageLibrarians.toggle()
+            
+        }, label: {
+            CustomButton(width: 180,
+                         height: 140,
+                         title: "Manage Librarian",
+                         colorName: "CustomButtonColor",
+                         fontColor: "white")
+        })
+        .padding()
+        
+        if isManageEvents{
+            //put Event management page here
+            NavigationLink("", destination: EmptyView())
+        }
+            
+            //manage book Catalogue
+        Button(action: {
+            print("Manage Book Catologue Pressed")
+            isManageLibrarians.toggle()
+            
+        }, label: {
+            CustomButton(width: 170,
+                         height: 140,
+                         title: "Book Catalogue",
+                         colorName: "CustomButtonColor",
+                         fontColor: "white")
+        })
+        .padding()
+        
+        if isManageEvents{
+            //put Event management page here
+            NavigationLink("", destination: EmptyView())
+        }
+        Spacer()
+    }
+    }
+}
+
+
+struct CustomButton : View {
+    
+    var width : CGFloat
+    var height : CGFloat
+    var title : String
+    var colorName : String
+    var fontColor : String
+    var body: some View {
+        HStack{
+            Text(title)
+                .font(
+                Font.custom("DM Sans", size: 17)
+                .weight(.bold)
+                )
+                .foregroundColor(.white)
+        }
+        .padding(.all)
+        .frame(maxWidth: width, maxHeight: height)
+        .background(Color(colorName))
+        .clipShape(RoundedRectangle(cornerRadius: 10))
+    }
+}
 struct showingDetails : View {
     
     var ISBN : String
@@ -272,6 +395,6 @@ struct memberData : View {
     }
 }
 
-//#Preview {
-//    AdminDashboard(isLoggedIn: $isLoggedIn)
-//}
+#Preview {
+    AdminDashboard()
+}
