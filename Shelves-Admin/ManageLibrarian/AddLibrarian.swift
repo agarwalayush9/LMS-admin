@@ -526,19 +526,75 @@ struct LibrarianDetailView: View {
             "from": ["email": email],
             "subject": "Welcome to Shelves Library",
             "content": [
-                ["type": "text/plain", "value": """
-                    Dear \(librarian.name),
-                    
-                    Welcome to Shelves Library! Your account has been created successfully. Here are your login credentials:
-
-                    Email: \(librarian.email)
-                    Password: \(password)
-
-                    Please log in and update your profile information at your earliest convenience.
-
-                    Best regards,
-                    Admin
-                    Shelves Library Team
+                ["type": "text/html", "value": """
+                          <!DOCTYPE html>
+                          <html>
+                          <head>
+                              <style>
+                                  .email-container {
+                                      font-family: Arial, sans-serif;
+                                      line-height: 1.6;
+                                      color: #8A682A;
+                                      background-image: linear-gradient(rgba(242, 197, 118, 0.7), rgba(242, 197, 118, 0.7)), url('https://github.com/suraj0209/email-cover/blob/main/E810223C-730B-4EE2-AF21-FC4EF9104BC9.jpg?raw=true'); /* Gradient over background image */
+                                      padding: 20px;
+                                      background-size: cover;
+                                      background-blend-mode: overlay;
+                                  }
+                                  .overlay {
+                                      background-color: rgba(255, 255, 255, 0.5); /* White background with 50% opacity */
+                                      padding: 20px;
+                                      border-radius: 10px;
+                                  }
+                                  .header, .content, .footer {
+                                      padding: 10px;
+                                  }
+                                  .logo-container {
+                                      display: flex;
+                                      align-items: center; /* Align items vertically */
+                                      justify-content: center;
+                                      gap: 20px; /* Custom padding between images */
+                                  }
+                                  .header img.logo {
+                                      height: 40px; /* Custom height for logo */
+                                      vertical-align: bottom; /* Align images to the bottom */
+                                  }
+                                  .header img.app-name {
+                                      height: 30px; /* Custom height for app name */
+                                      vertical-align: bottom; /* Align images to the bottom */
+                                      margin-top: 10px; /* Add a margin to align the app name slightly down */
+                                              margin-left: 5px;
+                                  }
+                                  .header h1 {
+                                      line-height: 1.2; /* Reduce line height to reduce padding between lines */
+                                  }
+                                  .content h2, .content h3, .content h4, .content p, .footer p {
+                                      color: #8A682A; /* Ensure text color remains consistent */
+                                  }
+                              </style>
+                          </head>
+                          <body>
+                              <div class="email-container">
+                                  <div class="overlay">
+                                      <div class="header">
+                                          <div class="logo-container">
+                                              <img src="https://github.com/suraj0209/email-cover/blob/main/Group%201.png?raw=true" alt="Logo" class="logo">
+                                              <img src="https://github.com/suraj0209/email-cover/blob/main/Shelves..png?raw=true" alt="App Name" class="app-name">
+                                          </div>
+                                          <h1>Welcome to Shelves library!</h1>
+                                      </div>
+                                      <div class="content">
+                                          <h2>The login credentials are</h2>
+                                          <h3>Email Id: \(librarian.email)</h3>
+                                          <h4>Password: \(librarian.password)</h4>
+                                          <p>Best regards,<br>Shelves</p>
+                                      </div>
+                                      <div class="footer">
+                                          <p>&copy; 2024 Shelves App. All rights reserved.</p>
+                                      </div>
+                                  </div>
+                              </div>
+                          </body>
+                          </html>
                     """]
             ]
         ]

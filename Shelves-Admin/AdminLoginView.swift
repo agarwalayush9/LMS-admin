@@ -333,56 +333,6 @@ struct AdminLoginView: View {
             switch result {
             case .success:
                 print("Login successful")
-                
-//                let bronzeSub = BronzeSubscription(monthly: 0, yearly: 0, activeUsers: 0)
-//                let silverSub = SilverSubscription(monthly: 699, yearly: 6999, activeUser: 0)
-//                let goldSub = GoldSubscription(monthly: 799, yearly: 7999, activeUsers: 0)
-//
-//                let dataController = DataController.shared
-//                let dispatchGroup = DispatchGroup()
-//
-//                // Add Bronze Subscription
-//                dispatchGroup.enter()
-//                dataController.addBronzeSubscription(bronzeSub) { result in
-//                    switch result {
-//                    case .success:
-//                        print("Bronze subscription added.")
-//                    case .failure(let error):
-//                        print("Failed to add bronze subscription: \(error.localizedDescription)")
-//                    }
-//                    dispatchGroup.leave()
-//                }
-//
-//                // Add Silver Subscription
-//                dispatchGroup.enter()
-//                dataController.addSilverSubscription(silverSub) { result in
-//                    switch result {
-//                    case .success:
-//                        print("Silver subscription added.")
-//                    case .failure(let error):
-//                        print("Failed to add silver subscription: \(error.localizedDescription)")
-//                    }
-//                    dispatchGroup.leave()
-//                }
-//
-//                // Add Gold Subscription
-//                dispatchGroup.enter()
-//                dataController.addGoldSubscription(goldSub) { result in
-//                    switch result {
-//                    case .success:
-//                        print("Gold subscription added.")
-//                    case .failure(let error):
-//                        print("Failed to add gold subscription: \(error.localizedDescription)")
-//                    }
-//                    dispatchGroup.leave()
-//                }
-//
-//                // Notify when all subscriptions have been added
-//                dispatchGroup.notify(queue: .main) {
-//                    print("All subscriptions added successfully.")
-//                    // Handle any further logic after adding subscriptions
-//                }
-                
             case .failure(let error):
                 errorMessage = error.localizedDescription
                 showAlert = true
