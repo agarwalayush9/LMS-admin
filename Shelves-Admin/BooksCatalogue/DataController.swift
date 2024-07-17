@@ -141,7 +141,7 @@ class DataController
     
     
     func fetchPendingEvents(completion: @escaping (Result<[Event], Error>) -> Void) {
-        database.child("PendingEvents").observeSingleEvent(of: .value) { snapshot in
+        database.child("PendingEvents").observe(.value) { snapshot in
             guard let eventsSnapshot = snapshot.children.allObjects as? [DataSnapshot] else {
                 completion(.failure(NSError(domain: "", code: -1, userInfo: [NSLocalizedDescriptionKey: "No data found or failed to cast snapshot value."])))
                 return
@@ -168,6 +168,7 @@ class DataController
             completion(.success(events))
         }
     }
+
     
     func fetchAllEvents(completion: @escaping (Result<[Event], Error>) -> Void) {
         database.child("events").observeSingleEvent(of: .value) { snapshot in
@@ -319,6 +320,22 @@ class DataController
                     completion(.failure(error))
                 } else {
                     completion(.success(()))
+                }
+            }
+        }
+    
+    func addNotification(_ notification: Notification, completion: @escaping (Error?) -> Void) {
+            let notificationsRef = database.child("notifications").childByAutoId()
+
+            // Convert notification to dictionary
+            let notificationData = notification.toDictionary()
+
+            // Add notification to Firebase
+            notificationsRef.setValue(notificationData) { error, _ in
+                if let error = error {
+                    completion(error)
+                } else {
+                    completion(nil)
                 }
             }
         }

@@ -24,11 +24,6 @@ class EventRequestViewModel: ObservableObject {
     }
 }
 
-
-import SwiftUI
-
-import SwiftUI
-
 import SwiftUI
 
 struct EventRequest: View {
@@ -58,18 +53,30 @@ struct EventRequest: View {
                                     DataController.shared.addEvent(event) { result in
                                         switch result {
                                         case .success:
-                                            alertMessage = "Event approved and added to the database."
+                                            alertMessage = "Event approved"
                                             shouldRefresh.toggle() // Toggle to refresh
                                         case .failure(let error):
                                             alertMessage = "Failed to add event: \(error.localizedDescription)"
                                         }
                                         showAlert = true
+                                        
+                                        
+                                    }
+                                    let notification = Notification(title: "Event Approved",
+                                    message: "The event \(event.name) has been approved.")
+                                    DataController.shared.addNotification(notification)
+                                    {  error in
+                                        if let error = error {
+                                            print("Failed to add approval notification: \(error.localizedDescription)")
+                                        } else {
+                                            print("Approval notification added successfully.")
+                                        }
                                     }
                                     
                                     DataController.shared.deletePendingEvent(event) { result in
                                         switch result {
                                         case .success:
-                                            alertMessage = "Event disapproved and removed from pending events."
+                                            alertMessage = "Event approved and removed from pending events."
                                             shouldRefresh.toggle() // Toggle to refresh
                                         case .failure(let error):
                                             alertMessage = "Failed to remove event from pending events: \(error.localizedDescription)"
@@ -89,6 +96,17 @@ struct EventRequest: View {
                                         case .failure(let error):
                                             alertMessage = "Failed to remove event from pending events: \(error.localizedDescription)"
                                         }
+                                        
+                                        let notification = Notification(title: "Event Disapproved",
+                                        message: "The event \(event.name) has been disapproved.")
+                                        DataController.shared.addNotification(notification)
+                                        {  error in
+                                            if let error = error {
+                                                print("Failed to add disapproval notification: \(error.localizedDescription)")
+                                            } else {
+                                                print("Disapproval notification added successfully")
+                                        }
+                                    }
                                         showAlert = true
                                     }
                                 }

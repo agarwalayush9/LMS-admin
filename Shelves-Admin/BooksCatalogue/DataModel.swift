@@ -128,3 +128,16 @@ struct Member {
     }
 }
 
+struct Notification: Identifiable {
+    var id = UUID()
+    
+    var title: String
+    var message: String
+
+    func toDictionary() -> [String: Any] {
+        return [
+            "title": title,
+            "message": message
+        ]
+    }
+}
