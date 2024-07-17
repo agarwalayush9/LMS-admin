@@ -139,4 +139,188 @@ class DataController
     }
     
     
+    
+    func fetchPendingEvents(completion: @escaping (Result<[Event], Error>) -> Void) {
+        database.child("PendingEvents").observeSingleEvent(of: .value) { snapshot in
+            guard let eventsSnapshot = snapshot.children.allObjects as? [DataSnapshot] else {
+                completion(.failure(NSError(domain: "", code: -1, userInfo: [NSLocalizedDescriptionKey: "No data found or failed to cast snapshot value."])))
+                return
+            }
+            
+            var events: [Event] = []
+            
+            for eventSnapshot in eventsSnapshot {
+                guard let eventDict = eventSnapshot.value as? [String: Any] else {
+                    print("Failed to parse event data for event with ID: \(eventSnapshot.key)")
+                    continue
+                }
+                
+                do {
+                    if let event = try self.parseEvent(from: eventDict, eventId: eventSnapshot.key) {
+                        events.append(event)
+                    }
+                } catch {
+                    print("Failed to parse event data: \(error.localizedDescription)")
+                }
+            }
+            
+            print("Fetched \(events.count) events.")
+            completion(.success(events))
+        }
+    }
+    
+    func fetchAllEvents(completion: @escaping (Result<[Event], Error>) -> Void) {
+        database.child("events").observeSingleEvent(of: .value) { snapshot in
+            guard let eventsSnapshot = snapshot.children.allObjects as? [DataSnapshot] else {
+                completion(.failure(NSError(domain: "", code: -1, userInfo: [NSLocalizedDescriptionKey: "No data found or failed to cast snapshot value."])))
+                return
+            }
+            
+            var events: [Event] = []
+            
+            for eventSnapshot in eventsSnapshot {
+                guard let eventDict = eventSnapshot.value as? [String: Any] else {
+                    print("Failed to parse event data for event with ID: \(eventSnapshot.key)")
+                    continue
+                }
+                
+                do {
+                    if let event = try self.parseEvent(from: eventDict, eventId: eventSnapshot.key) {
+                        events.append(event)
+                    }
+                } catch {
+                    print("Failed to parse event data: \(error.localizedDescription)")
+                }
+            }
+            
+            print("Fetched \(events.count) events.")
+            completion(.success(events))
+        }
+    }
+    
+    
+    
+    private func parseEvent(from dict: [String: Any], eventId: String) throws -> Event? {
+        // Extract values with conditional binding
+        guard
+            let name = dict["name"] as? String,
+            let host = dict["host"] as? String,
+            let dateInterval = dict["date"] as? TimeInterval,
+            let timeInterval = dict["time"] as? TimeInterval,
+            let address = dict["address"] as? String,
+            let duration = dict["duration"] as? String,
+            let description = dict["description"] as? String,
+            let tickets = dict["tickets"] as? Int,
+            let imageName = dict["imageName"] as? String,
+            let fees = dict["fees"] as? Int,
+            let revenue = dict["revenue"] as? Int,
+            let status = dict["status"] as? String
+        else {
+            // Print missing or invalid keys
+            let keyMissing = [
+                "name": dict["name"],
+                "host": dict["host"],
+                "dateInterval": dict["dateInterval"],
+                "timeInterval": dict["timeInterval"],
+                "address": dict["address"],
+                "duration": dict["duration"],
+                "description": dict["description"],
+                "tickets": dict["tickets"],
+                "imageName": dict["imageName"],
+                "fees": dict["fees"],
+                "revenue": dict["revenue"],
+                "status": dict["status"]
+            ]
+            
+            print("Failed to parse event data. Missing or invalid key/value: \(keyMissing)")
+            return nil
+        }
+
+        // Parse date and time
+        let date = Date(timeIntervalSince1970: dateInterval)
+        let time = Date(timeIntervalSince1970: timeInterval)
+
+        // Parse registered members if available
+        var registeredMembers: [Member] = []
+        if let registeredMembersArray = dict["registeredMembers"] as? [[String: Any]] {
+            for memberDict in registeredMembersArray {
+                guard
+                    let name = memberDict["name"] as? String,
+                    let email = memberDict["email"] as? String,
+                    let lastName = memberDict["lastName"] as? String,
+                    let phoneNumber = memberDict["phoneNumber"] as? Int
+                else {
+                    print("Failed to parse registered member data.")
+                    continue
+                }
+                let user = Member(firstName: name, lastName: lastName, email: email, phoneNumber: phoneNumber)
+                registeredMembers.append(user)
+            }
+        }
+
+        // Return Event object
+        return Event(
+            id: eventId,
+            name: name,
+            host: host,
+            date: date,
+            time: time,
+            address: address,
+            duration: duration,
+            description: description,
+            registeredMembers: registeredMembers,
+            tickets: tickets,
+            imageName: imageName,
+            fees: fees,
+            revenue: revenue,
+            status: status
+        )
+    }
+
+    func addEvent(_ event: Event, completion: @escaping (Result<Void, Error>) -> Void) {
+        let eventID = event.id
+        
+        // Check if the event ID already exists
+        database.child("events").child(eventID).observeSingleEvent(of: .value) { snapshot in
+            if snapshot.exists() {
+                // Event ID already exists
+                completion(.failure(NSError(domain: "", code: 1, userInfo: [NSLocalizedDescriptionKey: "Event ID is already in use."])))
+            } else {
+                // Add the event to the database
+                self.saveEventToDatabase(event) { result in
+                    completion(result)
+                }
+            }
+        }
+    }
+    
+    private func saveEventToDatabase(_ event: Event, completion: @escaping (Result<Void, Error>) -> Void) {
+        let eventID = event.id
+        let eventDictionary = event.toDictionary()
+        
+        // Save event to database
+        database.child("events").child(eventID).setValue(eventDictionary) { error, _ in
+            if let error = error {
+                print("Failed to save event: \(error.localizedDescription)")
+                completion(.failure(error))
+            } else {
+                print("Event saved successfully.")
+                completion(.success(()))
+            }
+        }
+    }
+    
+    
+    func deletePendingEvent(_ event: Event, completion: @escaping (Result<Void, Error>) -> Void) {
+            let eventID = event.id
+            
+            database.child("PendingEvents").child(eventID).removeValue { error, _ in
+                if let error = error {
+                    completion(.failure(error))
+                } else {
+                    completion(.success(()))
+                }
+            }
+        }
+    
     }

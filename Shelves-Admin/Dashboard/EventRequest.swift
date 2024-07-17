@@ -1,61 +1,116 @@
-//
-//  EventRequest.swift
-//  Shelves-Admin
-//
-//  Created by Abhay singh on 14/07/24.
-//
+import SwiftUI
+import Combine
+
+class EventRequestViewModel: ObservableObject {
+    @Published var pendingEvents: [Event] = []
+    @Published var isLoading = false
+    @Published var errorMessage: String?
+
+    private let dataController = DataController()
+
+    func fetchPendingEvents() {
+        isLoading = true
+        dataController.fetchPendingEvents { [weak self] result in
+            DispatchQueue.main.async {
+                self?.isLoading = false
+                switch result {
+                case .success(let events):
+                    self?.pendingEvents = events
+                case .failure(let error):
+                    self?.errorMessage = error.localizedDescription
+                }
+            }
+        }
+    }
+}
+
+
+import SwiftUI
+
+import SwiftUI
 
 import SwiftUI
 
 struct EventRequest: View {
     @State private var menuOpened = false
+    @State private var showAlert = false
+    @State private var alertMessage = ""
+    @StateObject private var viewModel = EventRequestViewModel()
+    @State private var shouldRefresh = false // Add this state variable
 
     var body: some View {
         NavigationStack {
-            ZStack{
+            ZStack {
                 backgroundView()
-                        .ignoresSafeArea(.all)
-                    backgroundView()
-                        .ignoresSafeArea(.all)
-                        .blur(radius: menuOpened ? 10 : 0)
-                        .animation(.easeInOut(duration: 0.25), value: menuOpened)
+                    .ignoresSafeArea(.all)
+                backgroundView()
+                    .ignoresSafeArea(.all)
+                    .blur(radius: menuOpened ? 10 : 0)
+                    .animation(.easeInOut(duration: 0.25), value: menuOpened)
                 ScrollView {
-                    
-                    //main Vstack that holds every Card
-                    //for each will be used here
-                    VStack(alignment: .center){
-                        
-                        
-//                        EventRequestCard(width: UIScreen.main.bounds.width * 0.90, 
-//                                         height: 200,
-//                                         eventName: "California Art Festival 2023 Dana Point 29-30",
-//                        )
-                        EventRequestCard(imageName: "adminVector",
-                                         width: UIScreen.main.bounds.width * 0.95,
-                                         height: 200,
-                                         eventName: "California Art Festival 2023 Dana Point 29-30",
-                                         eventDate: "14-Jul-2024",
-                                         eventLocation: "Noida",
-                                         hostName: "Zek")
-                        
-                    }.padding([.top,])
-                        
-                        
-                    
+                    VStack(alignment: .center) {
+                        ForEach(viewModel.pendingEvents) { event in
+                            EventRequestCard(
+                                event: event,
+                                width: UIScreen.main.bounds.width * 0.95,
+                                height: 200,
+                                onApprove: {
+                                    DataController.shared.addEvent(event) { result in
+                                        switch result {
+                                        case .success:
+                                            alertMessage = "Event approved and added to the database."
+                                            shouldRefresh.toggle() // Toggle to refresh
+                                        case .failure(let error):
+                                            alertMessage = "Failed to add event: \(error.localizedDescription)"
+                                        }
+                                        showAlert = true
+                                    }
+                                    
+                                    DataController.shared.deletePendingEvent(event) { result in
+                                        switch result {
+                                        case .success:
+                                            alertMessage = "Event disapproved and removed from pending events."
+                                            shouldRefresh.toggle() // Toggle to refresh
+                                        case .failure(let error):
+                                            alertMessage = "Failed to remove event from pending events: \(error.localizedDescription)"
+                                        }
+                                        showAlert = true
+                                    }
+                                },
+                                onDecline: {
+                                    alertMessage = "Event disapproved."
+                                    showAlert = true
+                                    
+                                    DataController.shared.deletePendingEvent(event) { result in
+                                        switch result {
+                                        case .success:
+                                            alertMessage = "Event disapproved and removed from pending events."
+                                            shouldRefresh.toggle() // Toggle to refresh
+                                        case .failure(let error):
+                                            alertMessage = "Failed to remove event from pending events: \(error.localizedDescription)"
+                                        }
+                                        showAlert = true
+                                    }
+                                }
+                            )
+                        }
+                    }
+                    .padding([.top])
                 }
                 if menuOpened {
-                    sideMenu( width: UIScreen.main.bounds.width * 0.30,
-                             menuOpened: menuOpened,
-                             toggleMenu: toggleMenu)
+                    sideMenu(
+                        width: UIScreen.main.bounds.width * 0.30,
+                        menuOpened: menuOpened,
+                        toggleMenu: toggleMenu
+                    )
                     .ignoresSafeArea()
                     .toolbar(.hidden, for: .navigationBar)
                 }
-                
-            }//Zstack ends
+            }
             .navigationTitle("LMS")
             .navigationBarTitleDisplayMode(.inline)
             .toolbarBackground(.visible, for: .navigationBar)
-            .toolbar{
+            .toolbar {
                 ToolbarItem(placement: .topBarLeading) {
                     Button(action: {
                         menuOpened.toggle()
@@ -63,19 +118,30 @@ struct EventRequest: View {
                         Image(systemName: "sidebar.left")
                             .foregroundStyle(Color.black)
                     })
-                    
                 }
-                ToolbarItem(placement: .topBarTrailing){
-                    Button(action: {
-                        
-                    }, label: {
+                ToolbarItem(placement: .topBarTrailing) {
+                    Button(action: {}, label: {
                         Image(systemName: "books.vertical")
                             .foregroundColor(Color.black)
                     })
                 }
             }
-        }//Navigation Stack ends
+            .alert(isPresented: $showAlert) {
+                Alert(
+                    title: Text(alertMessage),
+                    dismissButton: .default(Text("OK"))
+                )
+            }
+            .onAppear {
+                shouldRefresh.toggle()
+                viewModel.fetchPendingEvents()
+            }
+            .onChange(of: shouldRefresh) { _ in
+                viewModel.fetchPendingEvents()
+            }
+        }
     }
+
     func toggleMenu() {
         menuOpened.toggle()
     }
@@ -84,13 +150,12 @@ struct EventRequest: View {
 
 //MARK: Custom car for each event card
 struct EventRequestCard: View {
-    var imageName : String
-    var width : Double
-    var height : Double
-    var eventName : String
-    var eventDate : String
-    var eventLocation : String
-    var hostName : String
+    var event: Event
+    var width: Double
+    var height: Double
+    var onApprove: () -> Void
+    var onDecline: () -> Void
+    
     var body: some View {
         Rectangle()
             .frame(width: width, height: height)
@@ -98,10 +163,8 @@ struct EventRequestCard: View {
             .clipShape(RoundedRectangle(cornerRadius: 14))
             .overlay(
                 HStack {
-                    //Event Image
-                    
-                    HStack{
-                        Image(imageName)
+                    HStack {
+                        Image(event.imageName)
                             .resizable()
                             .aspectRatio(contentMode: .fill)
                             .frame(width: 112, height: 150)
@@ -109,94 +172,110 @@ struct EventRequestCard: View {
                             .padding()
                     }
                     Spacer()
-                    //Event Detail
-                    HStack{
-                        VStack{
+                    HStack {
+                        VStack {
                             Text("Event Title: ")
                                 .font(
                                     Font.custom("DM Sans", size: 17)
                                         .weight(.bold)
-                                ).foregroundStyle(.gray)
-                            Text(eventName)
+                                )
+                                .foregroundStyle(.gray)
+                            Text(event.name)
                                 .font(
                                     Font.custom("DM Sans", size: 17)
-                                        .weight(.bold))
+                                        .weight(.bold)
+                                )
                             Text("Date: ")
                                 .font(
                                     Font.custom("DM Sans", size: 17)
                                         .weight(.bold)
-                                ).foregroundStyle(.gray)
-                            Text(eventDate)
+                                )
+                                .foregroundStyle(.gray)
+                            Text(event.date, style: .date)
                                 .font(
                                     Font.custom("DM Sans", size: 17)
-                                        .weight(.bold))
-
+                                        .weight(.bold)
+                                )
                             Text("Location: ")
                                 .font(
                                     Font.custom("DM Sans", size: 17)
                                         .weight(.bold)
-                                ).foregroundStyle(.gray)
-                            Text(eventLocation)
+                                )
+                                .foregroundStyle(.gray)
+                            Text(event.address)
                                 .font(
                                     Font.custom("DM Sans", size: 17)
-                                        .weight(.bold))
-                            
+                                        .weight(.bold)
+                                )
                             Text("Host: ")
                                 .font(
                                     Font.custom("DM Sans", size: 17)
                                         .weight(.bold)
-                                ).foregroundStyle(.gray)
-                            Text(hostName)
+                                )
+                                .foregroundStyle(.gray)
+                            Text(event.host)
                                 .font(
                                     Font.custom("DM Sans", size: 17)
-                                        .weight(.bold))
+                                        .weight(.bold)
+                                )
                         }
                     }
                     Spacer()
-                    HStack{
-                       
-                        VStack{
+                    HStack {
+                        VStack {
                             Spacer()
-                            AorDCustomButton(width: 200,
-                                             height: 100,
-                                             title: "Approve",
-                                             colorName: "ApproveButton", fontColor: "ApproveFontColor")
+                            AorDCustomButton(
+                                width: 200,
+                                height: 100,
+                                title: "Approve",
+                                colorName: "ApproveButton",
+                                fontColor: "ApproveFontColor",
+                                action: onApprove
+                            )
                             Spacer()
-                            AorDCustomButton(width: 200,
-                                             height: 100,
-                                             title: "Decline",
-                                             colorName: "DeclineButton", fontColor: "DeclineFontColor")
+                            AorDCustomButton(
+                                width: 200,
+                                height: 100,
+                                title: "Decline",
+                                colorName: "DeclineButton",
+                                fontColor: "DeclineFontColor",
+                                action: onDecline
+                            )
                             Spacer()
                         }
-                       
-                    }.padding()
-                    
-                }//End of HStack
+                    }
+                    .padding()
+                }
             )
     }
 }
-struct AorDCustomButton : View {
+
+struct AorDCustomButton: View {
+    var width: CGFloat
+    var height: CGFloat
+    var title: String
+    var colorName: String
+    var fontColor: String
+    var action: () -> Void
     
-    var width : CGFloat
-    var height : CGFloat
-    var title : String
-    var colorName : String
-    var fontColor : String
     var body: some View {
-        HStack{
-            Text(title)
-                .font(
-                Font.custom("DM Sans", size: 20)
-                .weight(.bold)
-                )
-                .foregroundColor(Color(fontColor))
+        Button(action: {
+            action()
+        }) {
+            HStack {
+                Text(title)
+                    .font(Font.custom("DM Sans", size: 20).weight(.bold))
+                    .foregroundColor(Color(fontColor))
+            }
+            .padding(.all)
+            .frame(maxWidth: width, maxHeight: height)
+            .background(Color(colorName))
+            .clipShape(RoundedRectangle(cornerRadius: 10))
         }
-        .padding(.all)
-        .frame(maxWidth: width, maxHeight: height)
-        .background(Color(colorName))
-        .clipShape(RoundedRectangle(cornerRadius: 10))
     }
 }
+
+
 #Preview {
     EventRequest()
 }
