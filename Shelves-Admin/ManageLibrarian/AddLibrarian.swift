@@ -185,7 +185,7 @@ struct AddLibrarian: View {
                 }
             }
         }
-        .navigationBarBackButtonHidden(true)
+        //.navigationBarBackButtonHidden(true)
     }
 
     func toggleMenu() {

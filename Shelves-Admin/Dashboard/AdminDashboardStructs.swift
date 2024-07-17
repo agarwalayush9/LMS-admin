@@ -139,7 +139,7 @@ struct cardData : View {
     var body: some View {
         HStack {
             VStack {
-                Text("$\(String(format: "%.2f", value))")
+                Text("\(String(format: "%.0f", value))")
                   .font(
                     Font.custom("DM Sans", size: 32)
                       .weight(.bold)

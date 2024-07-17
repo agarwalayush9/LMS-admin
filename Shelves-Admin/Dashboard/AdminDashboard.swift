@@ -96,7 +96,7 @@ struct AdminDashboard: View {
                     .ignoresSafeArea()
                     .toolbar(.hidden, for: .navigationBar)
                 }
-        }
+        }//zstack end
             .navigationTitle("LMS")
             .navigationBarTitleDisplayMode(.inline)
             .toolbarBackground(.visible, for: .navigationBar)
@@ -119,7 +119,7 @@ struct AdminDashboard: View {
                     })
                 }
             }
-    }
+    }//navihation stack end
  }
     func toggleMenu() {
         menuOpened.toggle()
@@ -163,76 +163,67 @@ struct BookCirculationCard: View {
 
 
 //MARK: Tab bar buttons
-struct showTabBarButtons : View {
-    
-    @Binding var isManageLibrarians : Bool
-    @Binding var isManageEvents : Bool
-    @Binding var isBookCatalogue : Bool
-    
+struct showTabBarButtons: View {
+    @Binding var isManageLibrarians: Bool
+    @Binding var isManageEvents: Bool
+    @Binding var isBookCatalogue: Bool
     
     var body: some View {
-        //Manage event buttons
-        HStack{
-            Spacer()
-        Button(action: {
-            print("Manage Events Pressed")
-            isManageEvents.toggle()
-            
-        }, label: {
-            CustomButton(width: 170,
-                         height: 140,
-                         title: "Manage Events",
-                         colorName: "CustomButtonColor",
-                         fontColor: "white")
-        })
-        .padding()
-        
-        if isManageEvents{
-            //put Event management page here
-        NavigationLink("", destination: EmptyView())
+        // Manage event buttons
+        NavigationStack {
+            HStack {
+                    Spacer()
+                
+                    //Manage Events
+                Button(action: {
+                    print("Manage Events Pressed")
+                    
+                },
+                       label: {
+                    NavigationLink(destination: EmptyView()){
+                        CustomButton(width: 180, 
+                                     height: 140,
+                                     title: "Manage Events",
+                                     colorName: "CustomButtonColor", fontColor: "white")
+                    }
+                })
+                .padding()
+
+                    //Manage Librarian
+                    Button(action: {
+                        print("Manage Librarian Pressed")
+                        
+                    },
+                           label: {
+                        NavigationLink(destination: AddLibrarian()){
+                            CustomButton(width: 180, 
+                                         height: 140,
+                                         title: "Manage Librarian", colorName: "CustomButtonColor", fontColor: "white")
+                        }
+                    })
+                    .padding()
+                //Book Catalogue
+                Button(action: {
+                    print("Book Catalogue Pressed")
+                    
+                },
+                       label: {
+                    NavigationLink(destination: BooksCatalogue()){
+                        CustomButton(width: 180,
+                                     height: 140,
+                                     title: "Book Catalogue",
+                                     colorName: "CustomButtonColor", fontColor: "white")
+                    }
+                })
+                .padding()
+                
+                Spacer()
+            }
         }
         
-            //manage librarians
-        Button(action: {
-            print("Manage Librarian Pressed")
-            isManageLibrarians.toggle()
-            
-        }, label: {
-            CustomButton(width: 180,
-                         height: 140,
-                         title: "Manage Librarian",
-                         colorName: "CustomButtonColor",
-                         fontColor: "white")
-        })
-        .padding()
-        
-        if isManageEvents{
-            //put Event management page here
-            NavigationLink("", destination: EmptyView())
-        }
-            
-            //manage book Catalogue
-        Button(action: {
-            print("Manage Book Catologue Pressed")
-            isManageLibrarians.toggle()
-            
-        }, label: {
-            CustomButton(width: 170,
-                         height: 140,
-                         title: "Book Catalogue",
-                         colorName: "CustomButtonColor",
-                         fontColor: "white")
-        })
-        .padding()
-        
-        if isManageEvents{
-            //put Event management page here
-            NavigationLink("", destination: EmptyView())
-        }
-        Spacer()
-    }
     }
 }
+
 
 
 struct CustomButton : View {

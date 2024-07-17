@@ -333,7 +333,7 @@ struct BooksCatalogue: View {
         }
             
         }
-        .navigationBarBackButtonHidden(true)
+       // .navigationBarBackButtonHidden(true)
     }
     
     private func fetchBooks() {
