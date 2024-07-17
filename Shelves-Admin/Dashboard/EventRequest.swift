@@ -31,7 +31,7 @@ struct EventRequest: View {
 //                                         eventName: "California Art Festival 2023 Dana Point 29-30",
 //                        )
                         EventRequestCard(imageName: "adminVector",
-                                         width: UIScreen.main.bounds.width * 0.90,
+                                         width: UIScreen.main.bounds.width * 0.95,
                                          height: 200,
                                          eventName: "California Art Festival 2023 Dana Point 29-30",
                                          eventDate: "14-Jul-2024",

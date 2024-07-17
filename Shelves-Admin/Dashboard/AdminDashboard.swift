@@ -180,7 +180,7 @@ struct showTabBarButtons: View {
                     
                 },
                        label: {
-                    NavigationLink(destination: EmptyView()){
+                    NavigationLink(destination: EventRequest()){
                         CustomButton(width: 180, 
                                      height: 140,
                                      title: "Manage Events",
