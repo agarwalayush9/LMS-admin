@@ -6,22 +6,41 @@
 //
 
 import SwiftUI
+import Combine
+
+class EventViewModel: ObservableObject {
+    @Published var events: [Event] = []
+    @Published var isLoading = false
+    @Published var errorMessage: String?
+
+    private let dataController = DataController()
+
+    func fetchEvents() {
+        isLoading = true
+        dataController.fetchAllEvents { [weak self] result in
+            DispatchQueue.main.async {
+                self?.isLoading = false
+                switch result {
+                case .success(let events):
+                    self?.events = events
+                case .failure(let error):
+                    self?.errorMessage = error.localizedDescription
+                }
+            }
+        }
+    }
+}
+
 
 
 struct EventContentView: View {
-    let events: [EventListView] = [
-        EventListView(bookCover: "bookCoverImage1", eventName: "Author's Meet", eventId: "#4235532", authorName: "Marie Johnson", authorImage: "authorImage1", authorId: "#4235532", date: "19th July", price: "$40"),
-        EventListView(bookCover: "bookCoverImage1", eventName: "Author's Meet", eventId: "#4235532", authorName: "Marie Johnson", authorImage: "authorImage1", authorId: "#4235532", date: "19th July", price: "$40"),
-        EventListView(bookCover: "bookCoverImage1", eventName: "Author's Meet", eventId: "#4235532", authorName: "Marie Johnson", authorImage: "authorImage1", authorId: "#4235532", date: "19th July", price: "$40"),
-        EventListView(bookCover: "bookCoverImage1", eventName: "Author's Meet", eventId: "#4235532", authorName: "Marie Johnson", authorImage: "authorImage1", authorId: "#4235532", date: "19th July", price: "$40"),
-        EventListView(bookCover: "bookCoverImage1", eventName: "Author's Meet", eventId: "#4235532", authorName: "Marie Johnson", authorImage: "authorImage1", authorId: "#4235532", date: "19th July", price: "$40")
-    ]
-    
+    @StateObject private var viewModel = EventViewModel()
+
     var body: some View {
         NavigationStack {
             ScrollView {
                 VStack(spacing: 16) {
-                    ForEach(events) { event in
+                    ForEach(viewModel.events) { event in
                         EventRow(event: event)
                     }
                 }
@@ -29,87 +48,74 @@ struct EventContentView: View {
             }
             .navigationTitle("All Events Listing")
         }
+        .onAppear {
+            viewModel.fetchEvents()
+        }
     }
-}
-
-// Event model for EventContentView
-struct EventListView: Identifiable {
-    let id = UUID()
-    let bookCover: String
-    let eventName: String
-    let eventId: String
-    let authorName: String
-    let authorImage: String
-    let authorId: String
-    let date: String
-    let price: String
 }
 
 // EventRow view for EventContentView
 struct EventRow: View {
-    let event: EventListView
+    let event: Event
     
     var body: some View {
-        
-        HStack(alignment: .center, spacing: 16) {
-            Image(event.bookCover)
+        HStack(spacing: 16) {
+            // Book cover image
+            Image(event.imageName)
                 .resizable()
                 .aspectRatio(contentMode: .fit)
                 .frame(width: 100, height: 100)
                 .cornerRadius(8)
-                .background(Color(.dashboardbg))
-                .padding(.leading,20)
-            //MARK: event name and ID
+                .padding(.leading, 20)
             
+            // Event details
             VStack(alignment: .leading, spacing: 4) {
-                Text(event.eventName)
+                Text(event.name)
                     .font(.headline)
-                    .foregroundColor(.customButton)
+                    .foregroundColor(.blue) // Adjust color as needed
                 
-                Text(event.eventId)
-                    .font(.subheadline)
-                    .foregroundColor(.black)
-            }
-            
-            HStack {
-                Image(event.authorImage)
-                    .resizable()
-                    .frame(width: 40, height: 40)
-                    .clipShape(Circle())
                 
+                
+                // Author details
+                    VStack(alignment: .leading, spacing: 4) {
+                        Text(event.host)
+                            .font(.subheadline)
+                            .foregroundColor(.blue) // Adjust color as needed
+                    }
                 VStack(alignment: .leading, spacing: 4) {
-                    Text(event.authorName)
+                    Text(event.address)
                         .font(.subheadline)
-                        .foregroundColor(.customButton)
+                        .foregroundColor(.blue) // Adjust color as needed
+                }
+                
+                Spacer()
+                
+                // Date and price
+                HStack {
+                    VStack(alignment: .leading, spacing: 4) {
+                        Text("Date")
+                            .font(.headline)
+                            .foregroundColor(.blue) // Adjust color as needed
+                        
+                        Text("\(event.date)")
+                            .font(.subheadline)
+                            .foregroundColor(.black)
+                    }
                     
-                    Text(event.authorId)
-                        .font(.subheadline)
-                        .foregroundColor(.black)
+                    Spacer()
+                    
+                    VStack(alignment: .leading, spacing: 4) {
+                        Text("Price")
+                            .font(.headline)
+                            .foregroundColor(.blue) // Adjust color as needed
+                        
+                        Text("$\(event.fees)")
+                            .font(.subheadline)
+                            .foregroundColor(.black)
+                    }
+                    .padding(.trailing, 20)
                 }
             }
-            Spacer()
-            
-            VStack(alignment: .leading, spacing: 4) {
-                Text("Date")
-                    .font(.headline)
-                    .foregroundColor(.customButton)
-                
-                Text(event.date)
-                    .font(.subheadline)
-                    .foregroundColor(.black)
-            }
-            Spacer()
-            
-            VStack(alignment: .leading, spacing: 4) {
-                Text("Price")
-                    .font(.headline)
-                    .foregroundColor(.customButton)
-                
-                Text(event.price)
-                    .font(.subheadline)
-                    .foregroundColor(.black)
-            }
-            .padding(.trailing, 20)
         }
         .padding()
         .background(Color(.systemBackground))
@@ -125,7 +131,6 @@ struct EventRow: View {
         )
     }
 }
-
 // Preview provider
 struct EventContentView_Previews: PreviewProvider {
     static var previews: some View {
