@@ -45,24 +45,36 @@ struct card : View {
 
 struct DashboardAnalytics: View {
     @State private var analytics = Analytics.analytics
+    @State private var isLoading = false // Track loading state
     
     var body: some View {
-        ScrollView {
-            HStack {
-                ForEach(analytics) { data in
-                    card(title: data.title,
-                         value: data.value,
-                         salesDifferencePercentage: data.salesDifferencePercentage)
-                        .padding()
+        VStack {
+            if isLoading {
+                ProgressView("Fetching data...") // Show progress view while loading
+                    .progressViewStyle(CircularProgressViewStyle())
+            } else {
+                ScrollView {
+                    HStack {
+                        ForEach(analytics) { data in
+                            card(title: data.title,
+                                 value: data.value,
+                                 salesDifferencePercentage: data.salesDifferencePercentage)
+                                .padding()
+                        }
+                    }
                 }
             }
         }
         .onAppear {
-            fetchAndUpdateAnalytics()
+            isLoading = true // Start loading indicator
+            fetchAndUpdateBooks()
+            fetchAndUpdateEvents()
+            fetchAndUpdateRevenue()
+            fetchAndUpdateMembers()
         }
     }
     
-    func fetchAndUpdateAnalytics() {
+    func fetchAndUpdateBooks() {
         DataController.shared.fetchNumberOfBooks { result in
             switch result {
             case .success(let count):
@@ -70,6 +82,48 @@ struct DashboardAnalytics: View {
                 self.analytics = Analytics.analytics // Update the local state with the latest data
             case .failure(let error):
                 print("Failed to fetch number of books: \(error.localizedDescription)")
+                // Handle error if needed
+            }
+        }
+    }
+    
+    func fetchAndUpdateEvents() {
+        DataController.shared.fetchNumberOfEvents { result in
+            isLoading = false // Stop loading indicator
+            switch result {
+            case .success(let count):
+                Analytics.updateTotalEvents(count: count)
+                self.analytics = Analytics.analytics // Update the local state with the latest data
+            case .failure(let error):
+                print("Failed to fetch number of events: \(error.localizedDescription)")
+                // Handle error if needed
+            }
+        }
+    }
+    
+    func fetchAndUpdateRevenue() {
+        DataController.shared.fetchTotalRevenue { result in
+            isLoading = false // Stop loading indicator
+            switch result {
+            case .success(let count):
+                Analytics.updateTotalRevenue(count: count)
+                self.analytics = Analytics.analytics // Update the local state with the latest data
+            case .failure(let error):
+                print("Failed to fetch revenue: \(error.localizedDescription)")
+                // Handle error if needed
+            }
+        }
+    }
+    
+    func fetchAndUpdateMembers() {
+        DataController.shared.fetchNumberOfMembers { result in
+            isLoading = false // Stop loading indicator
+            switch result {
+            case .success(let count):
+                Analytics.updateTotalMembers(count: count)
+                self.analytics = Analytics.analytics // Update the local state with the latest data
+            case .failure(let error):
+                print("Failed to fetch number of members: \(error.localizedDescription)")
                 // Handle error if needed
             }
         }

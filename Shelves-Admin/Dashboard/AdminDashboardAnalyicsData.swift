@@ -15,9 +15,7 @@ struct Analytics: Identifiable, Equatable {
     var salesDifferencePercentage: Double
     
     static var analytics: [Analytics] = [
-        Analytics(title: "New Members", value: 221, salesDifferencePercentage: 2.5),
-        Analytics(title: "Books Issued", value: 221, salesDifferencePercentage: 2.5),
-        Analytics(title: "Lost or Damaged Books", value: 221, salesDifferencePercentage: 2.5)
+        Analytics(title: "Books Issued", value: 221, salesDifferencePercentage: 2.5)
     ]
     
     static func updateTotalBooks(count: Int) {
@@ -25,6 +23,33 @@ struct Analytics: Identifiable, Equatable {
             analytics[index].value = Double(count)
         } else {
             let totalBooksAnalytics = Analytics(title: "Total Books", value: Double(count), salesDifferencePercentage: 0)
+            analytics.append(totalBooksAnalytics)
+        }
+    }
+    
+    static func updateTotalEvents(count: Int) {
+        if let index = analytics.firstIndex(where: { $0.title == "Events Conducted" }) {
+            analytics[index].value = Double(count)
+        } else {
+            let totalBooksAnalytics = Analytics(title: "Events Conducted", value: Double(count), salesDifferencePercentage: 0)
+            analytics.append(totalBooksAnalytics)
+        }
+    }
+    
+    static func updateTotalRevenue(count: Int) {
+        if let index = analytics.firstIndex(where: { $0.title == "Events Revenue" }) {
+            analytics[index].value = Double(count)
+        } else {
+            let totalBooksAnalytics = Analytics(title: "Events Revenue", value: Double(count), salesDifferencePercentage: 0)
+            analytics.append(totalBooksAnalytics)
+        }
+    }
+    
+    static func updateTotalMembers(count: Int) {
+        if let index = analytics.firstIndex(where: { $0.title == "Members Registered" }) {
+            analytics[index].value = Double(count)
+        } else {
+            let totalBooksAnalytics = Analytics(title: "Members Registered", value: Double(count), salesDifferencePercentage: 0)
             analytics.append(totalBooksAnalytics)
         }
     }
