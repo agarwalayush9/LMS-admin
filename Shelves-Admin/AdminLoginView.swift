@@ -66,7 +66,7 @@ struct AdminLoginView: View {
                         
                         TextField("Enter your email", text: $email)
                             .padding()
-                            .background(Color.white)
+                            .background(Color.adminDashboardBg)
                             .cornerRadius(8) // Adds rounded corners to the background
                             .overlay(
                                 RoundedRectangle(cornerRadius: 8)
@@ -88,11 +88,11 @@ struct AdminLoginView: View {
                         
                         SecureField("Password", text: $password)
                             .padding()
-                            .background(Color.white)
+                            .background(Color.adminDashboardBg)
                             .cornerRadius(8) // Adds rounded corners to the background
                             .overlay(
                                 RoundedRectangle(cornerRadius: 8)
-                                    .stroke(Color.gray, lineWidth: 1)
+                                    .stroke(Color.mainFont, lineWidth: 1)
                             )
                             .frame(width: 300)
                             .onChange(of: password) { _ in
@@ -196,11 +196,11 @@ struct AdminLoginView: View {
                         
                         TextField("Enter your email", text: $email)
                             .padding()
-                            .background(Color.white)
+                            .background(Color.adminDashboardBg)
                             .cornerRadius(8) // Adds rounded corners to the background
                             .overlay(
                                 RoundedRectangle(cornerRadius: 8)
-                                    .stroke(Color.gray, lineWidth: 1)
+                                    .stroke(Color.mainFont, lineWidth: 1)
                             )
                             .frame(width: 300)
                             .onChange(of: email) { _ in
