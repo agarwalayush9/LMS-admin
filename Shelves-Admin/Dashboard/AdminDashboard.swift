@@ -48,7 +48,7 @@ struct AdminDashboard: View {
                     VStack{
                     HStack(spacing : 0){
                         VStack(alignment: .leading, spacing: 16){
-                            userName(userName: "User")
+                            userName(userName: "Admin")
                             todayDateAndTime()
                             
                         }
@@ -95,7 +95,7 @@ struct AdminDashboard: View {
                 // Tab bar
                                Rectangle()
                                    .ignoresSafeArea()
-                                   .frame(maxWidth: .infinity, maxHeight: UIScreen.main.bounds.height * 0.07)
+                                   .frame(maxWidth: .infinity, maxHeight: UIScreen.main.bounds.height * 0.08)
                                    .foregroundColor(Color("librarianDashboardTabBar"))
                                    .overlay(
                                        HStack(alignment: .center) {
