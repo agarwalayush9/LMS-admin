@@ -29,7 +29,7 @@ struct SearchBar: UIViewRepresentable {
 
         // Set background color
         searchBar.barTintColor = UIColor(red: 255/255, green: 246/255, blue: 227/255, alpha: 1.0)
-        searchBar.searchTextField.backgroundColor = UIColor(red: 255/255, green: 246/255, blue: 227/255, alpha: 1.0)
+        searchBar.searchTextField.backgroundColor = UIColor(.bookCatlogueSearchBar)
         
         searchBar.placeholder = "Search by Book Code, Book or Author"
         
@@ -210,7 +210,7 @@ struct BooksCatalogue: View {
                                 .frame(width: 30, height: 30)
                         }
                         .padding(.trailing, 20)
-                        .foregroundColor(Color(red: 0.32, green: 0.23, blue: 0.06))
+                        .foregroundColor(.filter)
                     }
                     ZStack {
                         backgroundView()
@@ -276,7 +276,7 @@ struct BooksCatalogue: View {
                         }
                     }) {
                         Image(systemName: "sidebar.left")
-                            .foregroundColor(.black)
+                            .foregroundColor(.mainFont)
                     }
                 }
             }
