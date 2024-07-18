@@ -17,7 +17,7 @@ struct userName : View {
                   Font.custom("DM Sans", size: 48)
                     .weight(.medium)
                 )
-                .foregroundColor(.black)
+                .foregroundColor(.mainFont)
                 .frame(maxWidth: .infinity, alignment: .topLeading)
     }
 }
@@ -31,7 +31,7 @@ struct card : View {
     var salesDifferencePercentage : Double
     var body: some View {
         Rectangle()
-            .foregroundStyle(.white)
+            .foregroundStyle(.dashboardbg)
             .frame(width: 258, height: 160)
             .clipShape(RoundedRectangle(cornerRadius: 12))
             .overlay(
@@ -152,7 +152,7 @@ struct cardData : View {
                   .padding(.leading, 19)
                   
             }
-            .foregroundColor(Color(red: 0.16, green: 0.14, blue: 0.14))
+            .foregroundColor(Color.mainFont)
             .frame(maxWidth: .infinity, alignment: .topLeading)
             
             
@@ -197,7 +197,7 @@ struct todayDateAndTime : View {
             Font.custom("DM Sans", size: 24)
               .weight(.medium)
           )
-          .foregroundColor(.black)
+          .foregroundColor(.mainFont)
           .frame(maxWidth: .infinity, alignment: .topLeading)
     }
 }
@@ -211,7 +211,7 @@ struct AnalyticHeader : View {
             Font.custom("DM Sans", size: 20)
               .weight(.medium)
           )
-          .foregroundColor(.black)
+          .foregroundColor(.mainFont)
           .frame(maxWidth: .infinity, alignment: .topLeading)
           .padding([.leading], 64)
     }

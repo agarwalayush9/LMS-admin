@@ -41,6 +41,7 @@ struct AdminDashboard: View {
             backgroundView()
                     .ignoresSafeArea(.all)
                 backgroundView()
+                    
                     .ignoresSafeArea(.all)
                     .blur(radius: menuOpened ? 10 : 0)
                     .animation(.easeInOut(duration: 0.25), value: menuOpened)
@@ -129,7 +130,7 @@ struct AdminDashboard: View {
                         menuOpened.toggle()
                     }, label: {
                         Image(systemName: "sidebar.left")
-                            .foregroundStyle(Color.black)
+                            .foregroundStyle(Color.mainFont)
                     })
                     
                 }
@@ -138,7 +139,7 @@ struct AdminDashboard: View {
                         
                     }, label: {
                         Image(systemName: "books.vertical")
-                            .foregroundColor(Color.black)
+                            .foregroundColor(Color.mainFont)
                     })
                 }
             }
@@ -152,7 +153,7 @@ struct AdminDashboard: View {
 
 struct backgroundView : View {
     var body: some View {
-        Color("dashboardbg").ignoresSafeArea()
+        Color(.adminDashboardBg).ignoresSafeArea()
         
     }
 }
@@ -176,7 +177,7 @@ struct BookCirculationCard: View {
             Spacer()
         }
         .padding()
-        .background(Color.white).frame(minHeight: minHeight)
+        .background(Color.dashboardbg).frame(minHeight: minHeight)
         .clipShape(RoundedRectangle(cornerRadius: 12))
 
     }

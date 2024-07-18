@@ -318,7 +318,7 @@ struct BooksCatalogue: View {
                     menuOpened.toggle()
                 }, label: {
                     Image(systemName: "sidebar.left")
-                        .foregroundStyle(Color.black)
+                        .foregroundStyle(Color.mainFont)
                 })
                 
             }
@@ -327,7 +327,7 @@ struct BooksCatalogue: View {
                     
                 }, label: {
                     Image(systemName: "books.vertical")
-                        .foregroundColor(Color.black)
+                        .foregroundColor(Color.mainFont)
                 })
             }
         }

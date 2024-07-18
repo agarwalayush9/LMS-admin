@@ -70,7 +70,7 @@ struct SubscriptionView: View {
                     menuOpened.toggle()
                 }, label: {
                     Image(systemName: "sidebar.left")
-                        .foregroundStyle(Color.black)
+                        .foregroundStyle(Color.mainFont)
                 })
             }
         }
@@ -97,7 +97,7 @@ struct SubscriptionTierView: View {
                 .overlay(
                     Text("\(tier.tierNumber)")
                         .fontWeight(.bold)
-                        .foregroundColor(Color(red: 0.32, green: 0.23, blue: 0.06))
+                        .foregroundColor(Color.login)
                 )
             
             Spacer()
@@ -108,12 +108,12 @@ struct SubscriptionTierView: View {
                     .font(.title2)
                     .fontWeight(.semibold)
                     .padding(.trailing)
-                    .foregroundColor(Color(red: 0.32, green: 0.23, blue: 0.06))
+                    .foregroundColor(Color.login)
                 
                 Text(tier.price)
                     .font(.title2)
                     .fontWeight(.semibold)
-                    .foregroundColor(Color(red: 0.32, green: 0.23, blue: 0.06))
+                    .foregroundColor(Color.login)
             }
             
             Spacer()
@@ -124,7 +124,7 @@ struct SubscriptionTierView: View {
                     showEditSheet.toggle()
                 }) {
                     Image(systemName: "pencil")
-                        .foregroundColor(.black)
+                        .foregroundColor(.mainFont)
                         .fontWeight(.bold)
                 }
             }
