@@ -53,7 +53,6 @@ struct DashboardAnalytics: View {
                 ProgressView("Fetching data...") // Show progress view while loading
                     .progressViewStyle(CircularProgressViewStyle())
             } else {
-                ScrollView {
                     HStack {
                         ForEach(analytics) { data in
                             card(title: data.title,
@@ -62,7 +61,6 @@ struct DashboardAnalytics: View {
                                 .padding()
                         }
                     }
-                }
             }
         }
         .onAppear {
