@@ -7,6 +7,27 @@
 
 import SwiftUI
 
+struct mainDashboarGraph : View{
+    @StateObject private var viewModel = EventViewModel()
+
+    var body: some View {
+        NavigationStack {
+            ScrollView(.horizontal){
+                HStack() {
+                    ForEach(viewModel.events) { event in
+                        EventRow(event: event)
+                    }
+                }
+                .padding(.horizontal)
+            }
+            .navigationTitle("All Events Listing")
+        }
+        .onAppear {
+            viewModel.fetchEvents()
+        }
+    }
+}
+
 struct AdminDashboard: View {
     @State private var menuOpened = false
     @State private var isManageLibrarians = false
@@ -46,10 +67,10 @@ struct AdminDashboard: View {
                                 .padding(.leading,64)
                             }
                             VStack(alignment: .leading, spacing: 20){
-                                AnalyticHeader(title: "Main Analytics Below")
+                                AnalyticHeader(title: "Analytics")
                                 ScrollView(.horizontal, showsIndicators: false){
                                     HStack(spacing: 20){
-                                        DashboardAnalytics()
+                                        DashboardGraph()
                                     }
                                     .padding(.leading,64)
                                 }
