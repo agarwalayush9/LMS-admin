@@ -44,50 +44,52 @@ struct AdminDashboard: View {
                     .ignoresSafeArea(.all)
                     .blur(radius: menuOpened ? 10 : 0)
                     .animation(.easeInOut(duration: 0.25), value: menuOpened)
-            VStack{
-                HStack(spacing : 0){
-                    VStack(alignment: .leading, spacing: 16){
-                        userName(userName: "User")
-                        todayDateAndTime()
-                        
-                    }
-                   .padding(.all, 64)
-
-                }
-                .padding(.trailing, 462)
-                ScrollView{
+                ScrollView {
                     VStack{
-                        //inside this write BookCircilation
-                        VStack(alignment: .leading,spacing: 20){
-                            AnalyticHeader(title: "Main Analytics Below")
-                            ScrollView(.horizontal,showsIndicators: false){
-                                HStack(spacing: 20){
-                                    DashboardAnalytics()
-                                }
-                                .padding(.leading,64)
-                            }
-                            VStack(alignment: .leading, spacing: 20){
-                                AnalyticHeader(title: "Analytics")
-                                ScrollView(.horizontal, showsIndicators: false){
+                    HStack(spacing : 0){
+                        VStack(alignment: .leading, spacing: 16){
+                            userName(userName: "User")
+                            todayDateAndTime()
+                            
+                        }
+                       .padding(.all, 64)
+
+                    }
+                    .padding(.trailing, 462)
+                    ScrollView{
+                        VStack{
+                            //inside this write BookCircilation
+                            VStack(alignment: .leading,spacing: 20){
+                                AnalyticHeader(title: "Main Analytics Below")
+                                ScrollView(.horizontal,showsIndicators: false){
                                     HStack(spacing: 20){
-                                        DashboardGraph()
+                                        DashboardAnalytics()
                                     }
                                     .padding(.leading,64)
                                 }
-                                
+                                VStack(alignment: .leading, spacing: 20){
+                                    AnalyticHeader(title: "Analytics")
+                                    ScrollView(.horizontal, showsIndicators: false){
+                                        HStack(spacing: 20){
+                                            DashboardGraph()
+                                        }
+                                        .padding(.leading,64)
+                                    }
+                                    
+                                }
+                                .padding([.bottom], 16)
+                                Spacer()
                             }
-                            .padding([.bottom], 16)
+                            .padding([.top,.bottom], 16)
                             Spacer()
+                            .padding([.leading, .trailing],64)
+                            .padding(.bottom, 85)
+                            
                         }
-                        .padding([.top,.bottom], 16)
-                        Spacer()
-                        .padding([.leading, .trailing],64)
-                        .padding(.bottom, 85)
-                        
+                    }
+                    
                     }
                 }
-                
-            }
                 
                 // Rectangle bar here
                 // Tab bar
