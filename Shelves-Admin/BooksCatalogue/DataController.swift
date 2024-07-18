@@ -201,8 +201,8 @@ class DataController
     
     
     
+    
     private func parseEvent(from dict: [String: Any], eventId: String) throws -> Event? {
-        // Extract values with conditional binding
         guard
             let name = dict["name"] as? String,
             let host = dict["host"] as? String,
@@ -217,23 +217,7 @@ class DataController
             let revenue = dict["revenue"] as? Int,
             let status = dict["status"] as? String
         else {
-            // Print missing or invalid keys
-            let keyMissing = [
-                "name": dict["name"],
-                "host": dict["host"],
-                "dateInterval": dict["dateInterval"],
-                "timeInterval": dict["timeInterval"],
-                "address": dict["address"],
-                "duration": dict["duration"],
-                "description": dict["description"],
-                "tickets": dict["tickets"],
-                "imageName": dict["imageName"],
-                "fees": dict["fees"],
-                "revenue": dict["revenue"],
-                "status": dict["status"]
-            ]
-            
-            print("Failed to parse event data. Missing or invalid key/value: \(keyMissing)")
+            print("Failed to parse event data. Missing or invalid key.")
             return nil
         }
 
@@ -241,21 +225,21 @@ class DataController
         let date = Date(timeIntervalSince1970: dateInterval)
         let time = Date(timeIntervalSince1970: timeInterval)
 
-        // Parse registered members if available
+        // Parse registered members
         var registeredMembers: [Member] = []
-        if let registeredMembersArray = dict["registeredMembers"] as? [[String: Any]] {
-            for memberDict in registeredMembersArray {
+        if let registeredMembersDict = dict["registeredMembers"] as? [String: [String: Any]] {
+            for (_, memberDict) in registeredMembersDict {
                 guard
-                    let name = memberDict["name"] as? String,
-                    let email = memberDict["email"] as? String,
+                    let firstName = memberDict["firstName"] as? String,
                     let lastName = memberDict["lastName"] as? String,
+                    let email = memberDict["email"] as? String,
                     let phoneNumber = memberDict["phoneNumber"] as? Int
                 else {
                     print("Failed to parse registered member data.")
                     continue
                 }
-                let user = Member(firstName: name, lastName: lastName, email: email, phoneNumber: phoneNumber)
-                registeredMembers.append(user)
+                let member = Member(firstName: firstName, lastName: lastName, email: email, phoneNumber: phoneNumber)
+                registeredMembers.append(member)
             }
         }
 
@@ -277,6 +261,8 @@ class DataController
             status: status
         )
     }
+
+    
 
     func addEvent(_ event: Event, completion: @escaping (Result<Void, Error>) -> Void) {
         let eventID = event.id
@@ -300,7 +286,7 @@ class DataController
         let eventDictionary = event.toDictionary()
         
         // Save event to database
-        database.child("events").child(eventID).setValue(eventDictionary) { error, _ in
+        database.child("events").child(event.id).setValue(eventDictionary) { error, _ in
             if let error = error {
                 print("Failed to save event: \(error.localizedDescription)")
                 completion(.failure(error))
