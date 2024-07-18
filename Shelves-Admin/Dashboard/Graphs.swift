@@ -384,7 +384,7 @@ struct DashboardGraph: View {
                 //MARK: Area graph for Event Revenue
                 RoundedRectangle(cornerRadius: 14)
                     .frame(minWidth: 500, minHeight: 300)
-                    .foregroundColor(.white)
+                    .foregroundColor(.dashboardbg)
                     .overlay(
                         GeometryReader { geometry in
                             Text("Event Revenue")
@@ -401,7 +401,7 @@ struct DashboardGraph: View {
                 //MARK: Pie chart for Ticket Status
                 RoundedRectangle(cornerRadius: 14)
                     .frame(minWidth: 500, minHeight: 300)
-                    .foregroundColor(.white)
+                    .foregroundColor(.dashboardbg)
                     .overlay(
                         GeometryReader { geometry in
                             Text("Ticket Status")
@@ -419,7 +419,7 @@ struct DashboardGraph: View {
                 
                 RoundedRectangle(cornerRadius: 14)
                     .frame(minWidth: 500, minHeight: 300)
-                    .foregroundColor(.white)
+                    .foregroundColor(.dashboardbg)
                     .overlay(
                         GeometryReader { geometry in
                             Text("Total Event Visitors")
@@ -436,7 +436,7 @@ struct DashboardGraph: View {
                 
                 RoundedRectangle(cornerRadius: 14)
                     .frame(minWidth: 500, minHeight: 300)
-                    .foregroundColor(.white)
+                    .foregroundColor(.dashboardbg)
                     .overlay(
                         GeometryReader { geometry in
                             Text("Total Sales")

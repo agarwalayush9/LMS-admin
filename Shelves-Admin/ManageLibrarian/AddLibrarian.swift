@@ -51,7 +51,7 @@ struct LibrarianCard: View {
                 .frame(width: 110, height: 110)
                 .background(
                     Image(systemName: "person.crop.circle")
-                        .resizable()
+                        .resizable().foregroundColor(.addLiberian)
                         .aspectRatio(contentMode: .fill)
                         .frame(width: 110, height: 110)
                         .clipped()
@@ -172,7 +172,7 @@ struct AddLibrarian: View {
                         menuOpened.toggle()
                     }, label: {
                         Image(systemName: "sidebar.left")
-                            .foregroundStyle(Color.black)
+                            .foregroundStyle(Color.mainFont)
                     })
                 }
                 ToolbarItem(placement: .topBarTrailing) {
@@ -180,7 +180,7 @@ struct AddLibrarian: View {
                         viewModel.fetchLibrarians()  // Call fetchLibrarians to refresh the data
                     }, label: {
                         Image(systemName: "arrow.clockwise")
-                            .foregroundColor(Color.black)
+                            .foregroundColor(Color.mainFont)
                     })
                 }
             }
@@ -231,7 +231,7 @@ struct LibrarianDetailView: View {
                 VStack(alignment: .leading, spacing: 40) {
                     Text("Librarian Details")
                         .font(Font.custom("DM Sans", size: 32).weight(.bold))
-                        .foregroundColor(.black)
+                        .foregroundColor(.mainFont)
                         .frame(maxWidth: .infinity, alignment: .topLeading)
                     
                     HStack(alignment: .center, spacing: 59) {
@@ -250,30 +250,30 @@ struct LibrarianDetailView: View {
                         VStack(alignment: .leading, spacing: 13) {
                             Text("Name")
                                 .font(Font.custom("DM Sans", size: 12).weight(.bold))
-                                .foregroundColor(.black)
+                                .foregroundColor(.mainFont)
                                 .frame(maxWidth: .infinity, alignment: .topLeading)
                             Text(librarian.name)
                                 .font(Font.custom("DM Sans", size: 24).weight(.bold))
                                 .multilineTextAlignment(.center)
-                                .foregroundColor(.black)
+                                .foregroundColor(.mainFont)
                                 .frame(maxWidth: .infinity, alignment: .topLeading)
                             Text("Email")
                                 .font(Font.custom("DM Sans", size: 12).weight(.bold))
-                                .foregroundColor(.black)
+                                .foregroundColor(.mainFont)
                                 .frame(maxWidth: .infinity, alignment: .topLeading)
                             Text(librarian.email)
-                                .foregroundColor(.black)
+                                .foregroundColor(.mainFont)
                                 .font(Font.custom("DM Sans", size: 24).weight(.bold))
                                 .multilineTextAlignment(.center)
                                 .frame(maxWidth: .infinity, alignment: .topLeading)
                             Text("Phone Number")
                                 .font(Font.custom("DM Sans", size: 12).weight(.bold))
-                                .foregroundColor(.black)
+                                .foregroundColor(.mainFont)
                                 .frame(maxWidth: .infinity, alignment: .topLeading)
                             Text(librarian.phoneNumber)
                                 .font(Font.custom("DM Sans", size: 24).weight(.bold))
                                 .multilineTextAlignment(.center)
-                                .foregroundColor(.black)
+                                .foregroundColor(.mainFont)
                                 .frame(maxWidth: .infinity, alignment: .topLeading)
                         }
                         .padding(0)
@@ -287,7 +287,7 @@ struct LibrarianDetailView: View {
                             HStack(alignment: .center, spacing: 125) {
                                 Text("Credentials")
                                     .font(Font.custom("DM Sans", size: 32).weight(.bold))
-                                    .foregroundColor(.black)
+                                    .foregroundColor(.mainFont)
                                 if librarian.status != "Approved"{
                                     HStack(alignment: .center, spacing: 9.89926) {
                                         Image("Traced Image 1")
@@ -313,12 +313,12 @@ struct LibrarianDetailView: View {
                                 VStack(alignment: .leading, spacing: Constants.xxs) {
                                     Text("User ID")
                                         .font(Font.custom("DM Sans", size: 12).weight(.bold))
-                                        .foregroundColor(.black)
+                                        .foregroundColor(.mainFont)
                                         .frame(maxWidth: .infinity, alignment: .topLeading)
                                     HStack(alignment: .center, spacing: Constants.xs) {
                                         Text(userId)
                                             .font(Font.custom("DM Sans", size: 24).weight(.bold))
-                                            .foregroundColor(.black)
+                                            .foregroundColor(.mainFont)
                                     }
                                     .padding(.horizontal, 44)
                                     .padding(.vertical, Constants.lg)
@@ -337,12 +337,12 @@ struct LibrarianDetailView: View {
                                 VStack(alignment: .leading, spacing: Constants.xxs) {
                                     Text("Password")
                                         .font(Font.custom("DM Sans", size: 12).weight(.bold))
-                                        .foregroundColor(.black)
+                                        .foregroundColor(.mainFont)
                                         .frame(maxWidth: .infinity, alignment: .topLeading)
                                     HStack(alignment: .center, spacing: Constants.xs) {
                                         Text(password)
                                             .font(Font.custom("DM Sans", size: 24).weight(.bold))
-                                            .foregroundColor(.black)
+                                            .foregroundColor(.mainFont)
                                     }
                                     .padding(.horizontal, 44)
                                     .padding(.vertical, Constants.lg)
@@ -406,7 +406,7 @@ struct LibrarianDetailView: View {
                                         .weight(.bold)
                                 )
                                 .multilineTextAlignment(.center)
-                                .foregroundColor(.black)
+                                .foregroundColor(.mainFont)
                                 .frame(width: 398, alignment: .top)
                             Spacer()
                         }

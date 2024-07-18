@@ -78,7 +78,7 @@ struct Sections : Identifiable{
                         MenuItem(optionIcon: "Library", option: "Dashboard", destination: AnyView(AdminDashboard()), isClickable: true),
                         MenuItem(optionIcon: "ManageLibrarian", option: "Manage Librarian", destination: AnyView(AddLibrarian()), isClickable: true),
                         MenuItem(optionIcon: "Complaints", option: "Complaints", destination: AnyView(EmptyView()), isClickable: false),
-                        MenuItem(optionIcon: "ManageEvents", option: "Manage Events", destination: AnyView(EmptyView()), isClickable: false),
+                        MenuItem(optionIcon: "ManageEvents", option: "Manage Events", destination: AnyView(EventsDashboard()), isClickable: true),
                         MenuItem(optionIcon: "MakePayouts", option: "Make Payouts", destination: AnyView(EmptyView()), isClickable: false),
                         MenuItem(optionIcon: "UserQueries", option: "User Queries", destination: AnyView(EmptyView()), isClickable: false),
                     ]),
