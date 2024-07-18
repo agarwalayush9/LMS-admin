@@ -224,7 +224,7 @@ struct BarGraph: View {
                     Circle()
                         .fill(Color.customButton)
                         .frame(width: 15, height: 15)
-                    Text("200 Ticket Sold")
+                    Text("Tickets Sold")
                         .font(.caption2)
                 }
                 
@@ -232,7 +232,7 @@ struct BarGraph: View {
                     Circle()
                         .fill(Color.librarianDashboardTabBar)
                         .frame(width: 15, height: 15)
-                    Text("330 Ticket Available")
+                    Text("Tickets Available")
                         .font(.caption2)
                 }
             }
@@ -267,7 +267,7 @@ class TicketViewModel: ObservableObject {
         tickets = [
             TicketStatus(category: "Availed", value: 500, color: .customButton),
             TicketStatus(category: "Remaining", value: 200, color: .librarianDashboardTabBar),
-            TicketStatus(category: "Cancelled", value: 100, color: .pieLesser)
+//            TicketStatus(category: "Cancelled", value: 100, color: .pieLesser)
         ]
     }
 }
