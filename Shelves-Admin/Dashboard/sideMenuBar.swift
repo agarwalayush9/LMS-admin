@@ -7,7 +7,7 @@ struct MenuContent: View {
     
     var body: some View {
         ZStack {
-            Color(.white)
+            Color(.adminDashboardBg)
             
             VStack(alignment: .leading, spacing: 0) {
                 Text("Admin")
@@ -138,7 +138,7 @@ struct LibrarianProfile: View {
                     VStack(alignment: .leading) {
                         Text(userName)
                             .font(.system(size: 16, weight: .bold, design: .default))
-                            .foregroundStyle(Color.black)
+                            .foregroundStyle(Color.mainFont)
                             .frame(width: .infinity, alignment: .topLeading)
                         Text(post)
                             .font(.system(size: 16, weight: .bold, design: .default))

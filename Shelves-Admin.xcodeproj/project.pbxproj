@@ -110,6 +110,7 @@
 				FD53DCAF2C3B335C005D28DB /* DataController.swift */,
 				FD53DCAD2C3B3354005D28DB /* DataModel.swift */,
 				FD53DCAA2C3B32F3005D28DB /* BooksCatalogue.swift */,
+				FDD109472C356FFD00849916 /* Products */,
 				73E8869E2C4286AA000687DD /* SubscriptionPage.swift */,
 				D0E7ED2C2C4937D400096843 /* CheckBoxView.swift */,
 				D0E7ED2E2C49380B00096843 /* ImageLoader.swift */,
@@ -133,7 +134,6 @@
 				FDD109572C35703400849916 /* .gitignore */,
 				FDC996F12C3AB38100723BFE /* config.plist */,
 				FDD109482C356FFD00849916 /* Shelves-Admin */,
-				FDD109472C356FFD00849916 /* Products */,
 				D0B9B1142C35C42A009521D5 /* Frameworks */,
 			);
 			sourceTree = "<group>";
@@ -144,6 +144,7 @@
 				FDD109462C356FFD00849916 /* Shelves-Admin.app */,
 			);
 			name = Products;
+			path = ../..;
 			sourceTree = "<group>";
 		};
 		FDD109482C356FFD00849916 /* Shelves-Admin */ = {
