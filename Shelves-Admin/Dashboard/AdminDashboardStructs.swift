@@ -46,14 +46,13 @@ struct card : View {
 struct DashboardAnalytics: View {
     @State private var analytics = Analytics.analytics
     @State private var isLoading = false // Track loading state
-    
+    @StateObject private var viewModel = EventViewModel()
     var body: some View {
         VStack {
             if isLoading {
                 ProgressView("Fetching data...") // Show progress view while loading
                     .progressViewStyle(CircularProgressViewStyle())
             } else {
-                ScrollView {
                     HStack {
                         ForEach(analytics) { data in
                             card(title: data.title,
@@ -62,7 +61,6 @@ struct DashboardAnalytics: View {
                                 .padding()
                         }
                     }
-                }
             }
         }
         .onAppear {
