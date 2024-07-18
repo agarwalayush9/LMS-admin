@@ -17,6 +17,8 @@
 		B1F2AC882C3B2EAA0078D41E /* AdminDashboardStructs.swift in Sources */ = {isa = PBXBuildFile; fileRef = B1F2AC832C3B2EAA0078D41E /* AdminDashboardStructs.swift */; };
 		B1F2AC892C3B2EAA0078D41E /* AdminDashboardAnalyicsData.swift in Sources */ = {isa = PBXBuildFile; fileRef = B1F2AC842C3B2EAA0078D41E /* AdminDashboardAnalyicsData.swift */; };
 		D0B9B1162C35C42A009521D5 /* FirebaseAuth in Frameworks */ = {isa = PBXBuildFile; productRef = D0B9B1152C35C42A009521D5 /* FirebaseAuth */; };
+		D0E7ED2D2C4937D400096843 /* CheckBoxView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D0E7ED2C2C4937D400096843 /* CheckBoxView.swift */; };
+		D0E7ED2F2C49380B00096843 /* ImageLoader.swift in Sources */ = {isa = PBXBuildFile; fileRef = D0E7ED2E2C49380B00096843 /* ImageLoader.swift */; };
 		FD53DCAB2C3B32F3005D28DB /* BooksCatalogue.swift in Sources */ = {isa = PBXBuildFile; fileRef = FD53DCAA2C3B32F3005D28DB /* BooksCatalogue.swift */; };
 		FD53DCAE2C3B3354005D28DB /* DataModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = FD53DCAD2C3B3354005D28DB /* DataModel.swift */; };
 		FD53DCB02C3B335C005D28DB /* DataController.swift in Sources */ = {isa = PBXBuildFile; fileRef = FD53DCAF2C3B335C005D28DB /* DataController.swift */; };
@@ -44,6 +46,8 @@
 		B1F2AC822C3B2EAA0078D41E /* AdminDashboard.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AdminDashboard.swift; sourceTree = "<group>"; };
 		B1F2AC832C3B2EAA0078D41E /* AdminDashboardStructs.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AdminDashboardStructs.swift; sourceTree = "<group>"; };
 		B1F2AC842C3B2EAA0078D41E /* AdminDashboardAnalyicsData.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AdminDashboardAnalyicsData.swift; sourceTree = "<group>"; };
+		D0E7ED2C2C4937D400096843 /* CheckBoxView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CheckBoxView.swift; sourceTree = "<group>"; };
+		D0E7ED2E2C49380B00096843 /* ImageLoader.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageLoader.swift; sourceTree = "<group>"; };
 		FD53DCAA2C3B32F3005D28DB /* BooksCatalogue.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BooksCatalogue.swift; sourceTree = "<group>"; };
 		FD53DCAD2C3B3354005D28DB /* DataModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DataModel.swift; sourceTree = "<group>"; };
 		FD53DCAF2C3B335C005D28DB /* DataController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DataController.swift; sourceTree = "<group>"; };
@@ -101,6 +105,8 @@
 				FD53DCAD2C3B3354005D28DB /* DataModel.swift */,
 				FD53DCAA2C3B32F3005D28DB /* BooksCatalogue.swift */,
 				73E8869E2C4286AA000687DD /* SubscriptionPage.swift */,
+				D0E7ED2C2C4937D400096843 /* CheckBoxView.swift */,
+				D0E7ED2E2C49380B00096843 /* ImageLoader.swift */,
 			);
 			path = BooksCatalogue;
 			sourceTree = "<group>";
@@ -253,10 +259,12 @@
 				FDEA9CA82C3924240042367B /* LibrarianData.swift in Sources */,
 				FDD1094C2C356FFD00849916 /* AdminLoginView.swift in Sources */,
 				FDD1094A2C356FFD00849916 /* Shelves_AdminApp.swift in Sources */,
+				D0E7ED2F2C49380B00096843 /* ImageLoader.swift in Sources */,
 				FD53DCAB2C3B32F3005D28DB /* BooksCatalogue.swift in Sources */,
 				FDEA9CA62C37C3FC0042367B /* AddLibrarian.swift in Sources */,
 				B15B3D742C444339006231D3 /* EventRequest.swift in Sources */,
 				B1F2AC882C3B2EAA0078D41E /* AdminDashboardStructs.swift in Sources */,
+				D0E7ED2D2C4937D400096843 /* CheckBoxView.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -394,6 +402,7 @@
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = "Shelves-Admin/Info.plist";
+				INFOPLIST_KEY_LSApplicationCategoryType = "";
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
@@ -423,6 +432,7 @@
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = "Shelves-Admin/Info.plist";
+				INFOPLIST_KEY_LSApplicationCategoryType = "";
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
