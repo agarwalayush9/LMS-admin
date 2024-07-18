@@ -150,3 +150,14 @@ struct Notification: Identifiable {
         ]
     }
 }
+struct Time: Codable {
+    var hours: Int
+    var minutes: Int
+    
+    func toDictionary() -> [String: Int] {
+        return [
+            "hours": hours,
+            "minutes": minutes
+        ]
+    }
+}
