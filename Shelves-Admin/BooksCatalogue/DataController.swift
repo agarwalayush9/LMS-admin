@@ -16,50 +16,66 @@ class DataController
     private let database = Database.database().reference()
     
     func fetchBooks(completion: @escaping (Result<[Book], Error>) -> Void) {
-            database.child("books").observe(.value) { snapshot in
-                guard let booksDict = snapshot.value as? [String: [String: Any]] else {
-                    completion(.failure(NSError(domain: "", code: -1, userInfo: [NSLocalizedDescriptionKey: "No data found or failed to cast snapshot value."])))
-                    return
-                }
-                
-                var books: [Book] = []
-                
-                for (_, dict) in booksDict {
-                    guard
-                        let bookCode = dict["bookCode"] as? String,
-                        let bookCover = dict["bookCover"] as? String,
-                        let bookTitle = dict["bookTitle"] as? String,
-                        let author = dict["author"] as? String,
-                        let genreStrings = dict["genre"] as? [String],
-                        let issuedDate = dict["issuedDate"] as? String,
-                        let returnDate = dict["returnDate"] as? String,
-                        let status = dict["status"] as? String
-                    else {
-                        print("Failed to parse book data.")
-                        continue
-                    }
-                    
-                    // Convert genre strings to Genre enum array
-                    let genres = genreStrings.compactMap { Genre(rawValue: $0) }
-                    
-                    let book = Book(
-                        bookCode: bookCode,
-                        bookCover: bookCover,
-                        bookTitle: bookTitle,
-                        author: author,
-                        genre: genres,
-                        issuedDate: issuedDate,
-                        returnDate: returnDate,
-                        status: status
-                    )
-                    
-                    books.append(book)
-                }
-                
-                print("Fetched \(books.count) books.")
-                completion(.success(books))
+        database.child("books").observeSingleEvent(of: .value) { snapshot in
+            guard let booksDict = snapshot.value as? [String: [String: Any]] else {
+                completion(.failure(NSError(domain: "", code: -1, userInfo: [NSLocalizedDescriptionKey: "No data found or failed to cast snapshot value."])))
+                return
             }
+
+            var books: [Book] = []
+
+            for (_, dict) in booksDict {
+                guard
+                    let bookCode = dict["bookCode"] as? String,
+                    let bookCover = dict["bookCover"] as? String,
+                    let bookTitle = dict["bookTitle"] as? String,
+                    let author = dict["author"] as? String,
+                    let genreString = dict["genre"] as? String,
+                    let issuedDate = dict["issuedDate"] as? String,
+                    let returnDate = dict["returnDate"] as? String,
+                    let status = dict["status"] as? String,
+                    let quantity = dict["quantity"] as? Int,
+                    let description = dict["description"] as? String,
+                    let publisher = dict["publisher"] as? String,
+                    let publishedDate = dict["publishedDate"] as? String,
+                    let pageCount = dict["pageCount"] as? Int,
+                    let averageRating = dict["averageRating"] as? Double
+                   
+                else {
+                    print("Failed to parse book data.")
+                    continue
+                }
+
+                guard let genre = Genre(rawValue: genreString) else {
+                    print("Failed to parse genre.")
+                    continue
+                }
+
+                let book = Book(
+                    bookCode: bookCode,
+                    bookCover: bookCover,
+                    bookTitle: bookTitle,
+                    author: author,
+                    genre: genre,
+                    issuedDate: issuedDate,
+                    returnDate: returnDate,
+                    status: status,
+                    quantity: quantity,
+                    description: description,
+                    publisher: publisher,
+                    publishedDate: publishedDate,
+                    pageCount: pageCount,
+                    averageRating: averageRating
+                   
+                )
+
+                books.append(book)
+            }
+
+            print("Fetched \(books.count) books.")
+            completion(.success(books))
         }
+    }
     
     
     func fetchNumberOfBooks(completion: @escaping (Result<Int, Error>) -> Void) {
@@ -201,8 +217,8 @@ class DataController
     
     
     
+    
     private func parseEvent(from dict: [String: Any], eventId: String) throws -> Event? {
-        // Extract values with conditional binding
         guard
             let name = dict["name"] as? String,
             let host = dict["host"] as? String,
@@ -217,23 +233,7 @@ class DataController
             let revenue = dict["revenue"] as? Int,
             let status = dict["status"] as? String
         else {
-            // Print missing or invalid keys
-            let keyMissing = [
-                "name": dict["name"],
-                "host": dict["host"],
-                "dateInterval": dict["dateInterval"],
-                "timeInterval": dict["timeInterval"],
-                "address": dict["address"],
-                "duration": dict["duration"],
-                "description": dict["description"],
-                "tickets": dict["tickets"],
-                "imageName": dict["imageName"],
-                "fees": dict["fees"],
-                "revenue": dict["revenue"],
-                "status": dict["status"]
-            ]
-            
-            print("Failed to parse event data. Missing or invalid key/value: \(keyMissing)")
+            print("Failed to parse event data. Missing or invalid key.")
             return nil
         }
 
@@ -241,21 +241,21 @@ class DataController
         let date = Date(timeIntervalSince1970: dateInterval)
         let time = Date(timeIntervalSince1970: timeInterval)
 
-        // Parse registered members if available
+        // Parse registered members
         var registeredMembers: [Member] = []
-        if let registeredMembersArray = dict["registeredMembers"] as? [[String: Any]] {
-            for memberDict in registeredMembersArray {
+        if let registeredMembersDict = dict["registeredMembers"] as? [String: [String: Any]] {
+            for (_, memberDict) in registeredMembersDict {
                 guard
-                    let name = memberDict["name"] as? String,
-                    let email = memberDict["email"] as? String,
+                    let firstName = memberDict["firstName"] as? String,
                     let lastName = memberDict["lastName"] as? String,
+                    let email = memberDict["email"] as? String,
                     let phoneNumber = memberDict["phoneNumber"] as? Int
                 else {
                     print("Failed to parse registered member data.")
                     continue
                 }
-                let user = Member(firstName: name, lastName: lastName, email: email, phoneNumber: phoneNumber)
-                registeredMembers.append(user)
+                let member = Member(firstName: firstName, lastName: lastName, email: email, phoneNumber: phoneNumber)
+                registeredMembers.append(member)
             }
         }
 
@@ -277,6 +277,8 @@ class DataController
             status: status
         )
     }
+
+    
 
     func addEvent(_ event: Event, completion: @escaping (Result<Void, Error>) -> Void) {
         let eventID = event.id
@@ -300,7 +302,7 @@ class DataController
         let eventDictionary = event.toDictionary()
         
         // Save event to database
-        database.child("events").child(eventID).setValue(eventDictionary) { error, _ in
+        database.child("events").child(event.id).setValue(eventDictionary) { error, _ in
             if let error = error {
                 print("Failed to save event: \(error.localizedDescription)")
                 completion(.failure(error))

@@ -7,6 +7,27 @@
 
 import SwiftUI
 
+struct mainDashboarGraph : View{
+    @StateObject private var viewModel = EventViewModel()
+
+    var body: some View {
+        NavigationStack {
+            ScrollView(.horizontal){
+                HStack() {
+                    ForEach(viewModel.events) { event in
+                        EventRow(event: event)
+                    }
+                }
+                .padding(.horizontal)
+            }
+            .navigationTitle("All Events Listing")
+        }
+        .onAppear {
+            viewModel.fetchEvents()
+        }
+    }
+}
+
 struct AdminDashboard: View {
     @State private var menuOpened = false
     @State private var isManageLibrarians = false
@@ -20,59 +41,62 @@ struct AdminDashboard: View {
             backgroundView()
                     .ignoresSafeArea(.all)
                 backgroundView()
+                    
                     .ignoresSafeArea(.all)
                     .blur(radius: menuOpened ? 10 : 0)
                     .animation(.easeInOut(duration: 0.25), value: menuOpened)
-            VStack{
-                HStack(spacing : 0){
-                    VStack(alignment: .leading, spacing: 16){
-                        userName(userName: "User")
-                        todayDateAndTime()
-                        
-                    }
-                   .padding(.all, 64)
-
-                }
-                .padding(.trailing, 462)
-                ScrollView{
+                ScrollView {
                     VStack{
-                        //inside this write BookCircilation
-                        VStack(alignment: .leading,spacing: 20){
-                            AnalyticHeader(title: "Main Analytics Below")
-                            ScrollView(.horizontal,showsIndicators: false){
-                                HStack(spacing: 20){
-                                    DashboardAnalytics()
-                                }
-                                .padding(.leading,64)
-                            }
-                            VStack(alignment: .leading, spacing: 20){
+                    HStack(spacing : 0){
+                        VStack(alignment: .leading, spacing: 16){
+                            userName(userName: "Admin")
+                            todayDateAndTime()
+                            
+                        }
+                       .padding(.all, 64)
+
+                    }
+                    .padding(.trailing, 462)
+                    ScrollView{
+                        VStack{
+                            //inside this write BookCircilation
+                            VStack(alignment: .leading,spacing: 20){
                                 AnalyticHeader(title: "Main Analytics Below")
-                                ScrollView(.horizontal, showsIndicators: false){
+                                ScrollView(.horizontal,showsIndicators: false){
                                     HStack(spacing: 20){
                                         DashboardAnalytics()
                                     }
                                     .padding(.leading,64)
                                 }
-                                
+                                VStack(alignment: .leading, spacing: 20){
+                                    AnalyticHeader(title: "Analytics")
+                                    ScrollView(.horizontal, showsIndicators: false){
+                                        HStack(spacing: 20){
+                                            DashboardGraph()
+                                        }
+                                        .padding(.leading,64)
+                                    }
+                                    
+                                }
+                                .padding([.bottom], 16)
+                                Spacer()
                             }
-                            .padding([.bottom], 16)
+                            .padding([.top,.bottom], 16)
                             Spacer()
+                            .padding([.leading, .trailing],64)
+                            .padding(.bottom, 85)
+                            
                         }
-                        .padding([.top,.bottom], 16)
-                        Spacer()
-                        .padding([.leading, .trailing],64)
-                        .padding(.bottom, 85)
-                        
+                    }
+                    
                     }
                 }
-                
-            }
                 
                 // Rectangle bar here
                 // Tab bar
                                Rectangle()
                                    .ignoresSafeArea()
-                                   .frame(maxWidth: .infinity, maxHeight: UIScreen.main.bounds.height * 0.07)
+                                   .frame(maxWidth: .infinity, maxHeight: UIScreen.main.bounds.height * 0.08)
                                    .foregroundColor(Color("librarianDashboardTabBar"))
                                    .overlay(
                                        HStack(alignment: .center) {
@@ -106,7 +130,7 @@ struct AdminDashboard: View {
                         menuOpened.toggle()
                     }, label: {
                         Image(systemName: "sidebar.left")
-                            .foregroundStyle(Color.black)
+                            .foregroundStyle(Color.mainFont)
                     })
                     
                 }
@@ -115,7 +139,7 @@ struct AdminDashboard: View {
                         
                     }, label: {
                         Image(systemName: "books.vertical")
-                            .foregroundColor(Color.black)
+                            .foregroundColor(Color.mainFont)
                     })
                 }
             }
@@ -129,7 +153,7 @@ struct AdminDashboard: View {
 
 struct backgroundView : View {
     var body: some View {
-        Color("dashboardbg").ignoresSafeArea()
+        Color(.adminDashboardBg).ignoresSafeArea()
         
     }
 }
@@ -153,7 +177,7 @@ struct BookCirculationCard: View {
             Spacer()
         }
         .padding()
-        .background(Color.white).frame(minHeight: minHeight)
+        .background(Color.dashboardbg).frame(minHeight: minHeight)
         .clipShape(RoundedRectangle(cornerRadius: 12))
 
     }

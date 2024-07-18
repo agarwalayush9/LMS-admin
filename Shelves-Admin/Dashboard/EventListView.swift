@@ -72,7 +72,7 @@ struct EventRow: View {
             VStack(alignment: .leading, spacing: 4) {
                 Text(event.name)
                     .font(.headline)
-                    .foregroundColor(.blue) // Adjust color as needed
+                    .foregroundColor(.mainFont) // Adjust color as needed
                 
                 
                 
@@ -80,12 +80,12 @@ struct EventRow: View {
                     VStack(alignment: .leading, spacing: 4) {
                         Text(event.host)
                             .font(.subheadline)
-                            .foregroundColor(.blue) // Adjust color as needed
+                            .foregroundColor(.mainFont) // Adjust color as needed
                     }
                 VStack(alignment: .leading, spacing: 4) {
                     Text(event.address)
                         .font(.subheadline)
-                        .foregroundColor(.blue) // Adjust color as needed
+                        .foregroundColor(.mainFont) // Adjust color as needed
                 }
                 
                 Spacer()
@@ -95,11 +95,11 @@ struct EventRow: View {
                     VStack(alignment: .leading, spacing: 4) {
                         Text("Date")
                             .font(.headline)
-                            .foregroundColor(.blue) // Adjust color as needed
+                            .foregroundColor(.mainFont) // Adjust color as needed
                         
                         Text("\(event.date)")
                             .font(.subheadline)
-                            .foregroundColor(.black)
+                            .foregroundColor(.mainFont)
                     }
                     
                     Spacer()
@@ -107,11 +107,11 @@ struct EventRow: View {
                     VStack(alignment: .leading, spacing: 4) {
                         Text("Price")
                             .font(.headline)
-                            .foregroundColor(.blue) // Adjust color as needed
+                            .foregroundColor(.mainFont) // Adjust color as needed
                         
                         Text("$\(event.fees)")
                             .font(.subheadline)
-                            .foregroundColor(.black)
+                            .foregroundColor(.mainFont)
                     }
                     .padding(.trailing, 20)
                 }
@@ -137,3 +137,5 @@ struct EventContentView_Previews: PreviewProvider {
         EventContentView()
     }
 }
+
+

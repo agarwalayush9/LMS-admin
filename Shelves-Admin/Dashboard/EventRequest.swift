@@ -134,13 +134,13 @@ struct EventRequest: View {
                         menuOpened.toggle()
                     }, label: {
                         Image(systemName: "sidebar.left")
-                            .foregroundStyle(Color.black)
+                            .foregroundStyle(Color.mainFont)
                     })
                 }
                 ToolbarItem(placement: .topBarTrailing) {
                     Button(action: {}, label: {
                         Image(systemName: "books.vertical")
-                            .foregroundColor(Color.black)
+                            .foregroundColor(Color.mainFont)
                     })
                 }
             }

@@ -46,18 +46,18 @@ struct AdminLoginView: View {
                     
                     Text("Shelves")
                         .font(Font.custom("DMSans-Bold", size: 30))
-                        .foregroundColor(Color(red: 0.32, green: 0.23, blue: 0.06))
+                        .foregroundColor(Color.login)
                 }
                 
                 if(!resetpassword){
                     Text("Admin Log in")
                         .font(Font.custom("DM Sans", size: 36).weight(.bold))
-                        .foregroundColor(Color(red: 0.32, green: 0.23, blue: 0.06))
+                        .foregroundColor(Color.login)
                         .frame(maxWidth: 400, alignment: .topLeading)
                     
                     Text("Welcome back Admin! Please enter your details.")
                         .font(Font.custom("DMSans_18pt-Regular", size: 19))
-                        .foregroundColor(Color(red: 0.32, green: 0.23, blue: 0.06))
+                        .foregroundColor(Color.login)
                         .frame(maxWidth: 410, alignment: .topLeading)
                     
                     VStack(alignment: .leading, spacing: 4) {
@@ -66,11 +66,11 @@ struct AdminLoginView: View {
                         
                         TextField("Enter your email", text: $email)
                             .padding()
-                            .background(Color.white)
+                            .background(Color.adminDashboardBg)
                             .cornerRadius(8) // Adds rounded corners to the background
                             .overlay(
                                 RoundedRectangle(cornerRadius: 8)
-                                    .stroke(Color.gray, lineWidth: 1)
+                                    .stroke(Color.mainFont, lineWidth: 1)
                             )
                             .frame(width: 300)
                             .onChange(of: email) { _ in
@@ -88,11 +88,11 @@ struct AdminLoginView: View {
                         
                         SecureField("Password", text: $password)
                             .padding()
-                            .background(Color.white)
+                            .background(Color.adminDashboardBg)
                             .cornerRadius(8) // Adds rounded corners to the background
                             .overlay(
                                 RoundedRectangle(cornerRadius: 8)
-                                    .stroke(Color.gray, lineWidth: 1)
+                                    .stroke(Color.mainFont, lineWidth: 1)
                             )
                             .frame(width: 300)
                             .onChange(of: password) { _ in
@@ -173,7 +173,7 @@ struct AdminLoginView: View {
                         resetpassword.toggle()
                     }) {
                         Text("Forgot password?")
-                            .foregroundColor(Color(red: 0.32, green: 0.23, blue: 0.06))
+                            .foregroundColor(Color.login)
                             .frame(maxWidth: 300, alignment: .center)
                     }
                     
@@ -182,12 +182,12 @@ struct AdminLoginView: View {
                 else{
                     Text("Password Reset")
                         .font(Font.custom("DM Sans", size: 36).weight(.bold))
-                        .foregroundColor(Color(red: 0.32, green: 0.23, blue: 0.06))
+                        .foregroundColor(Color.login)
                         .frame(maxWidth: 400, alignment: .topLeading)
                     
                     Text("Enter your existing Email Id")
                         .font(Font.custom("DMSans_18pt-Regular", size: 19))
-                        .foregroundColor(Color(red: 0.32, green: 0.23, blue: 0.06))
+                        .foregroundColor(Color.login)
                         .frame(maxWidth: 410, alignment: .topLeading)
                     
                     VStack(alignment: .leading, spacing: 4) {
@@ -196,11 +196,11 @@ struct AdminLoginView: View {
                         
                         TextField("Enter your email", text: $email)
                             .padding()
-                            .background(Color.white)
+                            .background(Color.adminDashboardBg)
                             .cornerRadius(8) // Adds rounded corners to the background
                             .overlay(
                                 RoundedRectangle(cornerRadius: 8)
-                                    .stroke(Color.gray, lineWidth: 1)
+                                    .stroke(Color.mainFont, lineWidth: 1)
                             )
                             .frame(width: 300)
                             .onChange(of: email) { _ in
@@ -358,4 +358,7 @@ struct AdminLoginView: View {
             }
         }
     }
+}
+#Preview {
+    AdminLoginView()
 }

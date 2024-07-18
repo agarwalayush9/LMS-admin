@@ -7,35 +7,50 @@
 
 import Foundation
 
-struct Book: Identifiable, Codable {
+struct Book: Identifiable, Codable, Equatable {
     var id = UUID()
-    let bookCode: String
-    let bookCover: String
-    let bookTitle: String
-    let author: String
-    let genre: [Genre]
-    let issuedDate: String
-    let returnDate: String
-    let status: String
+    var bookCode: String
+    var bookCover: String
+    var bookTitle: String
+    var author: String
+    var genre: Genre
+    var issuedDate: String
+    var returnDate: String
+    var status: String
     var quantity: Int?
-    
+    var description: String?
+    var publisher: String?
+    var publishedDate: String?
+    var pageCount: Int?
+    var averageRating: Double?
+
     func toDictionary() -> [String: Any] {
-            return [
-                "id": id.uuidString,
-                "bookCode": bookCode,
-                "bookCover": bookCover,
-                "bookTitle": bookTitle,
-                "author": author,
-                "genre": genre.map { $0.rawValue },
-                "issuedDate": issuedDate,
-                "returnDate": returnDate,
-                "status": status
-                
-            ]
-        }
+        return [
+            "id": id.uuidString,
+            "bookCode": bookCode,
+            "bookCover": bookCover,
+            "bookTitle": bookTitle,
+            "author": author,
+            "genre": genre.rawValue,
+            "issuedDate": issuedDate,
+            "returnDate": returnDate,
+            "status": status,
+            "quantity": quantity ?? 0,
+            "description": description ?? "",
+            "publisher": publisher ?? "",
+            "publishedDate": publishedDate ?? "",
+            "pageCount": pageCount ?? 0,
+            "averageRating": averageRating ?? 0.0,
+        ]
+    }
+
+    // Conformance to Equatable
+    static func == (lhs: Book, rhs: Book) -> Bool {
+        return lhs.id == rhs.id
+    }
 }
 
-enum Genre: String, Codable {
+enum Genre: String, Codable, CaseIterable {
     case Horror
     case Mystery
     case Fiction
@@ -70,6 +85,7 @@ struct Event: Identifiable {
     
     func toDictionary() -> [String: Any] {
         return [
+            "id": id,
             "name": name,
             "host": host,
             "date": date.timeIntervalSince1970, // Convert Date to TimeInterval
@@ -77,7 +93,7 @@ struct Event: Identifiable {
             "address": address,
             "duration": duration,
             "description": description,
-            "registeredMembers": registeredMembers.map { $0.toDictionary() },
+            "registeredMembers": registeredMembers.map { $0.toDictionary() }, // Convert each member to dictionary
             "tickets": tickets,
             "imageName": imageName,
             "fees": fees,
@@ -87,16 +103,24 @@ struct Event: Identifiable {
     }
 }
 
+
+
+struct Author: Identifiable {
+    let id = UUID()
+    let name: String
+    let title: String
+    let description: String
+    let image: String
+}
+
 struct Member {
     var firstName: String
     var lastName: String
     var email: String
     var phoneNumber: Int
     var subscriptionPlan: String?
-    var registeredEvents: [Event]?
     var genre: [Genre]?
-
-    // Additional methods or properties as needed
+    var registeredEvents: [Event]? // This should be [Event] since it's an array of events
 
     var safeEmail: String {
         var safeEmail = email.replacingOccurrences(of: ".", with: "-")
@@ -119,11 +143,11 @@ struct Member {
         if let genre = genre {
             dictionary["genre"] = genre.map { $0.rawValue }
         }
-
+        
         if let registeredEvents = registeredEvents {
+            // Convert each event to dictionary
             dictionary["registeredEvents"] = registeredEvents.map { $0.toDictionary() }
         }
-
         return dictionary
     }
 }
@@ -138,6 +162,17 @@ struct Notification: Identifiable {
         return [
             "title": title,
             "message": message
+        ]
+    }
+}
+struct Time: Codable {
+    var hours: Int
+    var minutes: Int
+    
+    func toDictionary() -> [String: Int] {
+        return [
+            "hours": hours,
+            "minutes": minutes
         ]
     }
 }
