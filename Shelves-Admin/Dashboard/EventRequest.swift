@@ -59,8 +59,6 @@ struct EventRequest: View {
                                             alertMessage = "Failed to add event: \(error.localizedDescription)"
                                         }
                                         showAlert = true
-                                        
-                                        
                                     }
                                     let notification = Notification(title: "Event Approved",
                                     message: "The event \(event.name) has been approved.")
@@ -135,12 +133,14 @@ struct EventRequest: View {
                     }, label: {
                         Image(systemName: "sidebar.left")
                             .foregroundStyle(Color.mainFont)
+                            .accessibilityLabel("Menu")
                     })
                 }
                 ToolbarItem(placement: .topBarTrailing) {
                     Button(action: {}, label: {
                         Image(systemName: "books.vertical")
                             .foregroundColor(Color.mainFont)
+                            .accessibilityLabel("Books")
                     })
                 }
             }
@@ -166,7 +166,7 @@ struct EventRequest: View {
 }
 
 
-//MARK: Custom car for each event card
+//MARK: Custom card for each event card
 struct EventRequestCard: View {
     var event: Event
     var width: Double
@@ -188,6 +188,7 @@ struct EventRequestCard: View {
                             .frame(width: 112, height: 150)
                             .clipShape(RoundedRectangle(cornerRadius: 12))
                             .padding()
+                            .accessibilityLabel("Event Image")
                     }
                     Spacer()
                     HStack {
@@ -198,17 +199,20 @@ struct EventRequestCard: View {
                                         .weight(.bold)
                                 )
                                 .foregroundStyle(.gray)
+                                .accessibilityLabel("Event Title")
                             Text(event.name)
                                 .font(
                                     Font.custom("DM Sans", size: 17)
                                         .weight(.bold)
                                 )
+                                .accessibilityLabel(event.name)
                             Text("Date: ")
                                 .font(
                                     Font.custom("DM Sans", size: 17)
                                         .weight(.bold)
                                 )
                                 .foregroundStyle(.gray)
+                                .accessibilityLabel("Event Date")
                             Text(event.date, style: .date)
                                 .font(
                                     Font.custom("DM Sans", size: 17)
@@ -220,22 +224,26 @@ struct EventRequestCard: View {
                                         .weight(.bold)
                                 )
                                 .foregroundStyle(.gray)
+                                .accessibilityLabel("Event Location")
                             Text(event.address)
                                 .font(
                                     Font.custom("DM Sans", size: 17)
                                         .weight(.bold)
                                 )
+                                .accessibilityLabel(event.address)
                             Text("Host: ")
                                 .font(
                                     Font.custom("DM Sans", size: 17)
                                         .weight(.bold)
                                 )
                                 .foregroundStyle(.gray)
+                                .accessibilityLabel("Event Host")
                             Text(event.host)
                                 .font(
                                     Font.custom("DM Sans", size: 17)
                                         .weight(.bold)
                                 )
+                                .accessibilityLabel(event.host)
                         }
                     }
                     Spacer()
@@ -250,6 +258,7 @@ struct EventRequestCard: View {
                                 fontColor: "ApproveFontColor",
                                 action: onApprove
                             )
+                            .accessibilityLabel("Approve Event")
                             Spacer()
                             AorDCustomButton(
                                 width: 200,
@@ -259,6 +268,7 @@ struct EventRequestCard: View {
                                 fontColor: "DeclineFontColor",
                                 action: onDecline
                             )
+                            .accessibilityLabel("Decline Event")
                             Spacer()
                         }
                     }
@@ -290,9 +300,9 @@ struct AorDCustomButton: View {
             .background(Color(colorName))
             .clipShape(RoundedRectangle(cornerRadius: 10))
         }
+        .accessibilityLabel(title)
     }
 }
-
 
 #Preview {
     EventRequest()
