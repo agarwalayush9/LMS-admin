@@ -77,6 +77,7 @@ class DataController
         }
     }
     
+
     
     func fetchNumberOfBooks(completion: @escaping (Result<Int, Error>) -> Void) {
         database.child("books").observeSingleEvent(of: .value) { snapshot, error in
@@ -216,7 +217,122 @@ class DataController
     }
     
     
+    func fetchUpcomingEvents(completion: @escaping (Result<[Event], Error>) -> Void) {
+        fetchAllEvents { result in
+            switch result {
+            case .success(let events):
+                // Sort events by date and time ascending
+                let sortedEvents = events.sorted { event1, event2 in
+                    if event1.date == event2.date {
+                        return event1.time < event2.time
+                    }
+                    return event1.date < event2.date
+                }
+                
+                // Limit to the nearest 4 events
+                let nearestEvents = Array(sortedEvents.prefix(4))
+                
+                completion(.success(nearestEvents))
+                
+            case .failure(let error):
+                completion(.failure(error))
+            }
+        }
+    }
     
+    func fetchEventDateTime(completion: @escaping (Result<[Date], Error>) -> Void) {
+        fetchAllEvents { result in
+            switch result {
+            case .success(let events):
+                let eventDates = events.map { $0.date }
+                print("Fetched event dates and times: \(eventDates)")
+                completion(.success(eventDates))
+            case .failure(let error):
+                completion(.failure(error))
+            }
+        }
+    }
+    
+    func fetchEventTickets(completion: @escaping (Result<[Int], Error>) -> Void) {
+            fetchAllEvents { result in
+                switch result {
+                case .success(let events):
+                    let tickets = events.map { $0.tickets }
+                    print("Fetched tickets: \(tickets)")
+                    completion(.success(tickets))
+                case .failure(let error):
+                    completion(.failure(error))
+                }
+            }
+        }
+    
+    func fetchEventRevenue(completion: @escaping (Result<[Int], Error>) -> Void) {
+           fetchAllEvents { result in
+               switch result {
+               case .success(let events):
+                   let revenue = events.map { $0.revenue }
+                   print("Fetched revenue: \(revenue)")
+                   completion(.success(revenue))
+               case .failure(let error):
+                   completion(.failure(error))
+               }
+           }
+       }
+    
+    
+    
+    func fetchRegisteredMembersOfNearestEvent(completion: @escaping (Result<Int, Error>) -> Void) {
+        fetchUpcomingEvents { result in
+            switch result {
+            case .success(let events):
+                guard let nearestEvent = events.first else {
+                    completion(.failure(NSError(domain: "", code: -1, userInfo: [NSLocalizedDescriptionKey: "No upcoming events found."])))
+                    return
+                }
+                
+                let registeredMemberCount = nearestEvent.registeredMembers.count
+                completion(.success(registeredMemberCount))
+                
+            case .failure(let error):
+                completion(.failure(error))
+            }
+        }
+    }
+
+    
+    
+    func fetchRegisteredMembers(completion: @escaping (Result<[Member], Error>) -> Void) {
+        fetchAllEvents { result in
+            switch result {
+            case .success(let events):
+                var registeredUsers: [Member] = []
+                for event in events {
+                    registeredUsers.append(contentsOf: event.registeredMembers)
+                }
+                print("Fetched registered users: \(registeredUsers)")
+                print("Total registered users count: \(registeredUsers.count)")
+                completion(.success(registeredUsers))
+            case .failure(let error):
+                print("Failed to fetch events: \(error.localizedDescription)")
+                completion(.failure(error))
+            }
+        }
+    }
+
+   
+    
+    func fetchRegisteredMembersCount(completion: @escaping (Result<Int, Error>) -> Void) {
+            fetchRegisteredMembers { result in
+                switch result {
+                case .success(let registeredUsers):
+                    let userCount = registeredUsers.count
+                    print("Total registered users count: \(userCount)")
+                    completion(.success(userCount))
+                case .failure(let error):
+                    completion(.failure(error))
+                }
+            }
+        }
     
     private func parseEvent(from dict: [String: Any], eventId: String) throws -> Event? {
         guard
